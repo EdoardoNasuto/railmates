@@ -5,7 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/login_page.dart';
 
-@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 375.0, 'auto-height': 812.0})
+@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class RegisterPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const RegisterPage({super.key});
@@ -73,25 +73,23 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                           SupabaseService()
                               .signUp(
-                            emailController!.text,
-                            passwordController!.text,
-                          )
+                                emailController!.text,
+                                passwordController!.text,
+                              )
                               .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Registration successful!',
-                                  ),
-                                ),
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Error')),
+                                  );
+                                },
                               );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Error')),
-                              );
-                            },
-                          );
                         },
                         textFields: [
                           TextForm(

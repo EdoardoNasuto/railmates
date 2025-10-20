@@ -5,7 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/register_page.dart';
 
-@NowaGenerated({'auto-width': 375.0, 'x': 0, 'y': 0, 'auto-height': 812.0})
+@NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.0})
 class LoginPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const LoginPage({super.key});
