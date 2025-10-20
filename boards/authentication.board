@@ -12,20 +12,20 @@
             ]
         },
         {
-            "x": 893.0,
-            "y": 107.0,
+            "x": 892.0,
+            "y": 106.5,
             "w": 393.0,
-            "h": 808.0,
+            "h": 809.0,
             "widget": "const RegisterPage()",
             "deps": [
                 "lib/pages/register_page.dart"
             ]
         },
         {
-            "x": 263.0,
+            "x": 281.0,
             "y": 107.0,
-            "w": 177.0,
-            "h": 90.0,
+            "w": 159.0,
+            "h": 67.0,
             "widget": "const TextForm(obscure:false,)",
             "deps": [
                 "lib/text_form.dart"

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
-@NowaGenerated({'auto-width': 177.0, 'auto-height': 90.0})
+@NowaGenerated({'auto-width': 159.0, 'auto-height': 67.0})
 class TextForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const TextForm({
     this.label = 'Label',
-    this.icon = Icons.email_outlined,
+    this.icon = Icons.text_fields,
     this.controller,
+    this.dateField = false,
     this.required = false,
     this.obscure = false,
     this.errorMessage = 'Format invalide',
@@ -20,6 +21,8 @@ class TextForm extends StatefulWidget {
   final IconData? icon;
 
   final TextEditingController? controller;
+
+  final bool dateField;
 
   final bool required;
 
@@ -52,15 +55,49 @@ class _TextFormState extends State<TextForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.label,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8.0),
           TextFormField(
+            readOnly: widget.dateField,
+            onTap: widget.dateField
+                ? () async {
+                    DateTime initialDate = DateTime(
+                      DateTime.now().year - 16,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                    );
+                    if (widget.controller != null &&
+                        widget.controller!.text.isNotEmpty) {
+                      try {
+                        final parts = widget.controller!.text.split('/');
+                        if (parts.length == 3) {
+                          final day = int.parse(parts[0]);
+                          final month = int.parse(parts[1]);
+                          final year = int.parse(parts[2]);
+                          initialDate = DateTime(year, month, day);
+                        }
+                      } catch (_) {}
+                    }
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: initialDate,
+                      firstDate: DateTime(
+                        DateTime.now().year - 100,
+                        DateTime.now().month,
+                        DateTime.now().day,
+                      ),
+                      lastDate: DateTime(
+                        DateTime.now().year - 16,
+                        DateTime.now().month,
+                        DateTime.now().day,
+                      ),
+                    );
+                    if (picked != null && widget.controller != null) {
+                      final formatted =
+                          '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                      widget.controller?.text = formatted;
+                      setState(() {});
+                    }
+                  }
+                : null,
             validator: (value) {
               if (widget.required && (value == null || value.isEmpty)) {
                 return 'Ce champ est requis';

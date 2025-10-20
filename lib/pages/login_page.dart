@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                           obscure: false,
+                          icon: Icons.email_outlined,
                         ),
                         TextForm(
                           label: 'Mot de passe',

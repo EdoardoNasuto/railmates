@@ -5,7 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/login_page.dart';
 
-@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
+@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 809.0})
 class RegisterPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const RegisterPage({super.key});
@@ -21,6 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController? firstNameController = TextEditingController();
 
   TextEditingController? lastNameController = TextEditingController();
+
+  TextEditingController? birthDateController = TextEditingController();
 
   TextEditingController? emailController = TextEditingController();
 
@@ -73,25 +75,44 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                           SupabaseService()
                               .signUp(
-                                emailController!.text,
-                                passwordController!.text,
-                              )
+                            emailController!.text,
+                            passwordController!.text,
+                          )
                               .then(
-                                (value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Registration successful!'),
-                                    ),
-                                  );
-                                },
-                                onError: (error) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Error')),
-                                  );
-                                },
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Registration successful!'),
+                                ),
                               );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Error')),
+                              );
+                            },
+                          );
                         },
                         textFields: [
+                          TextForm(
+                            label: 'First Name',
+                            required: true,
+                            controller: firstNameController,
+                            icon: Icons.person_outline,
+                          ),
+                          TextForm(
+                            label: 'Last Name',
+                            required: true,
+                            controller: lastNameController,
+                            icon: Icons.person,
+                          ),
+                          TextForm(
+                            label: 'Date de naissance',
+                            dateField: true,
+                            required: true,
+                            controller: birthDateController,
+                            icon: Icons.cake_outlined,
+                          ),
                           TextForm(
                             label: 'Email',
                             required: true,
@@ -101,6 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
                               ),
                             ],
+                            icon: Icons.email_outlined,
                           ),
                           TextForm(
                             label: 'Mot de passe',
