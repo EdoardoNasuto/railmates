@@ -1,0 +1,45 @@
+{
+    "showGrid": false,
+    "canvases": [
+        {
+            "x": 480.0,
+            "y": 107.0,
+            "w": 375.0,
+            "h": 812.0,
+            "widget": "const LoginPage()",
+            "deps": [
+                "lib/pages/login_page.dart"
+            ]
+        },
+        {
+            "x": 893.0,
+            "y": 107.0,
+            "w": 375.0,
+            "h": 812.0,
+            "widget": "const RegisterPage()",
+            "deps": [
+                "lib/pages/register_page.dart"
+            ]
+        },
+        {
+            "x": 263.0,
+            "y": 107.0,
+            "w": 177.0,
+            "h": 90.0,
+            "widget": "const TextForm(obscure:false,)",
+            "deps": [
+                "lib/text_form.dart"
+            ]
+        },
+        {
+            "x": 199.0,
+            "y": 227.0,
+            "w": 241.0,
+            "h": 189.0,
+            "widget": "const AuthenticationForm()",
+            "deps": [
+                "lib/authentication_form.dart"
+            ]
+        }
+    ]
+}

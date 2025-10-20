@@ -1,0 +1,16 @@
+{
+    "version": "3.0.11",
+    "app": {
+        "name": "railmates",
+        "package_name": "com.example.railmates"
+    },
+    "main": [
+        {
+            "key": "supabase",
+            "statement": "await SupabaseService().initialize();",
+            "imports": [
+                "package:railmates/integrations/supabase_service.dart"
+            ]
+        }
+    ]
+}

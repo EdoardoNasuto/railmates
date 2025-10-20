@@ -1,0 +1,166 @@
+import 'package:flutter/material.dart';
+import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/authentication_form.dart';
+import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/text_form.dart';
+import 'package:railmates/pages/login_page.dart';
+
+@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 375.0, 'auto-height': 812.0})
+class RegisterPage extends StatefulWidget {
+  @NowaGenerated({'loader': 'auto-constructor'})
+  const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() {
+    return _RegisterPageState();
+  }
+}
+
+@NowaGenerated()
+class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController? firstNameController = TextEditingController();
+
+  TextEditingController? lastNameController = TextEditingController();
+
+  TextEditingController? emailController = TextEditingController();
+
+  TextEditingController? passwordController = TextEditingController();
+
+  TextEditingController? confirmPasswordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).colorScheme.primary.withOpacity(0.18),
+              Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withOpacity(0.85),
+              Theme.of(context).colorScheme.surface,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FlexSizedBox(
+                      child: AuthenticationForm(
+                        nom: 'Créer un compte',
+                        buttonName: 'S\'inscrire',
+                        submitForm: () {
+                          if (passwordController?.text !=
+                              confirmPasswordController?.text) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Les mots de passe ne correspondent pas.',
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          SupabaseService()
+                              .signUp(
+                            emailController!.text,
+                            passwordController!.text,
+                          )
+                              .then(
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Registration successful!',
+                                  ),
+                                ),
+                              );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Error')),
+                              );
+                            },
+                          );
+                        },
+                        textFields: [
+                          TextForm(
+                            label: 'Email',
+                            required: true,
+                            controller: emailController,
+                            validators: [
+                              RegExp(
+                                '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
+                              ),
+                            ],
+                          ),
+                          TextForm(
+                            label: 'Mot de passe',
+                            required: true,
+                            obscure: true,
+                            validators: [RegExp('^.{6,}\$')],
+                            controller: passwordController,
+                            icon: Icons.lock_outlined,
+                          ),
+                          TextForm(
+                            label: 'Confirmation du mot de passe',
+                            obscure: true,
+                            required: true,
+                            controller: confirmPasswordController,
+                            icon: Icons.lock,
+                          ),
+                        ],
+                        icon: Icons.app_registration,
+                      ),
+                    ),
+                    const SizedBox(height: 32.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Déjà inscrit ?',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(width: 8.0),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Connexion',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.0,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
