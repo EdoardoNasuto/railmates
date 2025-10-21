@@ -1,4 +1,5 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 @NowaGenerated()
@@ -60,5 +61,29 @@ class SupabaseService {
         .eq('id', userId)
         .select();
     return response;
+  }
+
+  Future<void> uploadAvatar(Uint8List bytes, {String? userId}) async {
+    final String? uid = userId ?? Supabase.instance.client.auth.currentUser?.id;
+    if (uid == null) {
+      throw Exception('User ID is null');
+    }
+    final String fileName = 'avatar_$uid.jpg';
+    final storage = Supabase.instance.client.storage;
+    final bucket = storage.from('avatars');
+    try {
+      await bucket.uploadBinary(
+        fileName,
+        bytes,
+        fileOptions: const FileOptions(upsert: true),
+      );
+      final String publicUrl = bucket.getPublicUrl(fileName);
+      // Mettre à jour le profil avec l'URL de l'avatar
+      await Supabase.instance.client
+          .from('profiles')
+          .update({'avatar_url': publicUrl}).eq('id', uid);
+    } catch (e) {
+      throw Exception('Erreur lors de l\'upload de l\'avatar : $e');
+    }
   }
 }

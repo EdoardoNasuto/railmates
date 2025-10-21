@@ -4,6 +4,7 @@ import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/login_page.dart';
+import 'dart:typed_data';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 809.0})
 class ProfilePage extends StatefulWidget {
@@ -23,6 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController? lastNameController = TextEditingController();
 
   TextEditingController? birthDateController = TextEditingController();
+
+  Uint8List? _avatarBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,83 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // Avatar comme bouton, icône toujours visible
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: const CircleBorder(),
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () async {
+                          final result = await showMediaPicker(
+                            context: context,
+                            multiSelection: false,
+                            mediaType: MediaType.image,
+                            sourceType: MediaSourceType.gallery,
+                            preferredCamera: CameraDevice.rear,
+                          );
+                          if (result.isNotEmpty) {
+                            final bytes = await result.first.readAsBytes();
+                            setState(() {
+                              _avatarBytes = bytes;
+                            });
+                            try {
+                              await SupabaseService()
+                                  .uploadAvatar(_avatarBytes!);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Avatar uploadé avec succès !')),
+                              );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Erreur upload avatar : $e')),
+                              );
+                            }
+                          }
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 48,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surfaceVariant,
+                              backgroundImage: _avatarBytes != null
+                                  ? MemoryImage(_avatarBytes!)
+                                  : null,
+                            ),
+                            if (_avatarBytes != null)
+                              Container(
+                                width: 96,
+                                height: 96,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .scrim
+                                      .withOpacity(0.55),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            Container(
+                              width: 96,
+                              height: 96,
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                size: 32,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.85),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     FlexSizedBox(
                       child: AuthenticationForm(
                         nom: 'Créer ton profil',
