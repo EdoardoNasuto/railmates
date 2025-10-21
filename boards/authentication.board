@@ -40,6 +40,16 @@
             "deps": [
                 "lib/authentication_form.dart"
             ]
+        },
+        {
+            "x": 1316.0,
+            "y": 106.5,
+            "w": 393.0,
+            "h": 809.0,
+            "widget": "const ProfilePage()",
+            "deps": [
+                "lib/pages/profile_page.dart"
+            ]
         }
     ]
 }

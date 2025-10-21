@@ -2,34 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/profile_page.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 809.0})
-class RegisterPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const RegisterPage({super.key});
+  const ProfilePage({super.key});
 
   @override
-  State<RegisterPage> createState() {
-    return _RegisterPageState();
+  State<ProfilePage> createState() {
+    return _ProfilePageState();
   }
 }
 
 @NowaGenerated()
-class _RegisterPageState extends State<RegisterPage> {
+class _ProfilePageState extends State<ProfilePage> {
   TextEditingController? firstNameController = TextEditingController();
 
   TextEditingController? lastNameController = TextEditingController();
 
   TextEditingController? birthDateController = TextEditingController();
-
-  TextEditingController? emailController = TextEditingController();
-
-  TextEditingController? passwordController = TextEditingController();
-
-  TextEditingController? confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +53,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     FlexSizedBox(
                       child: AuthenticationForm(
-                        nom: 'Créer un compte',
-                        buttonName: 'S\'inscrire',
+                        nom: 'Créer ton profil',
+                        buttonName: 'Enregistrer',
                         submitForm: () {
-                          if (passwordController?.text !=
-                              confirmPasswordController?.text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Les mots de passe ne correspondent pas.',
-                                ),
-                              ),
-                            );
-                            return;
-                          }
                           SupabaseService()
-                              .signUp(
-                            emailController!.text,
-                            passwordController!.text,
+                              .updateProfile(
+                            firstName: firstNameController?.text,
+                            lastName: lastNameController?.text,
+                            birthDate: birthDateController?.text,
                           )
                               .then(
                             (value) {
@@ -93,41 +76,29 @@ class _RegisterPageState extends State<RegisterPage> {
                               );
                             },
                           );
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfilePage(),
-                            ),
-                          );
                         },
                         textFields: [
                           TextForm(
-                            label: 'Email',
+                            label: 'First Name',
                             required: true,
-                            controller: emailController,
-                            validators: [
-                              RegExp(
-                                '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
-                              ),
-                            ],
-                            icon: Icons.email_outlined,
+                            controller: firstNameController,
+                            icon: Icons.person_outline,
                           ),
                           TextForm(
-                            label: 'Mot de passe',
+                            label: 'Last Name',
                             required: true,
-                            obscure: true,
-                            validators: [RegExp('^.{6,}\$')],
-                            controller: passwordController,
-                            icon: Icons.lock_outlined,
+                            controller: lastNameController,
+                            icon: Icons.person,
                           ),
                           TextForm(
-                            label: 'Confirmation du mot de passe',
-                            obscure: true,
+                            label: 'Date de naissance',
+                            dateField: true,
                             required: true,
-                            controller: confirmPasswordController,
-                            icon: Icons.lock,
+                            controller: birthDateController,
+                            icon: Icons.cake_outlined,
                           ),
                         ],
-                        icon: Icons.app_registration,
+                        icon: Icons.person_pin,
                       ),
                     ),
                     const SizedBox(height: 32.0),
