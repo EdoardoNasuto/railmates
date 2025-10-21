@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/pages/login_page.dart';
+import 'package:railmates/pages/profile_page.dart';
 import 'package:railmates/pages/register_page.dart';
 
 @NowaGenerated()
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         theme: AppState.of(context).theme,
         routes: {
           'LoginPage': (context) => const LoginPage(),
+          'ProfilePage': (context) => const ProfilePage(),
           'RegisterPage': (context) => const RegisterPage(),
         },
         initialRoute: 'LoginPage',

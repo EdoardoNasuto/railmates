@@ -63,17 +63,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         nom: 'Créer un compte',
                         buttonName: 'S\'inscrire',
                         submitForm: () {
-                          if (passwordController?.text !=
-                              confirmPasswordController?.text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Les mots de passe ne correspondent pas.',
-                                ),
-                              ),
-                            );
-                            return;
-                          }
                           SupabaseService()
                               .signUp(
                             emailController!.text,
