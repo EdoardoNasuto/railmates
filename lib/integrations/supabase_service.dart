@@ -36,4 +36,29 @@ class SupabaseService {
   Future<void> signOut() async {
     await Supabase.instance.client.auth.signOut();
   }
+
+  Future<PostgrestList> updateProfile({
+    String? firstName,
+    String? lastName,
+    String? avatarUrl,
+    String? birthDate,
+    String? country,
+  }) async {
+    final String? userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) {
+      throw Exception('User ID is null');
+    }
+    final Map<String, dynamic> values = {};
+    if (firstName != null) values['first_name'] = firstName;
+    if (lastName != null) values['last_name'] = lastName;
+    if (avatarUrl != null) values['avatar_url'] = avatarUrl;
+    if (birthDate != null) values['birth_date'] = birthDate;
+    if (country != null) values['country'] = country;
+    final response = await Supabase.instance.client
+        .from('profiles')
+        .update(values)
+        .eq('id', userId)
+        .select();
+    return response;
+  }
 }

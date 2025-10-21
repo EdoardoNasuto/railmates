@@ -80,6 +80,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           )
                               .then(
                             (value) {
+                              SupabaseService().updateProfile(
+                                firstName: firstNameController?.text,
+                                lastName: lastNameController?.text,
+                                birthDate: birthDateController?.text,
+                              );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Registration successful!'),
