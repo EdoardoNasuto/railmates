@@ -63,27 +63,27 @@ class SupabaseService {
     return response;
   }
 
-  Future<void> uploadAvatar(Uint8List bytes, {String? userId}) async {
-    final String? uid = userId ?? Supabase.instance.client.auth.currentUser?.id;
+  Future<void> uploadAvatar(Uint8List bytes) async {
+    final String? uid = Supabase.instance.client.auth.currentUser?.id;
     if (uid == null) {
       throw Exception('User ID is null');
     }
-    final String fileName = 'avatar_$uid.jpg';
+
+    final String filePath = '$uid/avatar.jpg';
     final storage = Supabase.instance.client.storage;
     final bucket = storage.from('avatars');
+
     try {
       await bucket.uploadBinary(
-        fileName,
+        filePath,
         bytes,
         fileOptions: const FileOptions(upsert: true),
       );
-      final String publicUrl = bucket.getPublicUrl(fileName);
-      // Mettre à jour le profil avec l'URL de l'avatar
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': publicUrl}).eq('id', uid);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid);
     } catch (e) {
-      throw Exception('Erreur lors de l\'upload de l\'avatar : $e');
+      throw Exception("Erreur lors de l'upload de l'avatar : $e");
     }
   }
 }
