@@ -51,23 +51,23 @@ class _LoginPageState extends State<LoginPage> {
                       submitForm: () {
                         SupabaseService()
                             .signIn(
-                          emailController.text,
-                          passwordController!.text,
-                        )
+                              emailController.text,
+                              passwordController!.text,
+                            )
                             .then(
-                          (value) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Login successful!'),
-                              ),
+                              (value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Login successful!'),
+                                  ),
+                                );
+                              },
+                              onError: (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Login not')),
+                                );
+                              },
                             );
-                          },
-                          onError: (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Login not')),
-                            );
-                          },
-                        );
                       },
                       textFields: [
                         TextForm(

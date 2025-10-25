@@ -11,6 +11,7 @@ class TextForm extends StatefulWidget {
     this.dateField = false,
     this.required = false,
     this.obscure = false,
+    this.onChanged,
     this.errorMessage = 'Format invalide',
     this.validators,
     super.key,
@@ -28,6 +29,8 @@ class TextForm extends StatefulWidget {
 
   final bool obscure;
 
+  final void Function(String value)? onChanged;
+
   final String errorMessage;
 
   final List<RegExp>? validators;
@@ -40,7 +43,7 @@ class TextForm extends StatefulWidget {
 
 @NowaGenerated()
 class _TextFormState extends State<TextForm> {
-  late bool _isObscure = true;
+  late bool _isObscure = false;
 
   @override
   void initState() {
@@ -68,8 +71,9 @@ class _TextFormState extends State<TextForm> {
                     if (widget.controller != null &&
                         widget.controller!.text.isNotEmpty) {
                       try {
-                        DateTime parsed =
-                            DateTime.parse(widget.controller!.text);
+                        DateTime parsed = DateTime.parse(
+                          widget.controller!.text,
+                        );
                         initialDate = parsed;
                       } catch (_) {}
                     }
@@ -88,7 +92,9 @@ class _TextFormState extends State<TextForm> {
                       ),
                     );
                     if (picked != null && widget.controller != null) {
-                      widget.controller?.text = picked.toString().split(' ')[0];
+                      widget.controller?.text = picked.toString().split(
+                            ' ',
+                          )[0];
                       setState(() {});
                     }
                   }
@@ -168,6 +174,7 @@ class _TextFormState extends State<TextForm> {
             obscureText: _isObscure,
             enabled: true,
             autofocus: false,
+            onChanged: widget.onChanged,
           ),
         ],
       ),

@@ -65,23 +65,23 @@ class _RegisterPageState extends State<RegisterPage> {
                         submitForm: () {
                           SupabaseService()
                               .signUp(
-                            emailController!.text,
-                            passwordController!.text,
-                          )
+                                emailController!.text,
+                                passwordController!.text,
+                              )
                               .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Registration successful!'),
-                                ),
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Error')),
+                                  );
+                                },
                               );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Error')),
-                              );
-                            },
-                          );
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => const ProfilePage(),

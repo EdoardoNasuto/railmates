@@ -63,6 +63,21 @@ class SupabaseService {
     return response;
   }
 
+  Future<PostgrestList> citiesStartingWith(String prefix) async {
+    final response = await Supabase.instance.client
+        .from('cities')
+        .select('name, state_name, country_id(name)')
+        .ilike('name', '$prefix%')
+        .limit(10);
+    return (response as List)
+        .map((city) => {
+              'name': city['name'],
+              'state': city['state_name'],
+              'country': city['country_id']['name'],
+            })
+        .toList();
+  }
+
   Future<void> avatarsUpload(Uint8List bytes) async {
     final String? uid = Supabase.instance.client.auth.currentUser?.id;
     if (uid == null) {
