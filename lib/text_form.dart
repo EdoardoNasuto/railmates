@@ -12,10 +12,12 @@ class TextForm extends StatefulWidget {
     this.required = false,
     this.obscure = false,
     this.onChanged,
+    this.onTap,
     this.errorMessage = 'Format invalide',
     this.validators,
     super.key,
   });
+  final void Function()? onTap;
 
   final String label;
 
@@ -59,7 +61,7 @@ class _TextFormState extends State<TextForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            readOnly: widget.dateField,
+            readOnly: widget.dateField || widget.onTap != null,
             onTap: widget.dateField
                 ? () async {
                     DateTime defaultInitialDate = DateTime(
@@ -98,7 +100,7 @@ class _TextFormState extends State<TextForm> {
                       setState(() {});
                     }
                   }
-                : null,
+                : widget.onTap,
             validator: (value) {
               if (widget.required && (value == null || value.isEmpty)) {
                 return 'Ce champ est requis';

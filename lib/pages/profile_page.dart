@@ -4,6 +4,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/text_form.dart';
+import 'package:railmates/pages/city_research_page.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 809.0})
@@ -19,6 +20,8 @@ class ProfilePage extends StatefulWidget {
 
 @NowaGenerated()
 class _ProfilePageState extends State<ProfilePage> {
+  String? cityId;
+
   TextEditingController? firstNameController = TextEditingController();
 
   TextEditingController? lastNameController = TextEditingController();
@@ -143,6 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             firstName: firstNameController?.text,
                             lastName: lastNameController?.text,
                             birthDate: birthDateController?.text,
+                            city: cityId,
                           )
                               .then(
                             (value) {
@@ -178,6 +182,32 @@ class _ProfilePageState extends State<ProfilePage> {
                             required: true,
                             controller: birthDateController,
                             icon: Icons.cake_outlined,
+                          ),
+                          TextForm(
+                            label: 'City',
+                            dateField: false,
+                            required: true,
+                            controller: cityController,
+                            icon: Icons.location_city,
+                            onChanged: null,
+                            onTap: () async {
+                              final result = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CityResearchPage(),
+                                ),
+                              );
+                              if (result != null && result is Map) {
+                                setState(() {
+                                  if (result['name'] != null) {
+                                    cityController?.text = result['name'];
+                                  }
+                                  if (result['id'] != null) {
+                                    cityId = result['id'];
+                                  }
+                                });
+                              }
+                            },
                           ),
                         ],
                         icon: Icons.person_pin,

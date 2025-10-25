@@ -64,14 +64,15 @@ class SupabaseService {
   }
 
   Future<PostgrestList> citiesStartingWith(String prefix,
-      [int limit = 10]) async {
+      [int limit = 5]) async {
     final response = await Supabase.instance.client
         .from('cities')
-        .select('name, state_name, country_id(name, flag_url)')
+        .select('id, name, state_name, country_id(name, flag_url)')
         .ilike('name', '$prefix%')
         .limit(limit);
     return (response as List)
         .map((city) => {
+              'id': city['id'],
               'name': city['name'],
               'state': city['state_name'],
               'country': city['country_id']['name'],

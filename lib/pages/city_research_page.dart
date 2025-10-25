@@ -20,6 +20,12 @@ class _CityResearchPageState extends State<CityResearchPage> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    searchPrefixController.text = '';
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -50,9 +56,9 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     setState(() {});
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18.0,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                        fontSize: 18.0,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 18.0,
@@ -60,10 +66,10 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     ),
                     hintText: 'Rechercher une ville',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.5),
-                    ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.5),
+                        ),
                     prefixIcon: Icon(
                       Icons.search,
                       color: Theme.of(context).colorScheme.secondary,
