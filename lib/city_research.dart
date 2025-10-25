@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
@@ -21,6 +22,7 @@ class CityResearch extends StatelessWidget {
           final dynamic name = city['name'];
           final dynamic stateName = city['state'];
           final dynamic countryName = city['country'];
+          final dynamic flag = city['flag'];
           return Card(
             elevation: 6.0,
             shape: RoundedRectangleBorder(
@@ -43,19 +45,63 @@ class CityResearch extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.shadow.withOpacity(0.1),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .shadow
+                              .withOpacity(0.1),
                           blurRadius: 8.0,
                           offset: const Offset(0.0, 4.0),
                         ),
                       ],
                     ),
-                    child: Icon(
-                      Icons.location_city,
-                      color: Theme.of(context).colorScheme.onPrimaryFixed,
-                      size: 28.0,
-                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: flag != null && flag is String && flag.isNotEmpty
+                        ? Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              flag.endsWith('.svg')
+                                  ? SvgPicture.network(
+                                      flag,
+                                      fit: BoxFit.cover,
+                                      width: 48.0,
+                                      height: 48.0,
+                                      placeholderBuilder: (context) => Center(
+                                        child: Icon(
+                                          Icons.flag,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryFixed,
+                                          size: 28.0,
+                                        ),
+                                      ),
+                                    )
+                                  : Image.network(
+                                      flag,
+                                      fit: BoxFit.cover,
+                                      width: 48.0,
+                                      height: 48.0,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Center(
+                                        child: Icon(
+                                          Icons.flag,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryFixed,
+                                          size: 28.0,
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          )
+                        : Center(
+                            child: Icon(
+                              Icons.flag,
+                              color:
+                                  Theme.of(context).colorScheme.onPrimaryFixed,
+                              size: 28.0,
+                            ),
+                          ),
                   ),
                   const SizedBox(width: 20.0),
                   Expanded(
