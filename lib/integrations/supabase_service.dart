@@ -38,12 +38,12 @@ class SupabaseService {
     await Supabase.instance.client.auth.signOut();
   }
 
-  Future<PostgrestList> updateProfile({
+  Future<PostgrestList> profilesUpdate({
     String? firstName,
     String? lastName,
     String? avatarUrl,
     String? birthDate,
-    String? country,
+    String? city,
   }) async {
     final String? userId = Supabase.instance.client.auth.currentUser?.id;
     if (userId == null) {
@@ -54,7 +54,7 @@ class SupabaseService {
     if (lastName != null) values['last_name'] = lastName;
     if (avatarUrl != null) values['avatar_url'] = avatarUrl;
     if (birthDate != null) values['birth_date'] = birthDate;
-    if (country != null) values['country'] = country;
+    if (city != null) values['city'] = city;
     final response = await Supabase.instance.client
         .from('profiles')
         .update(values)
@@ -63,7 +63,7 @@ class SupabaseService {
     return response;
   }
 
-  Future<void> uploadAvatar(Uint8List bytes) async {
+  Future<void> avatarsUpload(Uint8List bytes) async {
     final String? uid = Supabase.instance.client.auth.currentUser?.id;
     if (uid == null) {
       throw Exception('User ID is null');

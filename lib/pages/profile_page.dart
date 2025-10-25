@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             });
                             try {
                               await SupabaseService()
-                                  .uploadAvatar(_avatarBytes!);
+                                  .avatarsUpload(_avatarBytes!);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content:
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         buttonName: 'Enregistrer',
                         submitForm: () {
                           SupabaseService()
-                              .updateProfile(
+                              .profilesUpdate(
                             firstName: firstNameController?.text,
                             lastName: lastNameController?.text,
                             birthDate: birthDateController?.text,
