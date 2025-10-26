@@ -26,7 +26,7 @@ class CityResearch extends StatelessWidget {
           return InkWell(
             borderRadius: BorderRadius.circular(18.0),
             onTap: () {
-              Navigator.pop(context, {'id': id, 'name': name});
+              Navigator.pop(context, {'id': id, 'name': '$name, $countryName'});
             },
             child: Card(
               elevation: 6.0,
