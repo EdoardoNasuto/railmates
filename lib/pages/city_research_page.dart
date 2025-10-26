@@ -30,12 +30,14 @@ class _CityResearchPageState extends State<CityResearchPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 32.0),
-              Container(
+        minimum: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FlexSizedBox(
+              width: double.infinity,
+              child: Container(
                 width: 340.0,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
@@ -56,37 +58,44 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     setState(() {});
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontSize: 18.0,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    fontSize: 18.0,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   decoration: InputDecoration(
+                    prefixIcon: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 18.0,
-                      horizontal: 20.0,
+                      horizontal: 10.0,
                     ),
                     hintText: 'Rechercher une ville',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withOpacity(0.5),
-                        ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.5),
                     ),
                     border: InputBorder.none,
                   ),
                 ),
               ),
-              FlexSizedBox(
-                width: 339.0,
-                height: 689.5,
+            ),
+            FlexSizedBox(
+              width: double.infinity,
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 8.0,
+                ),
                 child: CityResearch(city: searchPrefixController.text),
               ),
-              const SizedBox(height: 32.0),
-              const Spacer(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

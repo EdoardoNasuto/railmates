@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
-@NowaGenerated({'auto-width': 330.0, 'auto-height': 500.0})
+@NowaGenerated({'auto-width': 330.0, 'auto-height': 482.0})
 class CityResearch extends StatelessWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const CityResearch({this.city = 'pari', super.key});
@@ -14,7 +14,6 @@ class CityResearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataBuilder<List<dynamic>>(
       builder: (context, data) => ListView.separated(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
         itemCount: data.length,
         separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
@@ -35,8 +34,9 @@ class CityResearch extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ),
               color: Theme.of(context).colorScheme.surface,
-              shadowColor:
-                  Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+              shadowColor: Theme.of(
+                context,
+              ).colorScheme.shadow.withOpacity(0.1),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 22.0,
@@ -52,10 +52,9 @@ class CityResearch extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         boxShadow: [
                           BoxShadow(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .shadow
-                                .withOpacity(0.1),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.shadow.withOpacity(0.1),
                             blurRadius: 8.0,
                             offset: const Offset(0.0, 4.0),
                           ),
@@ -75,9 +74,9 @@ class CityResearch extends StatelessWidget {
                                         placeholderBuilder: (context) => Center(
                                           child: Icon(
                                             Icons.flag,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryFixed,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimaryFixed,
                                             size: 28.0,
                                           ),
                                         ),
@@ -104,9 +103,9 @@ class CityResearch extends StatelessWidget {
                           : Center(
                               child: Icon(
                                 Icons.flag,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryFixed,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryFixed,
                                 size: 28.0,
                               ),
                             ),
@@ -121,9 +120,7 @@ class CityResearch extends StatelessWidget {
                             style: Theme.of(context)
                                     .textTheme
                                     .titleLarge
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ) ??
+                                    ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
@@ -131,11 +128,10 @@ class CityResearch extends StatelessWidget {
                           ),
                           const SizedBox(height: 6.0),
                           Text(
-                            '$countryName, $stateName',
-                            style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                            '${countryName}, ${stateName}',
+                            style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
                                       fontStyle: FontStyle.italic,
                                       color: Theme.of(
                                         context,

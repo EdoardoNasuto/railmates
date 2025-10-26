@@ -7,7 +7,7 @@ import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/city_research_page.dart';
 import 'package:railmates/pages/login_page.dart';
 
-@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 809.0})
+@NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class ProfilePage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const ProfilePage({super.key});
