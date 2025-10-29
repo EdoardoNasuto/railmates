@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/city_research.dart';
+import 'package:railmates/integrations/supabase_enums.dart';
 
 @NowaGenerated({'auto-height': 807.5})
 class CityResearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchPage({super.key});
+  const CityResearchPage({this.searchType = SearchType.countries, super.key});
+
+  final SearchType searchType;
 
   @override
   State<CityResearchPage> createState() {
@@ -74,9 +77,9 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     }
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18.0,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                        fontSize: 18.0,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       icon: Icon(
@@ -91,10 +94,10 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     ),
                     hintText: 'Rechercher une ville',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.5),
-                    ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.5),
+                        ),
                     border: InputBorder.none,
                   ),
                 ),
@@ -110,7 +113,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                 ),
                 child: CityResearch(
                   name: searchPrefixController.text,
-                  type: 'countries',
+                  type: widget.searchType,
                 ),
               ),
             ),

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/integrations/supabase_enums.dart';
 
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 482.0})
 class CityResearch extends StatelessWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearch({this.type = 'cities', this.name = 'pari', super.key});
+  const CityResearch(
+      {this.type = SearchType.cities, this.name = 'pari', super.key});
 
-  final String type;
+  final SearchType type;
 
   final String name;
 
@@ -22,12 +24,10 @@ class CityResearch extends StatelessWidget {
           final dynamic item = data[index];
           final dynamic id = item['id'];
           final dynamic title = item['title'];
-          final dynamic subtitle1 = (item['subtitle1'] == null)
-              ? ''
-              : item['subtitle1'];
-          final dynamic subtitle2 = (item['subtitle2'] == null)
-              ? ''
-              : item['subtitle2'];
+          final dynamic subtitle1 =
+              (item['subtitle1'] == null) ? '' : item['subtitle1'];
+          final dynamic subtitle2 =
+              (item['subtitle2'] == null) ? '' : item['subtitle2'];
           final dynamic icon = item['icon'];
           return InkWell(
             borderRadius: BorderRadius.circular(18.0),
@@ -95,14 +95,14 @@ class CityResearch extends StatelessWidget {
                                         errorBuilder:
                                             (context, error, stackTrace) =>
                                                 Center(
-                                                  child: Icon(
-                                                    Icons.flag,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimaryFixed,
-                                                    size: 28.0,
-                                                  ),
-                                                ),
+                                          child: Icon(
+                                            Icons.flag,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryFixed,
+                                            size: 28.0,
+                                          ),
+                                        ),
                                       ),
                               ],
                             )
@@ -123,8 +123,9 @@ class CityResearch extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style:
-                                Theme.of(context).textTheme.titleLarge
+                            style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
@@ -134,15 +135,14 @@ class CityResearch extends StatelessWidget {
                           const SizedBox(height: 6.0),
                           Text(
                             '${subtitle1}${subtitle2}',
-                            style:
-                                Theme.of(
+                            style: Theme.of(
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface.withOpacity(0.6),
-                                ) ??
+                                      fontStyle: FontStyle.italic,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface.withOpacity(0.6),
+                                    ) ??
                                 const TextStyle(
                                   fontSize: 14.0,
                                   fontStyle: FontStyle.italic,
@@ -170,9 +170,9 @@ class CityResearch extends StatelessWidget {
         child: Text(
           error.toString(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.error,
-            fontWeight: FontWeight.bold,
-          ),
+                color: Theme.of(context).colorScheme.error,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
       future: SupabaseService().citiesStartingWith(name, type: type),

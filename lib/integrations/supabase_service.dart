@@ -1,6 +1,7 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'supabase_enums.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -64,8 +65,8 @@ class SupabaseService {
   }
 
   Future<PostgrestList> citiesStartingWith(String prefix,
-      {String type = 'cities', int limit = 5}) async {
-    if (type == 'cities') {
+      {SearchType type = SearchType.cities, int limit = 5}) async {
+    if (type == SearchType.cities) {
       final response = await Supabase.instance.client
           .from('cities')
           .select('id, name, native, state_name, country_id(name, flag_url)')
@@ -80,7 +81,7 @@ class SupabaseService {
                 'icon': city['country_id']['flag_url'],
               })
           .toList();
-    } else if (type == 'countries') {
+    } else if (type == SearchType.countries) {
       final response = await Supabase.instance.client
           .from('countries')
           .select('id, name, native, flag_url, population')
