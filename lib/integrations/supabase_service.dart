@@ -64,21 +64,40 @@ class SupabaseService {
   }
 
   Future<PostgrestList> citiesStartingWith(String prefix,
-      [int limit = 5]) async {
-    final response = await Supabase.instance.client
-        .from('cities')
-        .select('id, name, state_name, country_id(name, flag_url)')
-        .ilike('name', '$prefix%')
-        .limit(limit);
-    return (response as List)
-        .map((city) => {
-              'id': city['id'],
-              'name': city['name'],
-              'state': city['state_name'],
-              'country': city['country_id']['name'],
-              'flag': city['country_id']['flag_url'],
-            })
-        .toList();
+      {String type = 'cities', int limit = 5}) async {
+    if (type == 'cities') {
+      final response = await Supabase.instance.client
+          .from('cities')
+          .select('id, name, native, state_name, country_id(name, flag_url)')
+          .or('name.ilike.$prefix%,native.ilike.$prefix%')
+          .limit(limit);
+      return (response as List)
+          .map((city) => {
+                'id': city['id'],
+                'title': city['name'],
+                'subtitle1': city['state_name'],
+                'subtitle2': ', ${city['country_id']['name']}',
+                'icon': city['country_id']['flag_url'],
+              })
+          .toList();
+    } else if (type == 'countries') {
+      final response = await Supabase.instance.client
+          .from('countries')
+          .select('id, name, native, flag_url, population')
+          .or('name.ilike.$prefix%,native.ilike.$prefix%')
+          .order('population', ascending: false)
+          .limit(limit);
+      return (response as List)
+          .map((country) => {
+                'id': country['id'],
+                'title': country['name'],
+                'subtitle1': country['native'],
+                'icon': country['flag_url'],
+              })
+          .toList();
+    } else {
+      throw Exception('Type de recherche non supporté : $type');
+    }
   }
 
   Future<void> avatarsUpload(Uint8List bytes) async {

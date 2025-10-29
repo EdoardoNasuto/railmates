@@ -6,9 +6,11 @@ import 'package:railmates/integrations/supabase_service.dart';
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 482.0})
 class CityResearch extends StatelessWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearch({this.city = 'pari', super.key});
+  const CityResearch({this.type = 'cities', this.name = 'pari', super.key});
 
-  final String city;
+  final String type;
+
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +19,20 @@ class CityResearch extends StatelessWidget {
         itemCount: data.length,
         separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
-          final dynamic city = data[index];
-          final dynamic id = city['id'];
-          final dynamic name = city['name'];
-          final dynamic stateName = city['state'];
-          final dynamic countryName = city['country'];
-          final dynamic flag = city['flag'];
+          final dynamic item = data[index];
+          final dynamic id = item['id'];
+          final dynamic title = item['title'];
+          final dynamic subtitle1 = (item['subtitle1'] == null)
+              ? ''
+              : item['subtitle1'];
+          final dynamic subtitle2 = (item['subtitle2'] == null)
+              ? ''
+              : item['subtitle2'];
+          final dynamic icon = item['icon'];
           return InkWell(
             borderRadius: BorderRadius.circular(18.0),
             onTap: () {
-              Navigator.pop(context, {'id': id, 'name': '$name, $countryName'});
+              Navigator.pop(context, {'id': id, 'name': title});
             },
             child: Card(
               elevation: 6.0,
@@ -61,13 +67,13 @@ class CityResearch extends StatelessWidget {
                         ],
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child: flag != null && flag is String && flag.isNotEmpty
+                      child: icon != null && icon is String && icon.isNotEmpty
                           ? Stack(
                               fit: StackFit.expand,
                               children: [
-                                flag.endsWith('.svg')
+                                icon.endsWith('.svg')
                                     ? SvgPicture.network(
-                                        flag,
+                                        icon,
                                         fit: BoxFit.cover,
                                         width: 48.0,
                                         height: 48.0,
@@ -82,21 +88,21 @@ class CityResearch extends StatelessWidget {
                                         ),
                                       )
                                     : Image.network(
-                                        flag,
+                                        icon,
                                         fit: BoxFit.cover,
                                         width: 48.0,
                                         height: 48.0,
                                         errorBuilder:
                                             (context, error, stackTrace) =>
                                                 Center(
-                                          child: Icon(
-                                            Icons.flag,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryFixed,
-                                            size: 28.0,
-                                          ),
-                                        ),
+                                                  child: Icon(
+                                                    Icons.flag,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimaryFixed,
+                                                    size: 28.0,
+                                                  ),
+                                                ),
                                       ),
                               ],
                             )
@@ -116,10 +122,9 @@ class CityResearch extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            name,
-                            style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                            title,
+                            style:
+                                Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
@@ -128,15 +133,16 @@ class CityResearch extends StatelessWidget {
                           ),
                           const SizedBox(height: 6.0),
                           Text(
-                            '${countryName}, ${stateName}',
-                            style: Theme.of(
+                            '${subtitle1}${subtitle2}',
+                            style:
+                                Theme.of(
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface.withOpacity(0.6),
-                                    ) ??
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withOpacity(0.6),
+                                ) ??
                                 const TextStyle(
                                   fontSize: 14.0,
                                   fontStyle: FontStyle.italic,
@@ -164,12 +170,12 @@ class CityResearch extends StatelessWidget {
         child: Text(
           error.toString(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Theme.of(context).colorScheme.error,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-      future: SupabaseService().citiesStartingWith(city),
+      future: SupabaseService().citiesStartingWith(name, type: type),
     );
   }
 }

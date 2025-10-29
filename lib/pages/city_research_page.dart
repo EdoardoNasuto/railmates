@@ -17,7 +17,7 @@ class CityResearchPage extends StatefulWidget {
 @NowaGenerated()
 class _CityResearchPageState extends State<CityResearchPage> {
   TextEditingController searchPrefixController = TextEditingController(
-    text: 'pari',
+    text: 'f',
   );
 
   Timer? _debounce;
@@ -74,9 +74,9 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     }
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontSize: 18.0,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                    fontSize: 18.0,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       icon: Icon(
@@ -91,10 +91,10 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     ),
                     hintText: 'Rechercher une ville',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withOpacity(0.5),
-                        ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.5),
+                    ),
                     border: InputBorder.none,
                   ),
                 ),
@@ -108,7 +108,10 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   vertical: 16.0,
                   horizontal: 8.0,
                 ),
-                child: CityResearch(city: searchPrefixController.text),
+                child: CityResearch(
+                  name: searchPrefixController.text,
+                  type: 'countries',
+                ),
               ),
             ),
           ],
