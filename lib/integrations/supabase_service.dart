@@ -1,7 +1,7 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'supabase_enums.dart';
+import 'package:railmates/integrations/supabase_enums.dart';
+import 'dart:typed_data';
 
 @NowaGenerated()
 class SupabaseService {
@@ -51,53 +51,72 @@ class SupabaseService {
       throw Exception('User ID is null');
     }
     final Map<String, dynamic> values = {};
-    if (firstName != null) values['first_name'] = firstName;
-    if (lastName != null) values['last_name'] = lastName;
-    if (avatarUrl != null) values['avatar_url'] = avatarUrl;
-    if (birthDate != null) values['birth_date'] = birthDate;
-    if (city != null) values['city'] = city;
+    if (firstName != null) {
+      values['first_name'] = firstName;
+    }
+    if (lastName != null) {
+      values['last_name'] = lastName;
+    }
+    if (avatarUrl != null) {
+      values['avatar_url'] = avatarUrl;
+    }
+    if (birthDate != null) {
+      values['birth_date'] = birthDate;
+    }
+    if (city != null) {
+      values['city'] = city;
+    }
     final response = await Supabase.instance.client
         .from('profiles')
         .update(values)
-        .eq('id', userId)
+        .eq('id', userId!)
         .select();
     return response;
   }
 
-  Future<PostgrestList> citiesStartingWith(String prefix,
-      {SearchType type = SearchType.cities, int limit = 5}) async {
+  Future<PostgrestList> citiesStartingWith(
+    String prefix, {
+    SearchType type = SearchType.cities,
+    int limit = 5,
+  }) async {
     if (type == SearchType.cities) {
       final response = await Supabase.instance.client
           .from('cities')
           .select('id, name, native, state_name, country_id(name, flag_url)')
-          .or('name.ilike.$prefix%,native.ilike.$prefix%')
+          .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
           .limit(limit);
       return (response as List)
-          .map((city) => {
-                'id': city['id'],
-                'title': city['name'],
-                'subtitle1': city['state_name'],
-                'subtitle2': ', ${city['country_id']['name']}',
-                'icon': city['country_id']['flag_url'],
-              })
+          .map(
+            (city) => {
+              'id': city['id'],
+              'title': city['name'],
+              'subtitle1': city['state_name'],
+              'subtitle2': ', ${city['country_id']['name']}',
+              'icon': city['country_id']['flag_url'],
+            },
+          )
           .toList();
-    } else if (type == SearchType.countries) {
-      final response = await Supabase.instance.client
-          .from('countries')
-          .select('id, name, native, flag_url, population')
-          .or('name.ilike.$prefix%,native.ilike.$prefix%')
-          .order('population', ascending: false)
-          .limit(limit);
-      return (response as List)
-          .map((country) => {
+    } else {
+      if (type == SearchType.countries) {
+        final response = await Supabase.instance.client
+            .from('countries')
+            .select('id, name, native, flag_url, population')
+            .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
+            .order('population', ascending: false)
+            .limit(limit);
+        return (response as List)
+            .map(
+              (country) => {
                 'id': country['id'],
                 'title': country['name'],
                 'subtitle1': country['native'],
                 'icon': country['flag_url'],
-              })
-          .toList();
-    } else {
-      throw Exception('Type de recherche non supporté : $type');
+              },
+            )
+            .toList();
+      } else {
+        throw Exception('Type de recherche non supporté : ${type}');
+      }
     }
   }
 
@@ -106,11 +125,9 @@ class SupabaseService {
     if (uid == null) {
       throw Exception('User ID is null');
     }
-
-    final String filePath = '$uid/avatar.jpg';
+    final String filePath = '${uid}/avatar.jpg';
     final storage = Supabase.instance.client.storage;
     final bucket = storage.from('avatars');
-
     try {
       await bucket.uploadBinary(
         filePath,
@@ -119,9 +136,9 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
     } catch (e) {
-      throw Exception("Erreur lors de l'upload de l'avatar : $e");
+      throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
   }
 }
