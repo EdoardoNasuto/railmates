@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/authentication_form.dart';
+import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/city_research_page.dart';
+import 'package:railmates/integrations/supabase_enums.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
@@ -20,7 +22,7 @@ class ProfilePage extends StatefulWidget {
 
 @NowaGenerated()
 class _ProfilePageState extends State<ProfilePage> {
-  String? cityId;
+  int? cityId;
 
   TextEditingController? firstNameController = TextEditingController();
 
@@ -142,11 +144,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         buttonName: 'Enregistrer',
                         submitForm: () {
                           SupabaseService()
-                              .profilesUpdate(
-                            firstName: firstNameController?.text,
-                            lastName: lastNameController?.text,
-                            birthDate: birthDateController?.text,
-                            city: cityId,
+                              .updateProfiles(
+                            ProfilesModel(
+                              city: cityId,
+                              first_name: firstNameController?.text,
+                              last_name: lastNameController?.text,
+                              birth_date: birthDateController?.text,
+                            ),
                           )
                               .then(
                             (value) {
@@ -193,17 +197,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: () async {
                               final result = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CityResearchPage(),
+                                  builder: (context) => const CityResearchPage(
+                                    searchType: SearchType.cities,
+                                  ),
                                 ),
                               );
                               if (result != null && result is Map) {
                                 setState(() {
-                                  if (result['name'] != null) {
-                                    cityController?.text = result['name'];
+                                  if (result?['name'] != null) {
+                                    cityController?.text = result!['name'];
                                   }
-                                  if (result['id'] != null) {
-                                    cityId = result['id'];
+                                  if (result?['id'] != null) {
+                                    cityId = result?['id'];
                                   }
                                 });
                               }

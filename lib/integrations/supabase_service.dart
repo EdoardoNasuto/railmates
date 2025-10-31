@@ -2,6 +2,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/integrations/supabase_enums.dart';
 import 'dart:typed_data';
+import 'package:railmates/models/profiles_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -37,41 +38,6 @@ class SupabaseService {
 
   Future<void> signOut() async {
     await Supabase.instance.client.auth.signOut();
-  }
-
-  Future<PostgrestList> profilesUpdate({
-    String? firstName,
-    String? lastName,
-    String? avatarUrl,
-    String? birthDate,
-    String? city,
-  }) async {
-    final String? userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId == null) {
-      throw Exception('User ID is null');
-    }
-    final Map<String, dynamic> values = {};
-    if (firstName != null) {
-      values['first_name'] = firstName;
-    }
-    if (lastName != null) {
-      values['last_name'] = lastName;
-    }
-    if (avatarUrl != null) {
-      values['avatar_url'] = avatarUrl;
-    }
-    if (birthDate != null) {
-      values['birth_date'] = birthDate;
-    }
-    if (city != null) {
-      values['city'] = city;
-    }
-    final response = await Supabase.instance.client
-        .from('profiles')
-        .update(values)
-        .eq('id', userId!)
-        .select();
-    return response;
   }
 
   Future<PostgrestList> citiesStartingWith(
@@ -136,9 +102,20 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)})
+          .eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
+  }
+
+  Future<ProfilesModel> updateProfiles(ProfilesModel data) async {
+    final response = await Supabase.instance.client
+        .from('profiles')
+        .update(data.toJson())
+        .eq('id', Supabase.instance.client.auth.currentUser!.id)
+        .select('*')
+        .single();
+    return ProfilesModel.fromJson(response);
   }
 }
