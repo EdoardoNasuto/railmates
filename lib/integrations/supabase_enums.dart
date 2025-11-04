@@ -1,1 +1,0 @@
-enum SearchType { cities, countries }

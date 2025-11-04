@@ -1,8 +1,9 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:railmates/integrations/supabase_enums.dart';
 import 'dart:typed_data';
 import 'package:railmates/models/profiles_model.dart';
+import 'package:railmates/models/cities_model.dart';
+import 'package:railmates/models/countries_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -40,52 +41,6 @@ class SupabaseService {
     await Supabase.instance.client.auth.signOut();
   }
 
-  Future<PostgrestList> citiesStartingWith(
-    String prefix, {
-    SearchType type = SearchType.cities,
-    int limit = 5,
-  }) async {
-    if (type == SearchType.cities) {
-      final response = await Supabase.instance.client
-          .from('cities')
-          .select('id, name, native, state_name, country_id(name, flag_url)')
-          .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
-          .limit(limit);
-      return (response as List)
-          .map(
-            (city) => {
-              'id': city['id'],
-              'title': city['name'],
-              'subtitle1': city['state_name'],
-              'subtitle2': ', ${city['country_id']['name']}',
-              'icon': city['country_id']['flag_url'],
-            },
-          )
-          .toList();
-    } else {
-      if (type == SearchType.countries) {
-        final response = await Supabase.instance.client
-            .from('countries')
-            .select('id, name, native, flag_url, population')
-            .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
-            .order('population', ascending: false)
-            .limit(limit);
-        return (response as List)
-            .map(
-              (country) => {
-                'id': country['id'],
-                'title': country['name'],
-                'subtitle1': country['native'],
-                'icon': country['flag_url'],
-              },
-            )
-            .toList();
-      } else {
-        throw Exception('Type de recherche non supporté : ${type}');
-      }
-    }
-  }
-
   Future<void> avatarsUpload(Uint8List bytes) async {
     final String? uid = Supabase.instance.client.auth.currentUser?.id;
     if (uid == null) {
@@ -102,8 +57,7 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)})
-          .eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
@@ -117,5 +71,21 @@ class SupabaseService {
         .select('*')
         .single();
     return ProfilesModel.fromJson(response);
+  }
+
+  Future<List<CitiesModel>> getAllCities(String prefix, {int limit = 5}) async {
+    final response = await Supabase.instance.client
+        .from('cities')
+        .select(
+            'id, name, native, state_name, country_id(name, flag_url, population)')
+        .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
+        .limit(limit);
+    return response.map((json) => CitiesModel.fromJson(json)).toList();
+  }
+
+  Future<List<CountriesModel>> getAllCountries() async {
+    final response =
+        await Supabase.instance.client.from('countries').select('*');
+    return response.map((json) => CountriesModel.fromJson(json)).toList();
   }
 }

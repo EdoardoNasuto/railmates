@@ -6,7 +6,6 @@ import 'package:railmates/authentication_form.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/city_research_page.dart';
-import 'package:railmates/integrations/supabase_enums.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
@@ -197,9 +196,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: () async {
                               final result = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const CityResearchPage(
-                                    searchType: SearchType.cities,
-                                  ),
+                                  builder: (context) =>
+                                      const CityResearchPage(),
                                 ),
                               );
                               if (result != null && result is Map) {

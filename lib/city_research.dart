@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/models/cities_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/integrations/supabase_enums.dart';
 
-@NowaGenerated({'auto-width': 330.0, 'auto-height': 482.0})
-class CityResearch extends StatelessWidget {
+@NowaGenerated({'auto-width': 330.0, 'auto-height': 481.5})
+class CityResearch extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearch(
-      {this.type = SearchType.cities, this.name = 'pari', super.key});
+  const CityResearch({this.search = 'pari', super.key});
 
-  final SearchType type;
-
-  final String name;
+  final String search;
 
   @override
+  State<CityResearch> createState() {
+    return _CityResearchState();
+  }
+}
+
+@NowaGenerated()
+class _CityResearchState extends State<CityResearch> {
+  @override
   Widget build(BuildContext context) {
-    return DataBuilder<List<dynamic>>(
+    return DataBuilder<List<CitiesModel>>(
       builder: (context, data) => ListView.separated(
         itemCount: data.length,
         separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
-          final dynamic item = data[index];
-          final dynamic id = item['id'];
-          final dynamic title = item['title'];
-          final dynamic subtitle1 =
-              (item['subtitle1'] == null) ? '' : item['subtitle1'];
-          final dynamic subtitle2 =
-              (item['subtitle2'] == null) ? '' : item['subtitle2'];
-          final dynamic icon = item['icon'];
+          final CitiesModel element = data[index];
           return InkWell(
             borderRadius: BorderRadius.circular(18.0),
             onTap: () {
-              Navigator.pop(context, {'id': id, 'name': title});
+              Navigator.of(
+                context,
+              ).pop<dynamic?>({'id': element.id, 'name': element.name});
             },
             child: Card(
               elevation: 6.0,
@@ -50,71 +50,29 @@ class CityResearch extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Container(
+                    FlexSizedBox(
                       width: 48.0,
                       height: 48.0,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.shadow.withOpacity(0.1),
-                            blurRadius: 8.0,
-                            offset: const Offset(0.0, 4.0),
-                          ),
-                        ],
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: icon != null && icon is String && icon.isNotEmpty
-                          ? Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                icon.endsWith('.svg')
-                                    ? SvgPicture.network(
-                                        icon,
-                                        fit: BoxFit.cover,
-                                        width: 48.0,
-                                        height: 48.0,
-                                        placeholderBuilder: (context) => Center(
-                                          child: Icon(
-                                            Icons.flag,
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryFixed,
-                                            size: 28.0,
-                                          ),
-                                        ),
-                                      )
-                                    : Image.network(
-                                        icon,
-                                        fit: BoxFit.cover,
-                                        width: 48.0,
-                                        height: 48.0,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Center(
-                                          child: Icon(
-                                            Icons.flag,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryFixed,
-                                            size: 28.0,
-                                          ),
-                                        ),
-                                      ),
-                              ],
-                            )
-                          : Center(
-                              child: Icon(
-                                Icons.flag,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onPrimaryFixed,
-                                size: 28.0,
-                              ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(12.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.shadow.withOpacity(0.1),
+                              blurRadius: 8.0,
+                              offset: const Offset(0.0, 4.0),
                             ),
+                          ],
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: SvgPicture(
+                          SvgNetworkLoader(element.country_id!.flag_url!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 20.0),
                     Expanded(
@@ -122,10 +80,9 @@ class CityResearch extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            title,
-                            style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                            element.name!,
+                            style:
+                                Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
@@ -134,15 +91,16 @@ class CityResearch extends StatelessWidget {
                           ),
                           const SizedBox(height: 6.0),
                           Text(
-                            '${subtitle1}${subtitle2}',
-                            style: Theme.of(
+                            element.state_name!,
+                            style:
+                                Theme.of(
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface.withOpacity(0.6),
-                                    ) ??
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withOpacity(0.6),
+                                ) ??
                                 const TextStyle(
                                   fontSize: 14.0,
                                   fontStyle: FontStyle.italic,
@@ -170,12 +128,12 @@ class CityResearch extends StatelessWidget {
         child: Text(
           error.toString(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Theme.of(context).colorScheme.error,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-      future: SupabaseService().citiesStartingWith(name, type: type),
+      future: SupabaseService().getAllCities(widget.search),
     );
   }
 }

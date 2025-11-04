@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/city_research.dart';
-import 'package:railmates/integrations/supabase_enums.dart';
 
 @NowaGenerated({'auto-height': 807.5})
 class CityResearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchPage({this.searchType = SearchType.countries, super.key});
-
-  final SearchType searchType;
+  const CityResearchPage({super.key});
 
   @override
   State<CityResearchPage> createState() {
@@ -111,10 +108,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   vertical: 16.0,
                   horizontal: 8.0,
                 ),
-                child: CityResearch(
-                  name: searchPrefixController.text,
-                  type: widget.searchType,
-                ),
+                child: CityResearch(search: searchPrefixController.text),
               ),
             ),
           ],

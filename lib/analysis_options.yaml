@@ -2,3 +2,4 @@ analyzer:
   errors:
     invalid_null_aware_operator: ignore
     unnecessary_non_null_assertion: ignore
+    unnecessary_question_mark: ignore

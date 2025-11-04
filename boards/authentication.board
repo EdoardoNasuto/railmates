@@ -65,8 +65,8 @@
             "x": 2156.0,
             "y": 106.5,
             "w": 330.0,
-            "h": 482.0,
-            "widget": "const CityResearch(city:'f',)",
+            "h": 481.5,
+            "widget": "const CityResearch()",
             "deps": [
                 "lib/city_research.dart"
             ]
