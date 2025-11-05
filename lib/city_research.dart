@@ -30,9 +30,9 @@ class _CityResearchState extends State<CityResearch> {
           return InkWell(
             borderRadius: BorderRadius.circular(18.0),
             onTap: () {
-              Navigator.of(
-                context,
-              ).pop<dynamic?>({'id': element.id, 'name': element.name});
+              Navigator.of(context).pop<CitiesModel?>(
+                CitiesModel(id: element.id, name: element.name),
+              );
             },
             child: Card(
               elevation: 6.0,

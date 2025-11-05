@@ -5,6 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/text_form.dart';
+import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/pages/city_research_page.dart';
 import 'package:railmates/pages/login_page.dart';
 
@@ -144,27 +145,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         submitForm: () {
                           SupabaseService()
                               .updateProfiles(
-                            ProfilesModel(
-                              city: cityId,
-                              first_name: firstNameController?.text,
-                              last_name: lastNameController?.text,
-                              birth_date: birthDateController?.text,
-                            ),
-                          )
-                              .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Registration successful!'),
+                                ProfilesModel(
+                                  city: cityId,
+                                  first_name: firstNameController?.text,
+                                  last_name: lastNameController?.text,
+                                  birth_date: birthDateController?.text,
                                 ),
+                              )
+                              .then(
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Error')),
+                                  );
+                                },
                               );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Error')),
-                              );
-                            },
-                          );
                         },
                         textFields: [
                           TextForm(
@@ -194,22 +195,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             icon: Icons.location_city,
                             onChanged: null,
                             onTap: () async {
-                              final result = await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CityResearchPage(),
-                                ),
-                              );
-                              if (result != null && result is Map) {
-                                setState(() {
-                                  if (result?['name'] != null) {
-                                    cityController?.text = result!['name'];
-                                  }
-                                  if (result?['id'] != null) {
-                                    cityId = result?['id'];
-                                  }
-                                });
-                              }
+                              final CitiesModel? result =
+                                  await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CityResearchPage(),
+                                    ),
+                                  );
+                              cityController?.text = result!.name!;
+                              cityId = result?.id;
                             },
                           ),
                         ],
