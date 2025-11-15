@@ -41,6 +41,23 @@ class SupabaseService {
     await Supabase.instance.client.auth.signOut();
   }
 
+  Future<void> resetPasswordForEmail(email) async {
+    await Supabase.instance.client.auth.resetPasswordForEmail(email);
+  }
+
+  Future<AuthResponse> verifyOTP(String email, String token) async {
+    return await Supabase.instance.client.auth.verifyOTP(
+      email: email,
+      token: token,
+      type: OtpType.recovery,
+    );
+  }
+
+  Future<UserResponse> updateUser(String? email, String? password) async {
+    return await Supabase.instance.client.auth
+        .updateUser(UserAttributes(email: email, password: password));
+  }
+
   Future<void> avatarsUpload(Uint8List bytes) async {
     final String? uid = Supabase.instance.client.auth.currentUser?.id;
     if (uid == null) {
