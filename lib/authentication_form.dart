@@ -137,7 +137,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
       if (widget.submitForm != null) {
-        widget.submitForm!();
+        widget.submitForm?.call();
       }
     }
   }

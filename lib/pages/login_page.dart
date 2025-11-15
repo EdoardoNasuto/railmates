@@ -3,6 +3,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
+import 'package:railmates/pages/forgot_password.dart';
 import 'package:railmates/pages/register_page.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.0})
@@ -97,13 +98,31 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'La fonctionnalité de réinitialisation du mot de passe arrive bientôt',
-                              ),
-                            ),
-                          );
+                          SupabaseService()
+                              .resetPasswordForEmail(emailController.text)
+                              .then(
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Email envoyé'),
+                                    ),
+                                  );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ForgotPassword(
+                                        email: emailController.text,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Email invalide'),
+                                    ),
+                                  );
+                                },
+                              );
                         },
                         child: Text(
                           'Mot de passe oublié ?',
