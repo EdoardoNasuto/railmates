@@ -3,8 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/pages/profile_page.dart';
-import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/login_page.dart';
+import 'package:railmates/text_form.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class RegisterPage extends StatefulWidget {
@@ -65,28 +65,48 @@ class _RegisterPageState extends State<RegisterPage> {
                         submitForm: () {
                           SupabaseService()
                               .signUp(
-                            emailController!.text,
-                            passwordController!.text,
-                          )
+                                emailController!.text,
+                                passwordController!.text,
+                              )
                               .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Registration successful!'),
-                                ),
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
+                                    ),
+                                  );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const ProfilePage(),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  if (error.toString().contains(
+                                    'user_already_exist',
+                                  )) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                          'The email address is already associated with another account',
+                                        ),
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onErrorContainer,
+                                      ),
+                                    );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LoginPage(),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(error.toString())),
+                                    );
+                                  }
+                                },
                               );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Error')),
-                              );
-                            },
-                          );
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfilePage(),
-                            ),
-                          );
                         },
                         textFields: [
                           TextForm(
