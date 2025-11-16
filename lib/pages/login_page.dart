@@ -6,7 +6,7 @@ import 'package:railmates/text_form.dart';
 import 'package:railmates/pages/forgot_password.dart';
 import 'package:railmates/pages/register_page.dart';
 
-@NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.0})
+@NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class LoginPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const LoginPage({super.key});
@@ -90,50 +90,53 @@ class _LoginPageState extends State<LoginPage> {
                           obscure: true,
                           icon: Icons.lock_outline_rounded,
                         ),
-                      ],
-                      icon: Icons.login,
-                    ),
-                    const SizedBox(height: 32.0),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          SupabaseService()
-                              .resetPasswordForEmail(emailController.text)
-                              .then(
-                                (value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Email envoyé'),
-                                    ),
+                        Align(
+                          alignment: const Alignment(1.0, 0.0),
+                          child: TextButton(
+                            onPressed: () {
+                              SupabaseService()
+                                  .resetPasswordForEmail(emailController.text)
+                                  .then(
+                                    (value) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Email envoyé'),
+                                        ),
+                                      );
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ForgotPassword(
+                                            email: emailController.text,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    onError: (error) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Email invalide'),
+                                        ),
+                                      );
+                                    },
                                   );
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => ForgotPassword(
-                                        email: emailController.text,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                onError: (error) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Email invalide'),
-                                    ),
-                                  );
-                                },
-                              );
-                        },
-                        child: Text(
-                          'Mot de passe oublié ?',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.0,
-                            color: Theme.of(context).colorScheme.primary,
+                            },
+                            child: Text(
+                              'Mot de passe oublié ?',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.0,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
+                      icon: Icons.login,
                     ),
                     const SizedBox(height: 24.0),
                     Row(
