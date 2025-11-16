@@ -131,8 +131,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
+                        child: TextButton(
+                          onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const LoginPage(),

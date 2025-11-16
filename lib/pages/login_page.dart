@@ -96,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 32.0),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
+                      child: TextButton(
+                        onPressed: () {
                           SupabaseService()
                               .resetPasswordForEmail(emailController.text)
                               .then(
@@ -147,8 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(width: 8.0),
-                        GestureDetector(
-                          onTap: () {
+                        TextButton(
+                          onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const RegisterPage(),
