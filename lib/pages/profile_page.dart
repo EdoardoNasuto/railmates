@@ -145,27 +145,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         submitForm: () {
                           SupabaseService()
                               .updateProfiles(
-                            ProfilesModel(
-                              city: cityId,
-                              first_name: firstNameController?.text,
-                              last_name: lastNameController?.text,
-                              birth_date: birthDateController?.text,
-                            ),
-                          )
-                              .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Registration successful!'),
+                                ProfilesModel(
+                                  city: cityId,
+                                  first_name: firstNameController?.text,
+                                  last_name: lastNameController?.text,
+                                  birth_date: birthDateController?.text,
                                 ),
+                              )
+                              .then(
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Error')),
+                                  );
+                                },
                               );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Error')),
-                              );
-                            },
-                          );
                         },
                         textFields: [
                           TextForm(
@@ -186,6 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             required: true,
                             controller: birthDateController,
                             icon: Icons.cake_outlined,
+                            interactiveSelection: false,
                           ),
                           TextForm(
                             label: 'City',
@@ -197,14 +198,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: () async {
                               final CitiesModel? result =
                                   await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CityResearchPage(),
-                                ),
-                              );
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CityResearchPage(),
+                                    ),
+                                  );
                               cityController?.text = result!.name!;
                               cityId = result?.id;
                             },
+                            interactiveSelection: false,
                           ),
                         ],
                         icon: Icons.person_pin,

@@ -15,6 +15,7 @@ class TextForm extends StatefulWidget {
     this.onTap,
     this.errorMessage = 'Format invalide',
     this.validators,
+    this.interactiveSelection = true,
     super.key,
   });
   final void Function()? onTap;
@@ -36,6 +37,8 @@ class TextForm extends StatefulWidget {
   final String errorMessage;
 
   final List<RegExp>? validators;
+
+  final bool interactiveSelection;
 
   @override
   State<TextForm> createState() {
@@ -61,6 +64,7 @@ class _TextFormState extends State<TextForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            enableInteractiveSelection: widget.interactiveSelection,
             readOnly: widget.dateField || widget.onTap != null,
             onTap: widget.dateField
                 ? () async {
