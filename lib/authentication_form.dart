@@ -40,15 +40,9 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: const Color(0x00f9f9ff),
           borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withOpacity(0.08),
-              blurRadius: 24.0,
-              offset: const Offset(0.0, 8.0),
-            ),
-          ],
+          boxShadow: [],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

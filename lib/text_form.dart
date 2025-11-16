@@ -15,8 +15,10 @@ class TextForm extends StatefulWidget {
     this.onTap,
     this.errorMessage = 'Format invalide',
     this.validators,
+    this.suffixIcon,
     super.key,
   });
+  final Widget? suffixIcon;
   final void Function()? onTap;
 
   final String label;
@@ -122,19 +124,23 @@ class _TextFormState extends State<TextForm> {
                 widget.icon,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              suffixIcon: widget.obscure
-                  ? IconButton(
-                      icon: Icon(
-                        _isObscure ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      },
-                    )
-                  : null,
+              suffixIcon: widget.suffixIcon ??
+                  (widget.obscure
+                      ? IconButton(
+                          icon: Icon(
+                            _isObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                        )
+                      : null),
               labelText: widget.label,
               labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
