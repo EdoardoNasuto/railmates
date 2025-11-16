@@ -62,50 +62,61 @@ class _RegisterPageState extends State<RegisterPage> {
                       nom: 'Create account',
                       buttonName: 'Sign up',
                       submitForm: () {
-                        SupabaseService()
-                            .signUp(
-                              emailController!.text,
-                              passwordController!.text,
-                            )
-                            .then(
-                              (value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Registration successful!'),
-                                  ),
-                                );
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const ProfilePage(),
-                                  ),
-                                );
-                              },
-                              onError: (error) {
-                                if (error.toString().contains(
-                                  'user_already_exist',
-                                )) {
+                        if (passwordController?.text ==
+                            confirmPasswordController?.text) {
+                          SupabaseService()
+                              .signUp(
+                                emailController!.text,
+                                passwordController!.text,
+                              )
+                              .then(
+                                (value) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text(
-                                        'The email address is already associated with another account',
-                                      ),
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.onErrorContainer,
+                                    const SnackBar(
+                                      content: Text('Registration successful!'),
                                     ),
                                   );
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => const LoginPage(),
+                                      builder: (context) => const ProfilePage(),
                                     ),
                                   );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(error.toString())),
-                                  );
-                                }
-                              },
-                            );
+                                },
+                                onError: (error) {
+                                  if (error.toString().contains(
+                                    'user_already_exist',
+                                  )) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                          'The email address is already associated with another account',
+                                        ),
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onErrorContainer,
+                                      ),
+                                    );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LoginPage(),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(error.toString())),
+                                    );
+                                  }
+                                },
+                              );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Password confirmation does not match',
+                              ),
+                            ),
+                          );
+                        }
                       },
                       textFields: [
                         TextForm(
@@ -118,14 +129,24 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ],
                           icon: Icons.email_outlined,
+                          errorMessage: 'Invalid format',
                         ),
                         TextForm(
                           label: 'Password',
                           required: true,
                           obscure: true,
-                          validators: [RegExp('^.{6,}\$')],
+                          validators: [
+                            RegExp(
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
+                              caseSensitive: true,
+                              multiLine: false,
+                              dotAll: false,
+                            ),
+                          ],
                           controller: passwordController,
                           icon: Icons.lock_outlined,
+                          errorMessage:
+                              'Required: 8+ chars, lowercase, uppercase, digit, symbol',
                         ),
                         TextForm(
                           label: 'Confirm password',
@@ -133,6 +154,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           required: true,
                           controller: confirmPasswordController,
                           icon: Icons.lock,
+                          validators: [
+                            RegExp(
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
+                            ),
+                          ],
+                          errorMessage:
+                              'Required: 8+ chars, lowercase, uppercase, digit, symbol',
                         ),
                       ],
                       icon: Icons.app_registration,

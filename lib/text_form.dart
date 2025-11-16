@@ -13,7 +13,7 @@ class TextForm extends StatefulWidget {
     this.required = false,
     this.obscure = false,
     this.onChanged,
-    this.errorMessage = 'Format invalide',
+    this.errorMessage = 'Invalid format',
     this.validators,
     this.interactiveSelection = true,
     super.key,

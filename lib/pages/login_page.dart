@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                         obscure: false,
                         icon: Icons.email_outlined,
+                        errorMessage: 'Invalid format',
                       ),
                       TextForm(
                         label: 'Password',
@@ -88,6 +89,13 @@ class _LoginPageState extends State<LoginPage> {
                         controller: passwordController,
                         obscure: true,
                         icon: Icons.lock_outline_rounded,
+                        validators: [
+                          RegExp(
+                            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
+                          ),
+                        ],
+                        errorMessage:
+                            'Required: 8+ chars, lowercase, uppercase, digit, symbol',
                       ),
                       Align(
                         alignment: const Alignment(1.0, 0.0),
