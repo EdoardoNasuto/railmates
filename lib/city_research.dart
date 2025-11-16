@@ -4,10 +4,10 @@ import 'package:railmates/models/cities_model.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
-@NowaGenerated({'auto-width': 330.0, 'auto-height': 481.5})
+@NowaGenerated({'auto-width': 330.0, 'auto-height': 350.0})
 class CityResearch extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearch({this.search = 'pari', super.key});
+  const CityResearch({this.search = '', super.key});
 
   final String search;
 

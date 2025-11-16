@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
-@NowaGenerated({'auto-width': 159.0, 'auto-height': 67.0})
+@NowaGenerated({'auto-width': 200.0, 'auto-height': 60.0})
 class TextForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const TextForm({
+    this.onTap,
     this.label = 'Label',
     this.icon = Icons.text_fields,
     this.controller,
@@ -12,12 +13,12 @@ class TextForm extends StatefulWidget {
     this.required = false,
     this.obscure = false,
     this.onChanged,
-    this.onTap,
     this.errorMessage = 'Format invalide',
     this.validators,
     this.interactiveSelection = true,
     super.key,
   });
+
   final void Function()? onTap;
 
   final String label;
@@ -98,22 +99,22 @@ class _TextFormState extends State<TextForm> {
                       ),
                     );
                     if (picked != null && widget.controller != null) {
-                      widget.controller?.text = picked.toString().split(
-                            ' ',
-                          )[0];
+                      widget.controller?.text = picked!.toString().split(
+                        ' ',
+                      )[0];
                       setState(() {});
                     }
                   }
                 : widget.onTap,
             validator: (value) {
-              if (widget.required && (value == null || value.isEmpty)) {
-                return 'Ce champ est requis';
+              if (widget.required && (value == null || value!.isEmpty)) {
+                return 'This field is required';
               }
               if (value != null &&
                   widget.validators != null &&
                   widget.validators!.isNotEmpty) {
                 bool allValid = widget.validators!.every(
-                  (regex) => regex.hasMatch(value),
+                  (regex) => regex.hasMatch(value!),
                 );
                 if (!allValid) {
                   return widget.errorMessage;
@@ -141,8 +142,8 @@ class _TextFormState extends State<TextForm> {
                   : null,
               labelText: widget.label,
               labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 12.0,
                 horizontal: 8.0,

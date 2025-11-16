@@ -49,98 +49,103 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         child: SafeArea(
+          minimum: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
           child: Center(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FlexSizedBox(
-                      child: AuthenticationForm(
-                        nom: 'Create account',
-                        buttonName: 'Sign up',
-                        submitForm: () {
-                          SupabaseService()
-                              .signUp(
-                                emailController!.text,
-                                passwordController!.text,
-                              )
-                              .then(
-                                (value) {
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FlexSizedBox(
+                    child: AuthenticationForm(
+                      nom: 'Create account',
+                      buttonName: 'Sign up',
+                      submitForm: () {
+                        SupabaseService()
+                            .signUp(
+                              emailController!.text,
+                              passwordController!.text,
+                            )
+                            .then(
+                              (value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Registration successful!'),
+                                  ),
+                                );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const ProfilePage(),
+                                  ),
+                                );
+                              },
+                              onError: (error) {
+                                if (error.toString().contains(
+                                  'user_already_exist',
+                                )) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Registration successful!'),
+                                    SnackBar(
+                                      content: const Text(
+                                        'The email address is already associated with another account',
+                                      ),
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.onErrorContainer,
                                     ),
                                   );
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => const ProfilePage(),
+                                      builder: (context) => const LoginPage(),
                                     ),
                                   );
-                                },
-                                onError: (error) {
-                                  if (error.toString().contains(
-                                    'user_already_exist',
-                                  )) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: const Text(
-                                          'The email address is already associated with another account',
-                                        ),
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).colorScheme.onErrorContainer,
-                                      ),
-                                    );
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const LoginPage(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(error.toString())),
-                                    );
-                                  }
-                                },
-                              );
-                        },
-                        textFields: [
-                          TextForm(
-                            label: 'Email',
-                            required: true,
-                            controller: emailController,
-                            validators: [
-                              RegExp(
-                                '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
-                              ),
-                            ],
-                            icon: Icons.email_outlined,
-                          ),
-                          TextForm(
-                            label: 'Password',
-                            required: true,
-                            obscure: true,
-                            validators: [RegExp('^.{6,}\$')],
-                            controller: passwordController,
-                            icon: Icons.lock_outlined,
-                          ),
-                          TextForm(
-                            label: 'Confirm password',
-                            obscure: true,
-                            required: true,
-                            controller: confirmPasswordController,
-                            icon: Icons.lock,
-                          ),
-                        ],
-                        icon: Icons.app_registration,
-                      ),
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(error.toString())),
+                                  );
+                                }
+                              },
+                            );
+                      },
+                      textFields: [
+                        TextForm(
+                          label: 'Email',
+                          required: true,
+                          controller: emailController,
+                          validators: [
+                            RegExp(
+                              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
+                            ),
+                          ],
+                          icon: Icons.email_outlined,
+                        ),
+                        TextForm(
+                          label: 'Password',
+                          required: true,
+                          obscure: true,
+                          validators: [RegExp('^.{6,}\$')],
+                          controller: passwordController,
+                          icon: Icons.lock_outlined,
+                        ),
+                        TextForm(
+                          label: 'Confirm password',
+                          obscure: true,
+                          required: true,
+                          controller: confirmPasswordController,
+                          icon: Icons.lock,
+                        ),
+                      ],
+                      icon: Icons.app_registration,
                     ),
-                    const SizedBox(height: 32.0),
-                    Row(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 16.0,
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                    ),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
@@ -150,7 +155,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
-                        const SizedBox(width: 8.0),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -170,8 +174,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

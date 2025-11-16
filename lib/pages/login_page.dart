@@ -41,126 +41,87 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: SafeArea(
+          minimum: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
           child: Center(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AuthenticationForm(
-                      submitForm: () {
-                        SupabaseService()
-                            .signIn(
-                              emailController.text,
-                              passwordController!.text,
-                            )
-                            .then(
-                              (value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Login successful!'),
-                                  ),
-                                );
-                              },
-                              onError: (error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Login not')),
-                                );
-                              },
-                            );
-                      },
-                      textFields: [
-                        TextForm(
-                          label: 'Email',
-                          required: true,
-                          controller: emailController,
-                          validators: [
-                            RegExp(
-                              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
-                            ),
-                          ],
-                          obscure: false,
-                          icon: Icons.email_outlined,
-                        ),
-                        TextForm(
-                          label: 'Password',
-                          required: true,
-                          controller: passwordController,
-                          obscure: true,
-                          icon: Icons.lock_outline_rounded,
-                        ),
-                        Align(
-                          alignment: const Alignment(1.0, 0.0),
-                          child: TextButton(
-                            onPressed: () {
-                              SupabaseService()
-                                  .resetPasswordForEmail(emailController.text)
-                                  .then(
-                                    (value) {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Email sent'),
-                                        ),
-                                      );
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => ForgotPassword(
-                                            email: emailController.text,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    onError: (error) {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Invalid email'),
-                                        ),
-                                      );
-                                    },
-                                  );
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AuthenticationForm(
+                    submitForm: () {
+                      SupabaseService()
+                          .signIn(
+                            emailController.text,
+                            passwordController!.text,
+                          )
+                          .then(
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Login successful!'),
+                                ),
+                              );
                             },
-                            child: Text(
-                              'Forgot password?',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.0,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Login not')),
+                              );
+                            },
+                          );
+                    },
+                    textFields: [
+                      TextForm(
+                        label: 'Email',
+                        required: true,
+                        controller: emailController,
+                        validators: [
+                          RegExp(
+                            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
                           ),
-                        ),
-                      ],
-                      icon: Icons.account_circle_outlined,
-                      nom: 'Login',
-                    ),
-                    const SizedBox(height: 24.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Not registered yet?',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        TextButton(
+                        ],
+                        obscure: false,
+                        icon: Icons.email_outlined,
+                      ),
+                      TextForm(
+                        label: 'Password',
+                        required: true,
+                        controller: passwordController,
+                        obscure: true,
+                        icon: Icons.lock_outline_rounded,
+                      ),
+                      Align(
+                        alignment: const Alignment(1.0, 0.0),
+                        child: TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterPage(),
-                              ),
-                            );
+                            SupabaseService()
+                                .resetPasswordForEmail(emailController.text)
+                                .then(
+                                  (value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Email sent'),
+                                      ),
+                                    );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ForgotPassword(
+                                          email: emailController.text,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onError: (error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Invalid email'),
+                                      ),
+                                    );
+                                  },
+                                );
                           },
                           child: Text(
-                            'Create account',
+                            'Forgot password?',
+                            textAlign: TextAlign.end,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14.0,
@@ -168,10 +129,52 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                    icon: Icons.account_circle_outlined,
+                    nom: 'Login',
+                  ),
+                  FlexSizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 16.0,
+                        bottom: 0.0,
+                        left: 0.0,
+                        right: 0.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Not registered yet?',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterPage(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Create account',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.0,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
-@NowaGenerated({'auto-width': 241.0, 'auto-height': 189.0})
+@NowaGenerated({'auto-width': 200.0, 'auto-height': 150.0})
 class AuthenticationForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const AuthenticationForm({
@@ -37,93 +37,99 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-        decoration: BoxDecoration(
-          color: const Color(0x00f9f9ff),
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 0.0,
+                  bottom: 0.0,
+                  left: 0.0,
+                  right: 12.0,
+                ),
+                child: Icon(
                   widget.icon,
                   color: Theme.of(context).colorScheme.primary,
                   size: 32.0,
                 ),
-                const SizedBox(width: 12.0),
-                Text(
-                  widget.nom,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 28.0,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-              ],
-            ),
-            FlexSizedBox(
-              width: double.infinity,
-              flex: 1,
-              child: ListView(
-                reverse: false,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 0.0,
-                ),
-                children: widget.textFields,
               ),
+              Text(
+                widget.nom,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 28.0,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ],
+          ),
+          FlexSizedBox(
+            width: double.infinity,
+            flex: 1,
+            child: ListView(
+              reverse: false,
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(
+                vertical: 24.0,
+                horizontal: 0.0,
+              ),
+              children: widget.textFields,
             ),
-            FlexSizedBox(
-              width: null,
-              height: 48.0,
-              child: ElevatedButton(
-                onPressed: _handleSubmit,
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color?>(
-                    Theme.of(context).colorScheme.primary,
-                  ),
-                  foregroundColor: WidgetStatePropertyAll<Color?>(
-                    Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  shadowColor: WidgetStatePropertyAll<Color?>(
-                    Theme.of(context).colorScheme.shadow,
-                  ),
-                  elevation: const WidgetStatePropertyAll<double?>(4.0),
-                  shape: WidgetStatePropertyAll<RoundedRectangleBorder?>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
+          ),
+          FlexSizedBox(
+            width: null,
+            height: 48.0,
+            child: ElevatedButton(
+              onPressed: _handleSubmit,
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll<Color?>(
+                  Theme.of(context).colorScheme.primary,
+                ),
+                foregroundColor: WidgetStatePropertyAll<Color?>(
+                  Theme.of(context).colorScheme.onPrimary,
+                ),
+                shadowColor: WidgetStatePropertyAll<Color?>(
+                  Theme.of(context).colorScheme.shadow,
+                ),
+                elevation: const WidgetStatePropertyAll<double?>(4.0),
+                shape: WidgetStatePropertyAll<RoundedRectangleBorder?>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      widget.icon,
-                      color: Theme.of(context).colorScheme.onPrimary,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    widget.icon,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 0.0,
+                      bottom: 0.0,
+                      left: 8.0,
+                      right: 0.0,
                     ),
-                    const SizedBox(width: 8.0),
-                    Text(
+                    child: Text(
                       widget.buttonName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated()
 class ForgotPassword extends StatefulWidget {
@@ -44,7 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+          minimum: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
           child: Center(
             child: SingleChildScrollView(
               reverse: false,
@@ -64,7 +63,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       textFields: [
                         TextForm(
                           label: 'Reset token',
-                          icon: Icons.generating_tokens,
+                          icon: Icons.generating_tokens_outlined,
                           controller: tokenController,
                           required: true,
                         ),
@@ -74,11 +73,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           obscure: true,
                           required: true,
                           validators: [RegExp('^.{6,}\$')],
+                          icon: Icons.lock_outlined,
                         ),
                         const TextForm(
                           label: 'Confirm password',
                           required: true,
                           obscure: true,
+                          icon: Icons.lock,
                         ),
                       ],
                       submitForm: () {
@@ -120,37 +121,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             );
                       },
                       buttonName: 'Reset password',
-                    ),
-                  ),
-                  FlexSizedBox(
-                    width: null,
-                    height: null,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 8.0,
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Back to login screen',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.0,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ],

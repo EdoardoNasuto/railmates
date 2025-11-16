@@ -2,8 +2,8 @@
     "showGrid": false,
     "canvases": [
         {
-            "x": 480.0,
-            "y": 107.0,
+            "x": 0.0,
+            "y": 0.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const LoginPage()",
@@ -12,8 +12,8 @@
             ]
         },
         {
-            "x": 892.0,
-            "y": 106.5,
+            "x": 850.0,
+            "y": 0.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const RegisterPage()",
@@ -22,28 +22,8 @@
             ]
         },
         {
-            "x": 281.0,
-            "y": 107.0,
-            "w": 159.0,
-            "h": 67.0,
-            "widget": "const TextForm(obscure:false,)",
-            "deps": [
-                "lib/text_form.dart"
-            ]
-        },
-        {
-            "x": 199.0,
-            "y": 227.0,
-            "w": 241.0,
-            "h": 189.0,
-            "widget": "const AuthenticationForm()",
-            "deps": [
-                "lib/authentication_form.dart"
-            ]
-        },
-        {
-            "x": 1762.0,
-            "y": 106.5,
+            "x": 1275.0,
+            "y": 0.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const ProfilePage()",
@@ -52,8 +32,8 @@
             ]
         },
         {
-            "x": 2185.0,
-            "y": 106.5,
+            "x": 1700.0,
+            "y": 0.0,
             "w": 393.0,
             "h": 807.5,
             "widget": "const CityResearchPage()",
@@ -62,23 +42,43 @@
             ]
         },
         {
-            "x": 2605.0,
-            "y": 106.5,
+            "x": 2125.0,
+            "y": 0.0,
             "w": 330.0,
-            "h": 481.5,
+            "h": 350.0,
             "widget": "const CityResearch()",
             "deps": [
                 "lib/city_research.dart"
             ]
         },
         {
-            "x": 1323.0,
-            "y": 106.5,
+            "x": 425.0,
+            "y": 0.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const ForgotPassword()",
             "deps": [
                 "lib/pages/forgot_password.dart"
+            ]
+        },
+        {
+            "x": -225.0,
+            "y": 0.0,
+            "w": 200.0,
+            "h": 60.0,
+            "widget": "const TextForm()",
+            "deps": [
+                "lib/text_form.dart"
+            ]
+        },
+        {
+            "x": -225.0,
+            "y": 100.0,
+            "w": 200.0,
+            "h": 150.0,
+            "widget": "const AuthenticationForm()",
+            "deps": [
+                "lib/authentication_form.dart"
             ]
         }
     ]
