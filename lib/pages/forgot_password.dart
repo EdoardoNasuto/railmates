@@ -60,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   FlexSizedBox(
                     child: AuthenticationForm(
                       nom: 'Reset password',
-                      icon: Icons.password,
+                      icon: Icons.lock_reset,
                       textFields: [
                         TextForm(
                           label: 'Reset token',
@@ -119,6 +119,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               },
                             );
                       },
+                      buttonName: 'Reset password',
                     ),
                   ),
                   FlexSizedBox(
@@ -140,7 +141,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             );
                           },
                           child: Text(
-                            'Revenir à l\'écran de connexion',
+                            'Back to login screen',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,

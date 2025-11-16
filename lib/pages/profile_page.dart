@@ -87,13 +87,15 @@ class _ProfilePageState extends State<ProfilePage> {
                               );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Avatar uploadé avec succès !'),
+                                  content: Text(
+                                    'Avatar uploaded successfully!',
+                                  ),
                                 ),
                               );
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Erreur upload avatar : ${e}'),
+                                  content: Text('Avatar upload error: ${e}'),
                                 ),
                               );
                             }
@@ -140,8 +142,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     FlexSizedBox(
                       child: AuthenticationForm(
-                        nom: 'Créer ton profil',
-                        buttonName: 'Enregistrer',
+                        nom: 'Create your profile',
+                        buttonName: 'Save',
                         submitForm: () {
                           SupabaseService()
                               .updateProfiles(
@@ -181,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             icon: Icons.person,
                           ),
                           TextForm(
-                            label: 'Date de naissance',
+                            label: 'Birth Date',
                             dateField: true,
                             required: true,
                             controller: birthDateController,
@@ -217,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Déjà inscrit ?',
+                          'Already have an account?',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Theme.of(context).colorScheme.onSurface,
@@ -233,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                           },
                           child: Text(
-                            'Connexion',
+                            'Login',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14.0,

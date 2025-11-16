@@ -5,8 +5,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 class AuthenticationForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const AuthenticationForm({
-    this.nom = 'Connexion',
-    this.buttonName = 'Se connecter',
+    this.nom = 'Login',
+    this.buttonName = 'Sign in',
     this.icon = Icons.login_rounded,
     this.submitForm,
     this.textFields = const [],

@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           icon: Icons.email_outlined,
                         ),
                         TextForm(
-                          label: 'Mot de passe',
+                          label: 'Password',
                           required: true,
                           controller: passwordController,
                           obscure: true,
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                       ).showSnackBar(
                                         const SnackBar(
-                                          content: Text('Email envoyé'),
+                                          content: Text('Email sent'),
                                         ),
                                       );
                                       Navigator.of(context).push(
@@ -118,14 +118,14 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                       ).showSnackBar(
                                         const SnackBar(
-                                          content: Text('Email invalide'),
+                                          content: Text('Invalid email'),
                                         ),
                                       );
                                     },
                                   );
                             },
                             child: Text(
-                              'Mot de passe oublié ?',
+                              'Forgot password?',
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
@@ -136,14 +136,15 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ],
-                      icon: Icons.login,
+                      icon: Icons.account_circle_outlined,
+                      nom: 'Login',
                     ),
                     const SizedBox(height: 24.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Pas encore inscrit ?',
+                          'Not registered yet?',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Theme.of(context).colorScheme.onSurface,
@@ -159,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                           child: Text(
-                            'Créer un compte',
+                            'Create account',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14.0,

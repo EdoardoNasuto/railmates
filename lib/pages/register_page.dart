@@ -60,8 +60,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     FlexSizedBox(
                       child: AuthenticationForm(
-                        nom: 'Créer un compte',
-                        buttonName: 'S\'inscrire',
+                        nom: 'Create account',
+                        buttonName: 'Sign up',
                         submitForm: () {
                           SupabaseService()
                               .signUp(
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             icon: Icons.email_outlined,
                           ),
                           TextForm(
-                            label: 'Mot de passe',
+                            label: 'Password',
                             required: true,
                             obscure: true,
                             validators: [RegExp('^.{6,}\$')],
@@ -129,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             icon: Icons.lock_outlined,
                           ),
                           TextForm(
-                            label: 'Confirmation du mot de passe',
+                            label: 'Confirm password',
                             obscure: true,
                             required: true,
                             controller: confirmPasswordController,
@@ -144,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Déjà inscrit ?',
+                          'Already have an account?',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Theme.of(context).colorScheme.onSurface,
@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             );
                           },
                           child: Text(
-                            'Connexion',
+                            'Login',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14.0,
