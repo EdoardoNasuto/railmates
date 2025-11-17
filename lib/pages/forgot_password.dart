@@ -3,6 +3,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated()
@@ -104,7 +105,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         if (newPasswordController?.text ==
                             confirmNewPasswordController?.text) {
                           SupabaseService()
-                              .verifyOTP(widget.email!, tokenController!.text)
+                              .verifyOTP(
+                                widget.email!,
+                                tokenController!.text,
+                                OtpType.email,
+                              )
                               .then(
                                 (result) {
                                   SupabaseService()

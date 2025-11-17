@@ -80,6 +80,16 @@
             "deps": [
                 "lib/authentication_form.dart"
             ]
+        },
+        {
+            "x": 0.0,
+            "y": 851.0,
+            "w": 393.0,
+            "h": 808.5,
+            "widget": "const Otp()",
+            "deps": [
+                "lib/otp.dart"
+            ]
         }
     ]
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/profile_page.dart';
+import 'package:railmates/otp.dart';
 import 'package:railmates/pages/login_page.dart';
 import 'package:railmates/text_form.dart';
 
@@ -78,7 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   );
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => const ProfilePage(),
+                                      builder: (context) =>
+                                          Otp(email: emailController?.text),
                                     ),
                                   );
                                 },

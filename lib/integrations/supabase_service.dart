@@ -45,11 +45,19 @@ class SupabaseService {
     await Supabase.instance.client.auth.resetPasswordForEmail(email);
   }
 
-  Future<AuthResponse> verifyOTP(String email, String token) async {
+  Future<ResendResponse> resend(String email, OtpType type) async {
+    return await Supabase.instance.client.auth.resend(
+      email: email,
+      type: type,
+    );
+  }
+
+  Future<AuthResponse> verifyOTP(
+      String email, String token, OtpType type) async {
     return await Supabase.instance.client.auth.verifyOTP(
       email: email,
       token: token,
-      type: OtpType.recovery,
+      type: type,
     );
   }
 
