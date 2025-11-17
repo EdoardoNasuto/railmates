@@ -108,7 +108,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               .verifyOTP(
                                 widget.email!,
                                 tokenController!.text,
-                                OtpType.email,
+                                OtpType.recovery,
                               )
                               .then(
                                 (result) {
@@ -134,7 +134,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                             context,
                                           ).showSnackBar(
                                             SnackBar(
-                                              content: Text(error.toString()),
+                                              content: Text(
+                                                RegExp('message:\\s*([^,]+)')
+                                                        .firstMatch(
+                                                          error.toString(),
+                                                        )
+                                                        ?.group(1) ??
+                                                    'Error raised',
+                                              ),
+                                              backgroundColor: Theme.of(
+                                                context,
+                                              ).colorScheme.error,
                                             ),
                                           );
                                         },
@@ -142,16 +152,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 },
                                 onError: (error) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(error.toString())),
+                                    SnackBar(
+                                      content: Text(
+                                        RegExp('message:\\s*([^,]+)')
+                                                .firstMatch(error.toString())
+                                                ?.group(1) ??
+                                            'Error raised',
+                                      ),
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
                                   );
                                 },
                               );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
+                            SnackBar(
+                              content: const Text(
                                 'Password confirmation does not match',
                               ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.error,
                             ),
                           );
                         }

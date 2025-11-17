@@ -69,7 +69,17 @@ class _OtpState extends State<Otp> {
                             },
                             onError: (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(error.toString())),
+                                SnackBar(
+                                  content: Text(
+                                    RegExp('message:\\s*([^,]+)')
+                                            .firstMatch(error.toString())
+                                            ?.group(1) ??
+                                        'Error raised',
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
                               );
                             },
                           );
@@ -141,11 +151,32 @@ class _OtpState extends State<Otp> {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(error.toString()),
+                                            content: Text(
+                                              RegExp('message:\\s*([^,]+)')
+                                                      .firstMatch(
+                                                        error.toString(),
+                                                      )
+                                                      ?.group(1) ??
+                                                  'Error raised',
+                                            ),
+                                            backgroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.error,
                                           ),
                                         );
                                       },
                                     );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text(
+                                      'No email address provided',
+                                    ),
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
+                                  ),
+                                );
                               }
                             });
                           },

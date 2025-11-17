@@ -64,7 +64,17 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onError: (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Login not')),
+                                SnackBar(
+                                  content: Text(
+                                    RegExp('message:\\s*([^,]+)')
+                                            .firstMatch(error.toString())
+                                            ?.group(1) ??
+                                        'Error raised',
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
                               );
                             },
                           );
@@ -120,8 +130,16 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   onError: (error) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Invalid email'),
+                                      SnackBar(
+                                        content: Text(
+                                          RegExp('message:\\s*([^,]+)')
+                                                  .firstMatch(error.toString())
+                                                  ?.group(1) ??
+                                              'Error raised',
+                                        ),
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.error,
                                       ),
                                     );
                                   },

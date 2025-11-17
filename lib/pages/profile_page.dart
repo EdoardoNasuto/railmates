@@ -160,7 +160,17 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                               onError: (error) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Error')),
+                                  SnackBar(
+                                    content: Text(
+                                      RegExp('message:\\s*([^,]+)')
+                                              .firstMatch(error.toString())
+                                              ?.group(1) ??
+                                          'Error raised',
+                                    ),
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
+                                  ),
                                 );
                               },
                             );

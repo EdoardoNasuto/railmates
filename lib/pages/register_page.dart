@@ -3,8 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/otp.dart';
-import 'package:railmates/pages/login_page.dart';
 import 'package:railmates/text_form.dart';
+import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class RegisterPage extends StatefulWidget {
@@ -84,37 +84,30 @@ class _RegisterPageState extends State<RegisterPage> {
                                   );
                                 },
                                 onError: (error) {
-                                  if (error.toString().contains(
-                                    'user_already_exist',
-                                  )) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: const Text(
-                                          'The email address is already associated with another account',
-                                        ),
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).colorScheme.onErrorContainer,
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        RegExp('message:\\s*([^,]+)')
+                                                .firstMatch(error.toString())
+                                                ?.group(1) ??
+                                            'Error raised',
                                       ),
-                                    );
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const LoginPage(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(error.toString())),
-                                    );
-                                  }
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
+                                  );
                                 },
                               );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
+                            SnackBar(
+                              content: const Text(
                                 'Password confirmation does not match',
                               ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.error,
                             ),
                           );
                         }
