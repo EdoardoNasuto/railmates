@@ -10,7 +10,7 @@ import 'package:railmates/pages/register_page.dart';
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class Otp extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const Otp({this.email = 'odraodee@gmail.com', super.key});
+  const Otp({this.email, super.key});
 
   final String? email;
 
@@ -88,22 +88,66 @@ class _OtpState extends State<Otp> {
                         alignment: const Alignment(1.0, 0.0),
                         child: TextButton(
                           onPressed: () {
-                            SupabaseService()
-                                .resend(widget.email!, OtpType.signup)
-                                .then(
-                                  (value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Email sent'),
-                                      ),
+                            final emailController = TextEditingController(
+                              text: widget.email ?? '',
+                            );
+                            showDialog<String>(
+                              context: context,
+                              useRootNavigator: false,
+                              anchorPoint: const Offset(0.0, 0.0),
+                              builder: (context) => AlertDialog(
+                                title: const Text('Resend email'),
+                                content: TextField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Email',
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(
+                                        context,
+                                      ).pop(emailController.text);
+                                    },
+                                    child: const Text('Confirm'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                ],
+                              ),
+                            ).then((confirmedEmail) {
+                              if (confirmedEmail != null &&
+                                  confirmedEmail!.isNotEmpty) {
+                                SupabaseService()
+                                    .resend(confirmedEmail!, OtpType.signup)
+                                    .then(
+                                      (value) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Email sent'),
+                                          ),
+                                        );
+                                      },
+                                      onError: (error) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(error.toString()),
+                                          ),
+                                        );
+                                      },
                                     );
-                                  },
-                                  onError: (error) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(error.toString())),
-                                    );
-                                  },
-                                );
+                              }
+                            });
                           },
                           child: Text(
                             'Resend email?',
