@@ -101,13 +101,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       },
                                       child: const Text('Confirm'),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Cancel'),
-                                    ),
                                   ],
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                  shadowColor: Theme.of(
+                                    context,
+                                  ).colorScheme.shadow,
                                 ),
                               ).then((confirmedEmail) {
                                 if (confirmedEmail != null &&
@@ -146,17 +146,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           );
                                         },
                                       );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text(
-                                        'No email address provided',
-                                      ),
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.error,
-                                    ),
-                                  );
                                 }
                               });
                             },
