@@ -3,8 +3,6 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/text_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated()
 class ForgotPassword extends StatefulWidget {
@@ -21,8 +19,6 @@ class ForgotPassword extends StatefulWidget {
 
 @NowaGenerated()
 class _ForgotPasswordState extends State<ForgotPassword> {
-  TextEditingController? tokenController = TextEditingController();
-
   TextEditingController? confirmNewPasswordController = TextEditingController();
 
   TextEditingController? newPasswordController = TextEditingController();
@@ -64,103 +60,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       icon: Icons.lock_reset,
                       textFields: [
                         TextForm(
-                          label: 'Reset token',
-                          icon: Icons.generating_tokens_outlined,
-                          controller: tokenController,
-                          required: true,
-                          obscure: true,
-                          errorMessage: 'Token must be 6 digits',
-                          validators: [RegExp('^\\d{6}\$')],
-                        ),
-                        Align(
-                          alignment: const Alignment(1.0, 0.0),
-                          child: TextButton(
-                            onPressed: () {
-                              final emailController = TextEditingController(
-                                text: widget.email ?? '',
-                              );
-                              showDialog<String>(
-                                context: context,
-                                useRootNavigator: false,
-                                anchorPoint: const Offset(0.0, 0.0),
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Resend email'),
-                                  content: TextField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Email',
-                                    ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: emailController,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(
-                                          context,
-                                        ).pop(emailController.text);
-                                      },
-                                      child: const Text('Confirm'),
-                                    ),
-                                  ],
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary,
-                                  shadowColor: Theme.of(
-                                    context,
-                                  ).colorScheme.shadow,
-                                ),
-                              ).then((confirmedEmail) {
-                                if (confirmedEmail != null &&
-                                    confirmedEmail!.isNotEmpty) {
-                                  SupabaseService()
-                                      .resetPasswordForEmail(
-                                        emailController.text,
-                                      )
-                                      .then(
-                                        (value) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Email resent'),
-                                            ),
-                                          );
-                                        },
-                                        onError: (error) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                RegExp('message:\\s*([^,]+)')
-                                                        .firstMatch(
-                                                          error.toString(),
-                                                        )
-                                                        ?.group(1) ??
-                                                    'Error raised',
-                                              ),
-                                              backgroundColor: Theme.of(
-                                                context,
-                                              ).colorScheme.error,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                }
-                              });
-                            },
-                            child: Text(
-                              'Resend email?',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.0,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextForm(
                           label: 'New password',
                           controller: newPasswordController,
                           obscure: true,
@@ -193,50 +92,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         if (newPasswordController?.text ==
                             confirmNewPasswordController?.text) {
                           SupabaseService()
-                              .verifyOTP(
-                                widget.email!,
-                                tokenController!.text,
-                                OtpType.recovery,
+                              .updateUser(
+                                widget.email,
+                                newPasswordController?.text,
                               )
                               .then(
-                                (result) {
-                                  SupabaseService()
-                                      .updateUser(
-                                        widget.email,
-                                        newPasswordController?.text,
-                                      )
-                                      .then(
-                                        (value) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                'Password successfully changed !',
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        onError: (error) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                RegExp('message:\\s*([^,]+)')
-                                                        .firstMatch(
-                                                          error.toString(),
-                                                        )
-                                                        ?.group(1) ??
-                                                    'Error raised',
-                                              ),
-                                              backgroundColor: Theme.of(
-                                                context,
-                                              ).colorScheme.error,
-                                            ),
-                                          );
-                                        },
-                                      );
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Password successfully changed !',
+                                      ),
+                                    ),
+                                  );
                                 },
                                 onError: (error) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -268,46 +136,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         }
                       },
                       buttonName: 'Reset password',
-                    ),
-                  ),
-                  FlexSizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 16.0,
-                        bottom: 0.0,
-                        left: 0.0,
-                        right: 0.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Remember it?',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.0,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ],

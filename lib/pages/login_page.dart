@@ -3,7 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/authentication_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/text_form.dart';
-import 'package:railmates/pages/forgot_password.dart';
+import 'package:railmates/otp.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/pages/register_page.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
@@ -122,8 +123,9 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => ForgotPassword(
+                                        builder: (context) => Otp(
                                           email: emailController.text,
+                                          otpType: OtpType.recovery,
                                         ),
                                       ),
                                     );
