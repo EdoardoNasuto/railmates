@@ -142,7 +142,7 @@ class _OtpState extends State<Otp> {
                                           context,
                                         ).showSnackBar(
                                           const SnackBar(
-                                            content: Text('Email sent'),
+                                            content: Text('Email resent'),
                                           ),
                                         );
                                       },

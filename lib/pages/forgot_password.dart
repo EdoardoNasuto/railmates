@@ -72,6 +72,105 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           errorMessage: 'Token must be 6 digits',
                           validators: [RegExp('^\\d{6}\$')],
                         ),
+                        Align(
+                          alignment: const Alignment(1.0, 0.0),
+                          child: TextButton(
+                            onPressed: () {
+                              final emailController = TextEditingController(
+                                text: widget.email ?? '',
+                              );
+                              showDialog<String>(
+                                context: context,
+                                useRootNavigator: false,
+                                anchorPoint: const Offset(0.0, 0.0),
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Resend email'),
+                                  content: TextField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: emailController,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(
+                                          context,
+                                        ).pop(emailController.text);
+                                      },
+                                      child: const Text('Confirm'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Cancel'),
+                                    ),
+                                  ],
+                                ),
+                              ).then((confirmedEmail) {
+                                if (confirmedEmail != null &&
+                                    confirmedEmail!.isNotEmpty) {
+                                  SupabaseService()
+                                      .resetPasswordForEmail(
+                                        emailController.text,
+                                      )
+                                      .then(
+                                        (value) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Email resent'),
+                                            ),
+                                          );
+                                        },
+                                        onError: (error) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                RegExp('message:\\s*([^,]+)')
+                                                        .firstMatch(
+                                                          error.toString(),
+                                                        )
+                                                        ?.group(1) ??
+                                                    'Error raised',
+                                              ),
+                                              backgroundColor: Theme.of(
+                                                context,
+                                              ).colorScheme.error,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                        'No email address provided',
+                                      ),
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
+                                  );
+                                }
+                              });
+                            },
+                            child: Text(
+                              'Resend email?',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.0,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
                         TextForm(
                           label: 'New password',
                           controller: newPasswordController,
