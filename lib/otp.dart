@@ -10,7 +10,7 @@ import 'package:railmates/text_form.dart';
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class Otp extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const Otp({this.email, this.otpType = OtpType.signup, super.key});
+  const Otp({this.email = '', this.otpType = OtpType.signup, super.key});
 
   final String? email;
 
@@ -25,6 +25,8 @@ class Otp extends StatefulWidget {
 @NowaGenerated()
 class _OtpState extends State<Otp> {
   TextEditingController? tokenController = TextEditingController();
+
+  TextEditingController? emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class _OtpState extends State<Otp> {
                     submitForm: () {
                       SupabaseService()
                           .verifyOTP(
-                            widget.email!,
+                            emailController!.text,
                             tokenController!.text,
                             widget.otpType!,
                           )
@@ -109,9 +111,6 @@ class _OtpState extends State<Otp> {
                         alignment: const Alignment(1.0, 0.0),
                         child: TextButton(
                           onPressed: () {
-                            final emailController = TextEditingController(
-                              text: widget.email ?? '',
-                            );
                             showDialog<String>(
                               context: context,
                               useRootNavigator: false,
@@ -130,7 +129,7 @@ class _OtpState extends State<Otp> {
                                     onPressed: () {
                                       Navigator.of(
                                         context,
-                                      ).pop(emailController.text);
+                                      ).pop(emailController?.text);
                                     },
                                     child: const Text('Confirm'),
                                   ),
@@ -147,7 +146,10 @@ class _OtpState extends State<Otp> {
                                   confirmedEmail!.isNotEmpty) {
                                 if (widget.otpType == OtpType.signup) {
                                   SupabaseService()
-                                      .resend(confirmedEmail!, OtpType.signup)
+                                      .resend(
+                                        emailController!.text,
+                                        OtpType.signup,
+                                      )
                                       .then(
                                         (value) {
                                           ScaffoldMessenger.of(
@@ -181,7 +183,7 @@ class _OtpState extends State<Otp> {
                                 } else {
                                   SupabaseService()
                                       .resetPasswordForEmail(
-                                        emailController.text,
+                                        emailController?.text,
                                       )
                                       .then(
                                         (value) {
@@ -240,5 +242,11 @@ class _OtpState extends State<Otp> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    emailController?.text = widget.email!;
   }
 }
