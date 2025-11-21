@@ -51,10 +51,18 @@ class TextForm extends StatefulWidget {
 class _TextFormState extends State<TextForm> {
   late bool _isObscure = false;
 
+  late FocusNode _focusNode;
+
   @override
   void initState() {
     super.initState();
     _isObscure = widget.obscure;
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus && widget.controller != null) {
+        widget.controller?.text = widget.controller!.text.trim();
+      }
+    });
   }
 
   @override
@@ -67,6 +75,7 @@ class _TextFormState extends State<TextForm> {
           TextFormField(
             enableInteractiveSelection: widget.interactiveSelection,
             readOnly: widget.dateField || widget.onTap != null,
+            focusNode: _focusNode,
             onTap: widget.dateField
                 ? () async {
                     DateTime defaultInitialDate = DateTime(
@@ -186,5 +195,11 @@ class _TextFormState extends State<TextForm> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 }
