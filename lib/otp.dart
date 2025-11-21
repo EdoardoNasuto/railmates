@@ -111,7 +111,7 @@ class _OtpState extends State<Otp> {
                         alignment: const Alignment(1.0, 0.0),
                         child: TextButton(
                           onPressed: () {
-                            showDialog<String>(
+                            showDialog(
                               context: context,
                               useRootNavigator: false,
                               anchorPoint: const Offset(0.0, 0.0),
@@ -127,9 +127,88 @@ class _OtpState extends State<Otp> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.of(
-                                        context,
-                                      ).pop(emailController?.text);
+                                      if (widget.otpType == OtpType.signup) {
+                                        SupabaseService()
+                                            .resend(
+                                              emailController!.text,
+                                              OtpType.signup,
+                                            )
+                                            .then(
+                                              (value) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      'Email resent',
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                              onError: (error) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      RegExp('message:\\s*([^,]+)')
+                                                              .firstMatch(
+                                                                error
+                                                                    .toString(),
+                                                              )
+                                                              ?.group(1) ??
+                                                          'Error raised',
+                                                    ),
+                                                    backgroundColor: Theme.of(
+                                                      context,
+                                                    ).colorScheme.error,
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                            );
+                                      } else {
+                                        SupabaseService()
+                                            .resetPasswordForEmail(
+                                              emailController?.text,
+                                            )
+                                            .then(
+                                              (value) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      'Email resent',
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                              onError: (error) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      RegExp('message:\\s*([^,]+)')
+                                                              .firstMatch(
+                                                                error
+                                                                    .toString(),
+                                                              )
+                                                              ?.group(1) ??
+                                                          'Error raised',
+                                                    ),
+                                                    backgroundColor: Theme.of(
+                                                      context,
+                                                    ).colorScheme.error,
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                            );
+                                      }
                                     },
                                     child: const Text('Confirm'),
                                   ),
@@ -141,83 +220,7 @@ class _OtpState extends State<Otp> {
                                   context,
                                 ).colorScheme.shadow,
                               ),
-                            ).then((confirmedEmail) {
-                              if (confirmedEmail != null &&
-                                  confirmedEmail!.isNotEmpty) {
-                                if (widget.otpType == OtpType.signup) {
-                                  SupabaseService()
-                                      .resend(
-                                        emailController!.text,
-                                        OtpType.signup,
-                                      )
-                                      .then(
-                                        (value) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Email resent'),
-                                            ),
-                                          );
-                                        },
-                                        onError: (error) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                RegExp('message:\\s*([^,]+)')
-                                                        .firstMatch(
-                                                          error.toString(),
-                                                        )
-                                                        ?.group(1) ??
-                                                    'Error raised',
-                                              ),
-                                              backgroundColor: Theme.of(
-                                                context,
-                                              ).colorScheme.error,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                } else {
-                                  SupabaseService()
-                                      .resetPasswordForEmail(
-                                        emailController?.text,
-                                      )
-                                      .then(
-                                        (value) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Email resent'),
-                                            ),
-                                          );
-                                        },
-                                        onError: (error) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                RegExp('message:\\s*([^,]+)')
-                                                        .firstMatch(
-                                                          error.toString(),
-                                                        )
-                                                        ?.group(1) ??
-                                                    'Error raised',
-                                              ),
-                                              backgroundColor: Theme.of(
-                                                context,
-                                              ).colorScheme.error,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                }
-                              }
-                            });
+                            );
                           },
                           child: Text(
                             'Resend email?',
