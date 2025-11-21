@@ -127,11 +127,10 @@ class _OtpState extends State<Otp> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      if (widget.otpType == OtpType.signup) {
+                                      if (widget.otpType == OtpType.recovery) {
                                         SupabaseService()
-                                            .resend(
-                                              emailController!.text,
-                                              OtpType.signup,
+                                            .resetPasswordForEmail(
+                                              emailController?.text,
                                             )
                                             .then(
                                               (value) {
@@ -170,8 +169,9 @@ class _OtpState extends State<Otp> {
                                             );
                                       } else {
                                         SupabaseService()
-                                            .resetPasswordForEmail(
-                                              emailController?.text,
+                                            .resend(
+                                              emailController!.text,
+                                              widget.otpType!,
                                             )
                                             .then(
                                               (value) {
