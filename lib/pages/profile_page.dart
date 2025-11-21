@@ -190,15 +190,52 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         TextForm(
                           label: 'Birth Date',
-                          dateField: true,
+                          readOnly: true,
                           required: true,
                           controller: birthDateController,
                           icon: Icons.cake_outlined,
+                          onTap: () async {
+                            DateTime defaultInitialDate = DateTime(
+                              DateTime.now().year - 16,
+                              DateTime.now().month,
+                              DateTime.now().day,
+                            );
+                            DateTime initialDate = defaultInitialDate;
+                            if (birthDateController != null &&
+                                birthDateController!.text.isNotEmpty) {
+                              try {
+                                DateTime parsed = DateTime.parse(
+                                  birthDateController!.text,
+                                );
+                                initialDate = parsed;
+                              } catch (_) {}
+                            }
+                            final picked = await showDatePicker(
+                              context: context,
+                              initialDate: initialDate,
+                              firstDate: DateTime(
+                                DateTime.now().year - 100,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                              ),
+                              lastDate: DateTime(
+                                DateTime.now().year - 16,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                              ),
+                            );
+                            if (picked != null && birthDateController != null) {
+                              birthDateController?.text = picked!
+                                  .toString()
+                                  .split(' ')[0];
+                              setState(() {});
+                            }
+                          },
                           interactiveSelection: false,
                         ),
                         TextForm(
                           label: 'City',
-                          dateField: false,
+                          readOnly: true,
                           required: true,
                           controller: cityController,
                           icon: Icons.location_city,

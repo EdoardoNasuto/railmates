@@ -9,7 +9,7 @@ class TextForm extends StatefulWidget {
     this.label = 'Label',
     this.icon = Icons.text_fields,
     this.controller,
-    this.dateField = false,
+    this.readOnly = false,
     this.required = false,
     this.obscure = false,
     this.onChanged,
@@ -27,7 +27,7 @@ class TextForm extends StatefulWidget {
 
   final TextEditingController? controller;
 
-  final bool dateField;
+  final bool readOnly;
 
   final bool required;
 
@@ -74,47 +74,9 @@ class _TextFormState extends State<TextForm> {
         children: [
           TextFormField(
             enableInteractiveSelection: widget.interactiveSelection,
-            readOnly: widget.dateField || widget.onTap != null,
+            readOnly: widget.readOnly,
             focusNode: _focusNode,
-            onTap: widget.dateField
-                ? () async {
-                    DateTime defaultInitialDate = DateTime(
-                      DateTime.now().year - 16,
-                      DateTime.now().month,
-                      DateTime.now().day,
-                    );
-                    DateTime initialDate = defaultInitialDate;
-                    if (widget.controller != null &&
-                        widget.controller!.text.isNotEmpty) {
-                      try {
-                        DateTime parsed = DateTime.parse(
-                          widget.controller!.text,
-                        );
-                        initialDate = parsed;
-                      } catch (_) {}
-                    }
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: initialDate,
-                      firstDate: DateTime(
-                        DateTime.now().year - 100,
-                        DateTime.now().month,
-                        DateTime.now().day,
-                      ),
-                      lastDate: DateTime(
-                        DateTime.now().year - 16,
-                        DateTime.now().month,
-                        DateTime.now().day,
-                      ),
-                    );
-                    if (picked != null && widget.controller != null) {
-                      widget.controller?.text = picked!.toString().split(
-                        ' ',
-                      )[0];
-                      setState(() {});
-                    }
-                  }
-                : widget.onTap,
+            onTap: widget.onTap,
             validator: (value) {
               if (widget.required && (value == null || value!.isEmpty)) {
                 return 'This field is required';
