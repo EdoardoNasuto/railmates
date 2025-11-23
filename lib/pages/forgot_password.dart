@@ -64,14 +64,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           controller: newPasswordController,
                           obscure: true,
                           required: true,
-                          validators: [
-                            RegExp(
-                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
-                            ),
-                          ],
                           icon: Icons.lock_outlined,
                           errorMessage:
                               'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                          regexValidator:
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         TextForm(
                           label: 'Confirm password',
@@ -80,12 +77,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           icon: Icons.lock,
                           errorMessage:
                               'Required: 8+ chars, lowercase, uppercase, digit, symbol',
-                          validators: [
-                            RegExp(
-                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
-                            ),
-                          ],
                           controller: confirmNewPasswordController,
+                          regexValidator:
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                       ],
                       submitForm: () {

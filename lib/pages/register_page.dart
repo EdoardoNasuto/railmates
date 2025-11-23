@@ -117,30 +117,21 @@ class _RegisterPageState extends State<RegisterPage> {
                           label: 'Email',
                           required: true,
                           controller: emailController,
-                          validators: [
-                            RegExp(
-                              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$',
-                            ),
-                          ],
                           icon: Icons.email_outlined,
                           errorMessage: 'Invalid format',
+                          regexValidator:
+                              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                         ),
                         TextForm(
                           label: 'Password',
                           required: true,
                           obscure: true,
-                          validators: [
-                            RegExp(
-                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
-                              caseSensitive: true,
-                              multiLine: false,
-                              dotAll: false,
-                            ),
-                          ],
                           controller: passwordController,
                           icon: Icons.lock_outlined,
                           errorMessage:
                               'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                          regexValidator:
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         TextForm(
                           label: 'Confirm password',
@@ -148,13 +139,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           required: true,
                           controller: confirmPasswordController,
                           icon: Icons.lock,
-                          validators: [
-                            RegExp(
-                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
-                            ),
-                          ],
                           errorMessage:
                               'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                          regexValidator:
+                              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                       ],
                       icon: Icons.app_registration,

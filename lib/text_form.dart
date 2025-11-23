@@ -14,8 +14,8 @@ class TextForm extends StatefulWidget {
     this.obscure = false,
     this.onChanged,
     this.errorMessage = 'Invalid format',
-    this.validators,
     this.interactiveSelection = true,
+    this.regexValidator,
     super.key,
   });
 
@@ -37,9 +37,9 @@ class TextForm extends StatefulWidget {
 
   final String errorMessage;
 
-  final List<RegExp>? validators;
-
   final bool interactiveSelection;
+
+  final String? regexValidator;
 
   @override
   State<TextForm> createState() {
@@ -77,22 +77,6 @@ class _TextFormState extends State<TextForm> {
             readOnly: widget.readOnly,
             focusNode: _focusNode,
             onTap: widget.onTap,
-            validator: (value) {
-              if (widget.required && (value == null || value!.isEmpty)) {
-                return 'This field is required';
-              }
-              if (value != null &&
-                  widget.validators != null &&
-                  widget.validators!.isNotEmpty) {
-                bool allValid = widget.validators!.every(
-                  (regex) => regex.hasMatch(value!),
-                );
-                if (!allValid) {
-                  return widget.errorMessage;
-                }
-              }
-              return null;
-            },
             decoration: InputDecoration(
               prefixIcon: Icon(
                 widget.icon,
@@ -153,6 +137,15 @@ class _TextFormState extends State<TextForm> {
             enabled: true,
             autofocus: false,
             onChanged: widget.onChanged,
+            validator: (value) {
+              if (value == null || value!.isEmpty) {
+                return 'Field is required';
+              }
+              if (!RegExp(widget.regexValidator!).hasMatch(value!)) {
+                return widget.errorMessage;
+              }
+              return null;
+            },
           ),
         ],
       ),

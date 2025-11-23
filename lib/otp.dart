@@ -102,10 +102,10 @@ class _OtpState extends State<Otp> {
                         label: 'Token',
                         required: true,
                         controller: tokenController,
-                        obscure: true,
+                        obscure: false,
                         icon: Icons.generating_tokens_outlined,
-                        validators: [RegExp('^\\d{6}\$')],
                         errorMessage: 'Token must be 6 digits',
+                        regexValidator: '^\\d{6}\$',
                       ),
                       Align(
                         alignment: const Alignment(1.0, 0.0),
