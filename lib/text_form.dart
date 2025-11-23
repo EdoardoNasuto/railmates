@@ -138,7 +138,7 @@ class _TextFormState extends State<TextForm> {
             autofocus: false,
             onChanged: widget.onChanged,
             validator: (value) {
-              if (value == null || value!.isEmpty) {
+              if (widget.required && (value == null || value!.isEmpty)) {
                 return 'Field is required';
               }
               if (!RegExp(widget.regexValidator!).hasMatch(value!)) {
