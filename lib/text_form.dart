@@ -12,9 +12,7 @@ class TextForm extends StatefulWidget {
     this.readOnly = false,
     this.required = false,
     this.obscure = false,
-    this.onChanged,
     this.errorMessage = 'Invalid format',
-    this.interactiveSelection = true,
     this.regexValidator,
     super.key,
   });
@@ -33,11 +31,7 @@ class TextForm extends StatefulWidget {
 
   final bool obscure;
 
-  final void Function(String value)? onChanged;
-
   final String errorMessage;
-
-  final bool interactiveSelection;
 
   final String? regexValidator;
 
@@ -73,7 +67,7 @@ class _TextFormState extends State<TextForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            enableInteractiveSelection: widget.interactiveSelection,
+            enableInteractiveSelection: !widget.readOnly,
             readOnly: widget.readOnly,
             focusNode: _focusNode,
             onTap: widget.onTap,
@@ -136,7 +130,6 @@ class _TextFormState extends State<TextForm> {
             obscureText: _isObscure,
             enabled: true,
             autofocus: false,
-            onChanged: widget.onChanged,
             validator: (value) {
               if (widget.required && (value == null || value!.isEmpty)) {
                 return 'Field is required';

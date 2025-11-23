@@ -231,7 +231,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               setState(() {});
                             }
                           },
-                          interactiveSelection: false,
                         ),
                         TextForm(
                           label: 'City',
@@ -239,7 +238,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           required: true,
                           controller: cityController,
                           icon: Icons.location_city,
-                          onChanged: null,
                           onTap: () async {
                             final CitiesModel? result =
                                 await Navigator.of(context).push(
@@ -251,7 +249,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             cityController?.text = result!.name!;
                             cityId = result?.id;
                           },
-                          interactiveSelection: false,
                         ),
                       ],
                       icon: Icons.person_pin,
