@@ -1,0 +1,24 @@
+{
+    "canvases": [
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 393.0,
+            "h": 807.5,
+            "widget": "const CityResearchPage()",
+            "deps": [
+                "lib/pages/city_research_page.dart"
+            ]
+        },
+        {
+            "x": 425.0,
+            "y": 0.0,
+            "w": 330.0,
+            "h": 350.0,
+            "widget": "const CityResearchComp()",
+            "deps": [
+                "lib/components/city_research_comp.dart"
+            ]
+        }
+    ]
+}
