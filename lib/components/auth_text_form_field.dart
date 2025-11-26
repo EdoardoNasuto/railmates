@@ -68,6 +68,17 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
             readOnly: widget.onTap == null ? false : true,
             focusNode: _focusNode,
             onTap: widget.onTap,
+            controller: widget.controller,
+            obscureText: _isObscure,
+            validator: (value) {
+              if (widget.required && (value == null || value!.isEmpty)) {
+                return 'Field is required';
+              }
+              if (!RegExp(widget.regexValidator!).hasMatch(value!)) {
+                return widget.errorMessage;
+              }
+              return null;
+            },
             decoration: InputDecoration(
               prefixIcon: Icon(
                 widget.icon,
@@ -87,26 +98,13 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                     )
                   : null,
               labelText: widget.label,
-              labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-                horizontal: 8.0,
-              ),
               filled: true,
-              fillColor: Theme.of(context).colorScheme.surfaceContainerLow,
+              fillColor: Theme.of(context).colorScheme.surfaceContainer,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),
@@ -114,28 +112,8 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                   color: Theme.of(context).colorScheme.error,
                 ),
               ),
-              hintStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              errorStyle: TextStyle(
-                color: Theme.of(context).colorScheme.error,
-                fontSize: 12.0,
-              ),
+              labelStyle: Theme.of(context).textTheme.labelSmall,
             ),
-            cursorColor: Theme.of(context).colorScheme.primary,
-            controller: widget.controller,
-            obscureText: _isObscure,
-            enabled: true,
-            autofocus: false,
-            validator: (value) {
-              if (widget.required && (value == null || value!.isEmpty)) {
-                return 'Field is required';
-              }
-              if (!RegExp(widget.regexValidator!).hasMatch(value!)) {
-                return widget.errorMessage;
-              }
-              return null;
-            },
           ),
         ],
       ),

@@ -146,7 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.0,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
@@ -168,13 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Not registered yet?',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
+                          const Text('Not registered yet?'),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
@@ -187,7 +180,6 @@ class _LoginPageState extends State<LoginPage> {
                               'Create account',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 14.0,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),

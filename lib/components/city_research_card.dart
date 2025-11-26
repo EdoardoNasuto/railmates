@@ -81,30 +81,20 @@ class _CityResearchCardState extends State<CityResearchCard> {
                         children: [
                           Text(
                             element.name!,
-                            style:
-                                Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold) ??
-                                const TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
                           const SizedBox(height: 6.0),
                           Text(
                             element.state_name!,
-                            style:
-                                Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface.withOpacity(0.6),
-                                ) ??
-                                const TextStyle(
-                                  fontSize: 14.0,
-                                  fontStyle: FontStyle.italic,
-                                ),
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ],
                       ),

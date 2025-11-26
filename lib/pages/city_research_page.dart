@@ -48,7 +48,6 @@ class _CityResearchPageState extends State<CityResearchPage> {
             FlexSizedBox(
               width: double.infinity,
               child: Container(
-                width: 340.0,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(16.0),
@@ -66,17 +65,13 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   controller: searchPrefixController,
                   onChanged: (value) {
                     if (!(_debounce?.isActive ?? false)) {
-                      _debounce = Timer(const Duration(milliseconds: 500), () {
+                      _debounce = Timer(const Duration(milliseconds: 300), () {
                         if (mounted) {
                           setState(() {});
                         }
                       });
                     }
                   },
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18.0,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       icon: Icon(
@@ -90,11 +85,6 @@ class _CityResearchPageState extends State<CityResearchPage> {
                       horizontal: 10.0,
                     ),
                     hintText: 'Rechercher une ville',
-                    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.5),
-                    ),
                     border: InputBorder.none,
                   ),
                 ),

@@ -160,13 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Already have an account?',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
+                        const Text('Already have an account?'),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -179,7 +173,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Login',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.0,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),

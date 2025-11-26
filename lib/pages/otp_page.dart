@@ -228,9 +228,8 @@ class _OtpPageState extends State<OtpPage> {
                             'Resend email?',
                             textAlign: TextAlign.end,
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.0,
                               color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),

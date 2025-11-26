@@ -61,8 +61,8 @@ class _AuthFormState extends State<AuthForm> {
                 widget.nom,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
                   fontSize: 28.0,
+                  fontWeight: FontWeight.w800,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
