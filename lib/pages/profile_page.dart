@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/components/authentication_form.dart';
+import 'package:railmates/components/auth_form_comp.dart';
 import 'package:railmates/models/profiles_model.dart';
-import 'package:railmates/components/text_form.dart';
+import 'package:railmates/components/auth_text_form_field_comp.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/pages/city_research_page.dart';
 
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   FlexSizedBox(
-                    child: AuthenticationForm(
+                    child: AuthFormComp(
                       nom: 'Create your profile',
                       buttonName: 'Save',
                       submitForm: () {
@@ -176,19 +176,19 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                       },
                       textFields: [
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'First Name',
                           required: true,
                           controller: firstNameController,
                           icon: Icons.person_outline,
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Last Name',
                           required: true,
                           controller: lastNameController,
                           icon: Icons.person,
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Birth Date',
                           readOnly: true,
                           required: true,
@@ -232,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           },
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'City',
                           readOnly: true,
                           required: true,

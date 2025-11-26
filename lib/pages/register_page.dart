@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/authentication_form.dart';
+import 'package:railmates/components/auth_form_comp.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/otp.dart';
-import 'package:railmates/components/text_form.dart';
+import 'package:railmates/pages/otp_page.dart';
+import 'package:railmates/components/auth_text_form_field_comp.dart';
 import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   FlexSizedBox(
-                    child: AuthenticationForm(
+                    child: AuthFormComp(
                       nom: 'Create account',
                       buttonName: 'Sign up',
                       submitForm: () {
@@ -79,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          Otp(email: emailController?.text),
+                                          OtpPage(email: emailController?.text),
                                     ),
                                   );
                                 },
@@ -113,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       textFields: [
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Email',
                           required: true,
                           controller: emailController,
@@ -122,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           regexValidator:
                               '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Password',
                           required: true,
                           obscure: true,
@@ -133,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Confirm password',
                           obscure: true,
                           required: true,

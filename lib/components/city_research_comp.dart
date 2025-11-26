@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 350.0})
-class CityResearch extends StatefulWidget {
+class CityResearchComp extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearch({this.search = '', super.key});
+  const CityResearchComp({this.search = '', super.key});
 
   final String search;
 
   @override
-  State<CityResearch> createState() {
-    return _CityResearchState();
+  State<CityResearchComp> createState() {
+    return _CityResearchCompState();
   }
 }
 
 @NowaGenerated()
-class _CityResearchState extends State<CityResearch> {
+class _CityResearchCompState extends State<CityResearchComp> {
   @override
   Widget build(BuildContext context) {
     return DataBuilder<List<CitiesModel>>(

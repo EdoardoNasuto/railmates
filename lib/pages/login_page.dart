@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/authentication_form.dart';
+import 'package:railmates/components/auth_form_comp.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/components/text_form.dart';
-import 'package:railmates/pages/otp.dart';
+import 'package:railmates/components/auth_text_form_field_comp.dart';
+import 'package:railmates/pages/otp_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/pages/register_page.dart';
 
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AuthenticationForm(
+                  AuthFormComp(
                     submitForm: () {
                       SupabaseService()
                           .signIn(
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
                     },
                     textFields: [
-                      TextForm(
+                      AuthTextFormFieldComp(
                         label: 'Email',
                         required: true,
                         controller: emailController,
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                         regexValidator:
                             '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                       ),
-                      TextForm(
+                      AuthTextFormFieldComp(
                         label: 'Password',
                         required: true,
                         controller: passwordController,
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => Otp(
+                                        builder: (context) => OtpPage(
                                           email: emailController.text,
                                           otpType: OtpType.recovery,
                                         ),

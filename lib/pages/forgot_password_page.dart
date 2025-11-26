@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/authentication_form.dart';
-import 'package:railmates/components/text_form.dart';
+import 'package:railmates/components/auth_form_comp.dart';
+import 'package:railmates/components/auth_text_form_field_comp.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated()
-class ForgotPassword extends StatefulWidget {
+class ForgotPasswordPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const ForgotPassword({this.email = '', super.key});
+  const ForgotPasswordPage({this.email = '', super.key});
 
   final String? email;
 
   @override
-  State<ForgotPassword> createState() {
-    return _ForgotPasswordState();
+  State<ForgotPasswordPage> createState() {
+    return _ForgotPasswordPageState();
   }
 }
 
 @NowaGenerated()
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   TextEditingController? confirmNewPasswordController = TextEditingController();
 
   TextEditingController? newPasswordController = TextEditingController();
@@ -55,11 +55,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   FlexSizedBox(
-                    child: AuthenticationForm(
+                    child: AuthFormComp(
                       nom: 'Reset password',
                       icon: Icons.lock_reset,
                       textFields: [
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'New password',
                           controller: newPasswordController,
                           obscure: true,
@@ -70,7 +70,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
-                        TextForm(
+                        AuthTextFormFieldComp(
                           label: 'Confirm password',
                           required: true,
                           obscure: true,

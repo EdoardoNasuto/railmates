@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated({'auto-width': 200.0, 'auto-height': 60.0})
-class TextForm extends StatefulWidget {
+class AuthTextFormFieldComp extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const TextForm({
+  const AuthTextFormFieldComp({
     this.onTap,
     this.label = 'Label',
     this.icon = Icons.text_fields,
@@ -36,13 +36,13 @@ class TextForm extends StatefulWidget {
   final String? regexValidator;
 
   @override
-  State<TextForm> createState() {
-    return _TextFormState();
+  State<AuthTextFormFieldComp> createState() {
+    return _AuthTextFormFieldCompState();
   }
 }
 
 @NowaGenerated()
-class _TextFormState extends State<TextForm> {
+class _AuthTextFormFieldCompState extends State<AuthTextFormFieldComp> {
   late bool _isObscure = false;
 
   late FocusNode _focusNode;

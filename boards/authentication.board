@@ -46,9 +46,9 @@
             "y": 0.0,
             "w": 330.0,
             "h": 350.0,
-            "widget": "const CityResearch()",
+            "widget": "const CityResearchComp()",
             "deps": [
-                "lib/components/city_research.dart"
+                "lib/components/city_research_comp.dart"
             ]
         },
         {
@@ -56,9 +56,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const ForgotPassword()",
+            "widget": "const ForgotPasswordPage()",
             "deps": [
-                "lib/pages/forgot_password.dart"
+                "lib/pages/forgot_password_page.dart"
             ]
         },
         {
@@ -66,9 +66,9 @@
             "y": 0.0,
             "w": 200.0,
             "h": 60.0,
-            "widget": "const TextForm()",
+            "widget": "const AuthTextFormFieldComp()",
             "deps": [
-                "lib/components/text_form.dart"
+                "lib/components/auth_text_form_field_comp.dart"
             ]
         },
         {
@@ -76,9 +76,9 @@
             "y": 100.0,
             "w": 200.0,
             "h": 150.0,
-            "widget": "const AuthenticationForm()",
+            "widget": "const AuthFormComp()",
             "deps": [
-                "lib/components/authentication_form.dart"
+                "lib/components/auth_form_comp.dart"
             ]
         },
         {
@@ -86,9 +86,9 @@
             "y": 851.0,
             "w": 393.0,
             "h": 808.5,
-            "widget": "const Otp()",
+            "widget": "const OtpPage()",
             "deps": [
-                "lib/pages/otp.dart"
+                "lib/pages/otp_page.dart"
             ]
         }
     ]
