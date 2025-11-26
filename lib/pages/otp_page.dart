@@ -63,7 +63,9 @@ class _OtpPageState extends State<OtpPage> {
                           .then(
                             (value) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Email verified')),
+                                const SnackBar(
+                                  content: Text('Account verified'),
+                                ),
                               );
                               if (widget.otpType == OtpType.signup) {
                                 Navigator.of(context).push(

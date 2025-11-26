@@ -1,4 +1,3 @@
-import 'package:railmates/pages/otp_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
@@ -8,6 +7,7 @@ import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/pages/city_research_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
 import 'package:railmates/pages/login_page.dart';
+import 'package:railmates/pages/otp_page.dart';
 import 'package:railmates/pages/profile_page.dart';
 import 'package:railmates/pages/register_page.dart';
 
@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
           'CityResearchPage': (context) => const CityResearchPage(),
           'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
           'LoginPage': (context) => const LoginPage(),
+          'OtpPage': (context) => const OtpPage(),
           'ProfilePage': (context) => const ProfilePage(),
           'RegisterPage': (context) => const RegisterPage(),
-          'OtpPage': (context) => const OtpPage(),
         },
         initialRoute: 'LoginPage',
       ),
