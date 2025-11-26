@@ -5,31 +5,28 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 class AuthTextFormFieldComp extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const AuthTextFormFieldComp({
-    this.onTap,
-    this.label = 'Label',
     this.icon = Icons.text_fields,
+    this.label = 'Label',
     this.controller,
-    this.readOnly = false,
     this.required = false,
     this.obscure = false,
+    this.onTap,
     this.errorMessage = 'Invalid format',
     this.regexValidator,
     super.key,
   });
 
-  final void Function()? onTap;
+  final IconData? icon;
 
   final String label;
 
-  final IconData? icon;
-
   final TextEditingController? controller;
-
-  final bool readOnly;
 
   final bool required;
 
   final bool obscure;
+
+  final void Function()? onTap;
 
   final String errorMessage;
 
@@ -67,8 +64,8 @@ class _AuthTextFormFieldCompState extends State<AuthTextFormFieldComp> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            enableInteractiveSelection: !widget.readOnly,
-            readOnly: widget.readOnly,
+            enableInteractiveSelection: widget.onTap == null ? true : false,
+            readOnly: widget.onTap == null ? false : true,
             focusNode: _focusNode,
             onTap: widget.onTap,
             decoration: InputDecoration(

@@ -190,7 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         AuthTextFormFieldComp(
                           label: 'Birth Date',
-                          readOnly: true,
                           required: true,
                           controller: birthDateController,
                           icon: Icons.cake_outlined,
@@ -234,7 +233,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         AuthTextFormFieldComp(
                           label: 'City',
-                          readOnly: true,
                           required: true,
                           controller: cityController,
                           icon: Icons.location_city,
