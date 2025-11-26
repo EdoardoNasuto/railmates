@@ -48,7 +48,7 @@
             "h": 350.0,
             "widget": "const CityResearch()",
             "deps": [
-                "lib/city_research.dart"
+                "lib/components/city_research.dart"
             ]
         },
         {
@@ -68,7 +68,7 @@
             "h": 60.0,
             "widget": "const TextForm()",
             "deps": [
-                "lib/text_form.dart"
+                "lib/components/text_form.dart"
             ]
         },
         {
@@ -78,7 +78,7 @@
             "h": 150.0,
             "widget": "const AuthenticationForm()",
             "deps": [
-                "lib/authentication_form.dart"
+                "lib/components/authentication_form.dart"
             ]
         },
         {
@@ -88,7 +88,7 @@
             "h": 808.5,
             "widget": "const Otp()",
             "deps": [
-                "lib/otp.dart"
+                "lib/pages/otp.dart"
             ]
         }
     ]

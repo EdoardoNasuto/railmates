@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/city_research.dart';
+import 'package:railmates/components/city_research.dart';
 
 @NowaGenerated({'auto-height': 807.5})
 class CityResearchPage extends StatefulWidget {

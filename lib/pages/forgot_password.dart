@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/authentication_form.dart';
-import 'package:railmates/text_form.dart';
+import 'package:railmates/components/authentication_form.dart';
+import 'package:railmates/components/text_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated()
