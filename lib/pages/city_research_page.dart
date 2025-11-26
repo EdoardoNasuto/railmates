@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/city_research_comp.dart';
+import 'package:railmates/components/city_research_card.dart';
 
 @NowaGenerated({'auto-height': 807.5})
 class CityResearchPage extends StatefulWidget {
@@ -108,7 +108,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   vertical: 16.0,
                   horizontal: 8.0,
                 ),
-                child: CityResearchComp(search: searchPrefixController.text),
+                child: CityResearchCard(search: searchPrefixController.text),
               ),
             ),
           ],

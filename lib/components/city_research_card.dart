@@ -5,20 +5,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 350.0})
-class CityResearchComp extends StatefulWidget {
+class CityResearchCard extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchComp({this.search = '', super.key});
+  const CityResearchCard({this.search = '', super.key});
 
   final String search;
 
   @override
-  State<CityResearchComp> createState() {
-    return _CityResearchCompState();
+  State<CityResearchCard> createState() {
+    return _CityResearchCardState();
   }
 }
 
 @NowaGenerated()
-class _CityResearchCompState extends State<CityResearchComp> {
+class _CityResearchCardState extends State<CityResearchCard> {
   @override
   Widget build(BuildContext context) {
     return DataBuilder<List<CitiesModel>>(
@@ -81,8 +81,9 @@ class _CityResearchCompState extends State<CityResearchComp> {
                         children: [
                           Text(
                             element.name!,
-                            style:
-                                Theme.of(context).textTheme.titleLarge
+                            style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
@@ -92,15 +93,14 @@ class _CityResearchCompState extends State<CityResearchComp> {
                           const SizedBox(height: 6.0),
                           Text(
                             element.state_name!,
-                            style:
-                                Theme.of(
+                            style: Theme.of(
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface.withOpacity(0.6),
-                                ) ??
+                                      fontStyle: FontStyle.italic,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface.withOpacity(0.6),
+                                    ) ??
                                 const TextStyle(
                                   fontSize: 14.0,
                                   fontStyle: FontStyle.italic,
@@ -128,9 +128,9 @@ class _CityResearchCompState extends State<CityResearchComp> {
         child: Text(
           error.toString(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.error,
-            fontWeight: FontWeight.bold,
-          ),
+                color: Theme.of(context).colorScheme.error,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
       future: SupabaseService().getAllCities(widget.search),

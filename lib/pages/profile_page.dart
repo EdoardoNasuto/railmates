@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/components/auth_form_comp.dart';
+import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/models/profiles_model.dart';
-import 'package:railmates/components/auth_text_form_field_comp.dart';
+import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/pages/city_research_page.dart';
 
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   FlexSizedBox(
-                    child: AuthFormComp(
+                    child: AuthForm(
                       nom: 'Create your profile',
                       buttonName: 'Save',
                       submitForm: () {
@@ -176,19 +176,19 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                       },
                       textFields: [
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'First Name',
                           required: true,
                           controller: firstNameController,
                           icon: Icons.person_outline,
                         ),
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'Last Name',
                           required: true,
                           controller: lastNameController,
                           icon: Icons.person,
                         ),
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'Birth Date',
                           required: true,
                           controller: birthDateController,
@@ -231,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           },
                         ),
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'City',
                           required: true,
                           controller: cityController,

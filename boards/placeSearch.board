@@ -15,9 +15,9 @@
             "y": 0.0,
             "w": 330.0,
             "h": 350.0,
-            "widget": "const CityResearchComp()",
+            "widget": "const CityResearchCard()",
             "deps": [
-                "lib/components/city_research_comp.dart"
+                "lib/components/city_research_card.dart"
             ]
         }
     ]

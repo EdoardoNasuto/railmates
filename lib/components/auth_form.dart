@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated({'auto-width': 200.0, 'auto-height': 150.0})
-class AuthFormComp extends StatefulWidget {
+class AuthForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const AuthFormComp({
+  const AuthForm({
     this.nom = 'Login',
     this.buttonName = 'Sign in',
     this.icon = Icons.login_rounded,
@@ -24,13 +24,13 @@ class AuthFormComp extends StatefulWidget {
   final List<Widget> textFields;
 
   @override
-  State<AuthFormComp> createState() {
-    return _AuthFormCompState();
+  State<AuthForm> createState() {
+    return _AuthFormState();
   }
 }
 
 @NowaGenerated()
-class _AuthFormCompState extends State<AuthFormComp> {
+class _AuthFormState extends State<AuthForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

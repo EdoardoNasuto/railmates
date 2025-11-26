@@ -32,26 +32,6 @@
             ]
         },
         {
-            "x": 1275.0,
-            "y": 0.0,
-            "w": 393.0,
-            "h": 807.5,
-            "widget": "const CityResearchPage()",
-            "deps": [
-                "lib/pages/city_research_page.dart"
-            ]
-        },
-        {
-            "x": 1700.0,
-            "y": 0.0,
-            "w": 330.0,
-            "h": 350.0,
-            "widget": "const CityResearchComp()",
-            "deps": [
-                "lib/components/city_research_comp.dart"
-            ]
-        },
-        {
             "x": -425.0,
             "y": 0.0,
             "w": 393.0,
@@ -66,9 +46,9 @@
             "y": 0.0,
             "w": 200.0,
             "h": 60.0,
-            "widget": "const AuthTextFormFieldComp()",
+            "widget": "const AuthTextFormField()",
             "deps": [
-                "lib/components/auth_text_form_field_comp.dart"
+                "lib/components/auth_text_form_field.dart"
             ]
         },
         {
@@ -76,9 +56,9 @@
             "y": 100.0,
             "w": 200.0,
             "h": 150.0,
-            "widget": "const AuthFormComp()",
+            "widget": "const AuthForm()",
             "deps": [
-                "lib/components/auth_form_comp.dart"
+                "lib/components/auth_form.dart"
             ]
         },
         {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/auth_form_comp.dart';
-import 'package:railmates/components/auth_text_form_field_comp.dart';
+import 'package:railmates/components/auth_form.dart';
+import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated()
@@ -55,11 +55,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   FlexSizedBox(
-                    child: AuthFormComp(
+                    child: AuthForm(
                       nom: 'Reset password',
                       icon: Icons.lock_reset,
                       textFields: [
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'New password',
                           controller: newPasswordController,
                           obscure: true,
@@ -70,7 +70,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
-                        AuthTextFormFieldComp(
+                        AuthTextFormField(
                           label: 'Confirm password',
                           required: true,
                           obscure: true,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/components/auth_form_comp.dart';
+import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/pages/profile_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
-import 'package:railmates/components/auth_text_form_field_comp.dart';
+import 'package:railmates/components/auth_text_form_field.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class OtpPage extends StatefulWidget {
@@ -52,7 +52,7 @@ class _OtpPageState extends State<OtpPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AuthFormComp(
+                  AuthForm(
                     submitForm: () {
                       SupabaseService()
                           .verifyOTP(
@@ -100,7 +100,7 @@ class _OtpPageState extends State<OtpPage> {
                           );
                     },
                     textFields: [
-                      AuthTextFormFieldComp(
+                      AuthTextFormField(
                         label: 'Token',
                         required: true,
                         controller: tokenController,
