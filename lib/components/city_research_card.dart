@@ -39,7 +39,7 @@ class _CityResearchCardState extends State<CityResearchCard> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               shadowColor: Theme.of(
                 context,
               ).colorScheme.shadow.withOpacity(0.1),
@@ -81,9 +81,8 @@ class _CityResearchCardState extends State<CityResearchCard> {
                         children: [
                           Text(
                             element.name!,
-                            style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                            style:
+                                Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold) ??
                                 const TextStyle(
                                   fontSize: 20.0,
@@ -93,14 +92,15 @@ class _CityResearchCardState extends State<CityResearchCard> {
                           const SizedBox(height: 6.0),
                           Text(
                             element.state_name!,
-                            style: Theme.of(
+                            style:
+                                Theme.of(
                                   context,
                                 ).textTheme.bodyMedium?.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface.withOpacity(0.6),
-                                    ) ??
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withOpacity(0.6),
+                                ) ??
                                 const TextStyle(
                                   fontSize: 14.0,
                                   fontStyle: FontStyle.italic,
@@ -128,9 +128,9 @@ class _CityResearchCardState extends State<CityResearchCard> {
         child: Text(
           error.toString(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Theme.of(context).colorScheme.error,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       future: SupabaseService().getAllCities(widget.search),

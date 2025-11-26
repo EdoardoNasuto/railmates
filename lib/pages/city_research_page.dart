@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/city_research_card.dart';
 
-@NowaGenerated({'auto-height': 807.5})
+@NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
 class CityResearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const CityResearchPage({super.key});
@@ -38,7 +38,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+      backgroundColor: Theme.of(context).colorScheme.surfaceDim,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
         child: Column(
@@ -50,7 +50,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
               child: Container(
                 width: 340.0,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(16.0),
                   boxShadow: [
                     BoxShadow(
@@ -81,7 +81,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                     prefixIcon: IconButton(
                       icon: Icon(
                         Icons.arrow_back,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),

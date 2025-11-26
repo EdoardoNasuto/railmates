@@ -4,7 +4,7 @@
             "x": 0.0,
             "y": 0.0,
             "w": 393.0,
-            "h": 807.5,
+            "h": 808.0,
             "widget": "const CityResearchPage()",
             "deps": [
                 "lib/pages/city_research_page.dart"
