@@ -6,7 +6,7 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:railmates/pages/city_research_page.dart';
+import 'package:railmates/pages/city_search_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class ProfilePage extends StatefulWidget {
@@ -241,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const CityResearchPage(),
+                                        const CitySearchPage(),
                                   ),
                                 );
                             cityController?.text = result!.name!;

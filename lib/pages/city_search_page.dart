@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/place_search_bar.dart';
-import 'package:railmates/components/city_research_card.dart';
+import 'package:railmates/components/city_search_builder.dart';
 
 @NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
-class CityResearchPage extends StatefulWidget {
+class CitySearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchPage({super.key});
+  const CitySearchPage({super.key});
 
   @override
-  State<CityResearchPage> createState() {
-    return _CityResearchPageState();
+  State<CitySearchPage> createState() {
+    return _CitySearchPageState();
   }
 }
 
 @NowaGenerated()
-class _CityResearchPageState extends State<CityResearchPage> {
+class _CitySearchPageState extends State<CitySearchPage> {
   TextEditingController? SearchBarController = TextEditingController();
 
   @override
@@ -45,7 +45,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   vertical: 16.0,
                   horizontal: 8.0,
                 ),
-                child: CityResearchCard(prefix: SearchBarController?.text),
+                child: CitySearchBuilder(prefix: SearchBarController?.text),
               ),
             ),
           ],

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:railmates/components/place_research_card.dart';
+import 'package:railmates/components/place_search_card.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 350.0})
-class CityResearchCard extends StatefulWidget {
+class CitySearchBuilder extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchCard({this.prefix, super.key});
+  const CitySearchBuilder({this.prefix, super.key});
 
   final String? prefix;
 
   @override
-  State<CityResearchCard> createState() {
-    return _CityResearchCardState();
+  State<CitySearchBuilder> createState() {
+    return _CitySearchBuilderState();
   }
 }
 
 @NowaGenerated()
-class _CityResearchCardState extends State<CityResearchCard> {
+class _CitySearchBuilderState extends State<CitySearchBuilder> {
   @override
   Widget build(BuildContext context) {
     return DataBuilder<List<CitiesModel>>(
@@ -27,7 +27,7 @@ class _CityResearchCardState extends State<CityResearchCard> {
         separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
           final CitiesModel element = data[index];
-          return PlaceResearchCard(
+          return PlaceSearchCard(
             flag: element.country_id!.flag_url!,
             title: element.name!,
             subtitle: element.state_name!,
@@ -56,7 +56,7 @@ class _CityResearchCardState extends State<CityResearchCard> {
           ),
         ),
       ),
-      future: SupabaseService().getAllCities(widget.prefix!),
+      future: SupabaseService().getAllCities(widget.prefix!, limit: 5),
     );
   }
 }

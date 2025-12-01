@@ -4,7 +4,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:railmates/globals/app_state.dart';
-import 'package:railmates/pages/city_research_page.dart';
+import 'package:railmates/pages/city_search_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
 import 'package:railmates/pages/login_page.dart';
 import 'package:railmates/pages/otp_page.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         theme: AppState.of(context).theme,
         routes: {
-          'CityResearchPage': (context) => const CityResearchPage(),
+          'CitySearchPage': (context) => const CitySearchPage(),
           'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
           'LoginPage': (context) => const LoginPage(),
           'OtpPage': (context) => const OtpPage(),
