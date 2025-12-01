@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/components/place_search_bar.dart';
 import 'package:railmates/components/city_research_card.dart';
 
 @NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
@@ -16,24 +16,7 @@ class CityResearchPage extends StatefulWidget {
 
 @NowaGenerated()
 class _CityResearchPageState extends State<CityResearchPage> {
-  TextEditingController searchPrefixController = TextEditingController(
-    text: 'f',
-  );
-
-  Timer? _debounce;
-
-  @override
-  void initState() {
-    super.initState();
-    searchPrefixController.text = '';
-  }
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    searchPrefixController.dispose();
-    super.dispose();
-  }
+  TextEditingController? SearchBarController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,47 +30,11 @@ class _CityResearchPageState extends State<CityResearchPage> {
           children: [
             FlexSizedBox(
               width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.shadow.withOpacity(0.07),
-                      blurRadius: 12.0,
-                      offset: const Offset(0.0, 4.0),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: searchPrefixController,
-                  onChanged: (value) {
-                    if (!(_debounce?.isActive ?? false)) {
-                      _debounce = Timer(const Duration(milliseconds: 300), () {
-                        if (mounted) {
-                          setState(() {});
-                        }
-                      });
-                    }
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 18.0,
-                      horizontal: 10.0,
-                    ),
-                    hintText: 'Rechercher une ville',
-                    border: InputBorder.none,
-                  ),
-                ),
+              child: PlaceSearchBar(
+                controller: SearchBarController,
+                onChange: (value) {
+                  setState(() {});
+                },
               ),
             ),
             FlexSizedBox(
@@ -98,7 +45,7 @@ class _CityResearchPageState extends State<CityResearchPage> {
                   vertical: 16.0,
                   horizontal: 8.0,
                 ),
-                child: CityResearchCard(search: searchPrefixController.text),
+                child: CityResearchCard(prefix: SearchBarController?.text),
               ),
             ),
           ],

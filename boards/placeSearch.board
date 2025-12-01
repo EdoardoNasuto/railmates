@@ -19,6 +19,26 @@
             "deps": [
                 "lib/components/city_research_card.dart"
             ]
+        },
+        {
+            "x": 800.0,
+            "y": 0.0,
+            "w": 330.0,
+            "h": 107.0,
+            "widget": "const PlaceResearchCard()",
+            "deps": [
+                "lib/components/place_research_card.dart"
+            ]
+        },
+        {
+            "x": 425.0,
+            "y": 397.0,
+            "w": 361.0,
+            "h": 52.0,
+            "widget": "const PlaceSearchBar()",
+            "deps": [
+                "lib/components/place_search_bar.dart"
+            ]
         }
     ]
 }

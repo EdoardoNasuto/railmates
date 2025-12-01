@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:railmates/components/place_research_card.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-width': 330.0, 'auto-height': 350.0})
 class CityResearchCard extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CityResearchCard({this.search = '', super.key});
+  const CityResearchCard({this.prefix, super.key});
 
-  final String search;
+  final String? prefix;
 
   @override
   State<CityResearchCard> createState() {
@@ -27,82 +27,15 @@ class _CityResearchCardState extends State<CityResearchCard> {
         separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
           final CitiesModel element = data[index];
-          return InkWell(
-            borderRadius: BorderRadius.circular(18.0),
+          return PlaceResearchCard(
+            flag: element.country_id!.flag_url!,
+            title: element.name!,
+            subtitle: element.state_name!,
             onTap: () {
               Navigator.of(context).pop<CitiesModel?>(
                 CitiesModel(id: element.id, name: element.name),
               );
             },
-            child: Card(
-              elevation: 6.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              shadowColor: Theme.of(
-                context,
-              ).colorScheme.shadow.withOpacity(0.1),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 22.0,
-                  horizontal: 24.0,
-                ),
-                child: Row(
-                  children: [
-                    FlexSizedBox(
-                      width: 48.0,
-                      height: 48.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(12.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.shadow.withOpacity(0.1),
-                              blurRadius: 8.0,
-                              offset: const Offset(0.0, 4.0),
-                            ),
-                          ],
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: SvgPicture(
-                          SvgNetworkLoader(element.country_id!.flag_url!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            element.name!,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          const SizedBox(height: 6.0),
-                          Text(
-                            element.state_name!,
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           );
         },
       ),
@@ -123,7 +56,7 @@ class _CityResearchCardState extends State<CityResearchCard> {
           ),
         ),
       ),
-      future: SupabaseService().getAllCities(widget.search),
+      future: SupabaseService().getAllCities(widget.prefix!),
     );
   }
 }
