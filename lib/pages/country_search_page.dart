@@ -7,18 +7,18 @@ import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
-class CountriesSearchPage extends StatefulWidget {
+class CountrySearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CountriesSearchPage({super.key});
+  const CountrySearchPage({super.key});
 
   @override
-  State<CountriesSearchPage> createState() {
-    return _CountriesSearchPageState();
+  State<CountrySearchPage> createState() {
+    return _CountrySearchPageState();
   }
 }
 
 @NowaGenerated()
-class _CountriesSearchPageState extends State<CountriesSearchPage> {
+class _CountrySearchPageState extends State<CountrySearchPage> {
   TextEditingController? searchBarController = TextEditingController();
 
   @override

@@ -34,9 +34,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const CountriesSearchPage()",
+            "widget": "const CountrySearchPage()",
             "deps": [
-                "lib/pages/countries_search_page.dart"
+                "lib/pages/country_search_page.dart"
             ]
         }
     ]
