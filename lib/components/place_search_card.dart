@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-@NowaGenerated({'auto-width': 330.0, 'auto-height': 107.0})
+@NowaGenerated({'auto-width': 393.0, 'auto-height': 110.0})
 class PlaceSearchCard extends StatelessWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const PlaceSearchCard({

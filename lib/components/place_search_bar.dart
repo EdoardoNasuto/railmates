@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
-@NowaGenerated({'auto-width': 361.0, 'auto-height': 52.0})
+@NowaGenerated({'auto-width': 393.0, 'auto-height': 53.0})
 class PlaceSearchBar extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const PlaceSearchBar({this.controller, this.onChange, super.key});

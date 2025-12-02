@@ -11,20 +11,10 @@
             ]
         },
         {
-            "x": 425.0,
-            "y": 0.0,
-            "w": 330.0,
-            "h": 350.0,
-            "widget": "const CitySearchBuilder()",
-            "deps": [
-                "lib/components/city_search_builder.dart"
-            ]
-        },
-        {
-            "x": 800.0,
-            "y": 0.0,
-            "w": 330.0,
-            "h": 107.0,
+            "x": 0.0,
+            "y": -150.0,
+            "w": 393.0,
+            "h": 110.0,
             "widget": "const PlaceSearchCard()",
             "deps": [
                 "lib/components/place_search_card.dart"
@@ -32,9 +22,8 @@
         },
         {
             "x": 425.0,
-            "y": 397.0,
-            "w": 361.0,
-            "h": 52.0,
+            "y": -121.0,
+            "w": 393.0,
             "widget": "const PlaceSearchBar()",
             "deps": [
                 "lib/components/place_search_bar.dart"
