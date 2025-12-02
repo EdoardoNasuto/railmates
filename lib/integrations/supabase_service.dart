@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/models/countries_model.dart';
+import 'package:railmates/models/compatibility_questions_model.dart';
+import 'package:railmates/models/compatibility_options_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -41,19 +43,19 @@ class SupabaseService {
     await Supabase.instance.client.auth.signOut();
   }
 
-  Future<void> resetPasswordForEmail(email) async {
+  Future<void> resetPasswordForEmail(dynamic email) async {
     await Supabase.instance.client.auth.resetPasswordForEmail(email);
   }
 
   Future<ResendResponse> resend(String email, OtpType type) async {
-    return await Supabase.instance.client.auth.resend(
-      email: email,
-      type: type,
-    );
+    return await Supabase.instance.client.auth.resend(email: email, type: type);
   }
 
   Future<AuthResponse> verifyOTP(
-      String email, String token, OtpType type) async {
+    String email,
+    String token,
+    OtpType type,
+  ) async {
     return await Supabase.instance.client.auth.verifyOTP(
       email: email,
       token: token,
@@ -62,8 +64,9 @@ class SupabaseService {
   }
 
   Future<UserResponse> updateUser(String? email, String? password) async {
-    return await Supabase.instance.client.auth
-        .updateUser(UserAttributes(email: email, password: password));
+    return await Supabase.instance.client.auth.updateUser(
+      UserAttributes(email: email, password: password),
+    );
   }
 
   Future<void> avatarsUpload(Uint8List bytes) async {
@@ -98,19 +101,24 @@ class SupabaseService {
     return ProfilesModel.fromJson(response);
   }
 
-  Future<List<CitiesModel>> getCitiesByPrefix(String prefix,
-      {int limit = 5}) async {
+  Future<List<CitiesModel>> getByPrefixCities(
+    String prefix, {
+    int limit = 5,
+  }) async {
     final response = await Supabase.instance.client
         .from('cities')
         .select(
-            'id, name, native, state_name, country_id(name, flag_url, population)')
+          'id, name, native, state_name, country_id(name, flag_url, population)',
+        )
         .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
         .limit(limit);
     return response.map((json) => CitiesModel.fromJson(json)).toList();
   }
 
-  Future<List<CountriesModel>> getCountriesByPrefix(String prefix,
-      {int limit = 5}) async {
+  Future<List<CountriesModel>> getByPrefixCountries(
+    String prefix, {
+    int limit = 5,
+  }) async {
     final response = await Supabase.instance.client
         .from('countries')
         .select('id, name, native, subregion, flag_url, population')
@@ -118,5 +126,31 @@ class SupabaseService {
         .order('population')
         .limit(limit);
     return response.map((json) => CountriesModel.fromJson(json)).toList();
+  }
+
+  Future<CompatibilityQuestionsModel?> getByIdCompatibility_question(
+    int id,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_questions')
+        .select('*, section_id(*)')
+        .eq('id', id)
+        .maybeSingle();
+    return response != null
+        ? CompatibilityQuestionsModel.fromJson(response!)
+        : null;
+  }
+
+  Future<List<CompatibilityOptionsModel>> getByIdCompatibility_options(
+    int id,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_options')
+        .select('*')
+        .eq('question_id', id)
+        .order("value");
+    return response
+        .map((json) => CompatibilityOptionsModel.fromJson(json))
+        .toList();
   }
 }

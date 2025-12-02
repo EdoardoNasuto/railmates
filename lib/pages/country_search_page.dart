@@ -83,7 +83,7 @@ class _CountrySearchPageState extends State<CountrySearchPage> {
                     ),
                   ),
                 ),
-                future: SupabaseService().getCountriesByPrefix(
+                future: SupabaseService().getByPrefixCountries(
                   searchBarController!.text,
                 ),
               ),

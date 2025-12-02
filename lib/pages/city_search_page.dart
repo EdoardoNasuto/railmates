@@ -82,7 +82,7 @@ class _CitySearchPageState extends State<CitySearchPage> {
                     ),
                   ),
                 ),
-                future: SupabaseService().getCitiesByPrefix(
+                future: SupabaseService().getByPrefixCities(
                   searchBarController!.text,
                   limit: 5,
                 ),
