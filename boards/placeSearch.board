@@ -28,6 +28,16 @@
             "deps": [
                 "lib/components/place_search_bar.dart"
             ]
+        },
+        {
+            "x": 425.0,
+            "y": 0.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const CountriesSearchPage()",
+            "deps": [
+                "lib/pages/countries_search_page.dart"
+            ]
         }
     ]
 }

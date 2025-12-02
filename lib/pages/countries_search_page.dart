@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/place_search_bar.dart';
-import 'package:railmates/models/cities_model.dart';
+import 'package:railmates/models/countries_model.dart';
 import 'package:railmates/components/place_search_card.dart';
+import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
-class CitySearchPage extends StatefulWidget {
+class CountriesSearchPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CitySearchPage({super.key});
+  const CountriesSearchPage({super.key});
 
   @override
-  State<CitySearchPage> createState() {
-    return _CitySearchPageState();
+  State<CountriesSearchPage> createState() {
+    return _CountriesSearchPageState();
   }
 }
 
 @NowaGenerated()
-class _CitySearchPageState extends State<CitySearchPage> {
+class _CountriesSearchPageState extends State<CountriesSearchPage> {
   TextEditingController? searchBarController = TextEditingController();
 
   @override
@@ -42,17 +43,17 @@ class _CitySearchPageState extends State<CitySearchPage> {
             FlexSizedBox(
               width: double.infinity,
               flex: 1,
-              child: DataBuilder<List<CitiesModel>>(
+              child: DataBuilder<List<CountriesModel>>(
                 builder: (context, data) => ListView.separated(
                   itemCount: data.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 16.0),
                   itemBuilder: (context, index) {
-                    final CitiesModel element = data[index];
+                    final CountriesModel element = data[index];
                     return PlaceSearchCard(
-                      flag: element.country_id!.flag_url!,
+                      flag: element.flag_url!,
                       title: element.name!,
-                      subtitle: element.state_name!,
+                      subtitle: element.subregion!,
                       onTap: () {
                         Navigator.of(context).pop<CitiesModel?>(
                           CitiesModel(id: element.id, name: element.name),
@@ -82,9 +83,8 @@ class _CitySearchPageState extends State<CitySearchPage> {
                     ),
                   ),
                 ),
-                future: SupabaseService().getCitiesByPrefix(
+                future: SupabaseService().getCountriesByPrefix(
                   searchBarController!.text,
-                  limit: 5,
                 ),
               ),
             ),

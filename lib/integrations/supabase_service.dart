@@ -98,7 +98,8 @@ class SupabaseService {
     return ProfilesModel.fromJson(response);
   }
 
-  Future<List<CitiesModel>> getAllCities(String prefix, {int limit = 5}) async {
+  Future<List<CitiesModel>> getCitiesByPrefix(String prefix,
+      {int limit = 5}) async {
     final response = await Supabase.instance.client
         .from('cities')
         .select(
@@ -108,9 +109,14 @@ class SupabaseService {
     return response.map((json) => CitiesModel.fromJson(json)).toList();
   }
 
-  Future<List<CountriesModel>> getAllCountries() async {
-    final response =
-        await Supabase.instance.client.from('countries').select('*');
+  Future<List<CountriesModel>> getCountriesByPrefix(String prefix,
+      {int limit = 5}) async {
+    final response = await Supabase.instance.client
+        .from('countries')
+        .select('id, name, native, subregion, flag_url, population')
+        .or('name.ilike.${prefix}%,native.ilike.${prefix}%')
+        .order('population')
+        .limit(limit);
     return response.map((json) => CountriesModel.fromJson(json)).toList();
   }
 }
