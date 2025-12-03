@@ -13,180 +13,192 @@ class CompatibilityQuestionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        minimum: const EdgeInsets.only(
-          top: 40.0,
-          bottom: 0.0,
-          left: 16.0,
-          right: 16.0,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.primaryContainer,
+            Theme.of(context).colorScheme.surface,
+          ],
+          begin: const AlignmentGeometry.xy(1.0, -1.0),
+          end: const AlignmentGeometry.xy(1.0, 1.0),
         ),
-        bottom: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FlexSizedBox(
-              width: double.infinity,
-              child: DataBuilder<CompatibilityQuestionsModel?>(
-                builder: (context, data) => Material(
-                  surfaceTintColor: Theme.of(context).colorScheme.primary,
-                  elevation: 10.0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 1.0,
-                    ),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      data?.label['en'] ?? 'Question',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    subtitle: Text(
-                      data?.section_id?.label['en'] ?? 'Section',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
+      ),
+      child: Scaffold(
+        body: SafeArea(
+          minimum: const EdgeInsets.only(
+            top: 40.0,
+            bottom: 0.0,
+            left: 16.0,
+            right: 16.0,
+          ),
+          bottom: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FlexSizedBox(
+                width: double.infinity,
+                child: DataBuilder<CompatibilityQuestionsModel?>(
+                  builder: (context, data) => Material(
+                    surfaceTintColor: Theme.of(context).colorScheme.primary,
+                    elevation: 10.0,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
                         color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w700,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        data?.label['en'] ?? 'Question',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                      subtitle: Text(
+                        data?.section_id?.label['en'] ?? 'Section',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                loadingWidget: const Align(
-                  alignment: Alignment(0.0, 0.0),
-                  child: CircularProgressIndicator(),
-                ),
-                errorBuilder: (context, error) => Align(
-                  alignment: const Alignment(0.0, 0.0),
-                  child: Text(
-                    error.toString(),
-                    style: const TextStyle(color: Color(0xffff0000)),
+                  loadingWidget: const Align(
+                    alignment: Alignment(0.0, 0.0),
+                    child: CircularProgressIndicator(),
                   ),
-                ),
-                future: SupabaseService().getByIdCompatibility_question(
-                  questionId!,
+                  errorBuilder: (context, error) => Align(
+                    alignment: const Alignment(0.0, 0.0),
+                    child: Text(
+                      error.toString(),
+                      style: const TextStyle(color: Color(0xffff0000)),
+                    ),
+                  ),
+                  future: SupabaseService().getByIdCompatibility_question(
+                    questionId!,
+                  ),
                 ),
               ),
-            ),
-            FlexSizedBox(
-              width: double.infinity,
-              flex: 1,
-              child: DataBuilder<List<CompatibilityOptionsModel>>(
-                builder: (context, data) => ListView.separated(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final CompatibilityOptionsModel element = data[index];
-                    return Material(
-                      elevation: 5.0,
-                      color: Theme.of(context).colorScheme.surfaceBright,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                          width: 1.0,
+              FlexSizedBox(
+                width: double.infinity,
+                flex: 1,
+                child: DataBuilder<List<CompatibilityOptionsModel>>(
+                  builder: (context, data) => ListView.separated(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final CompatibilityOptionsModel element = data[index];
+                      return Material(
+                        elevation: 5.0,
+                        color: Theme.of(context).colorScheme.surfaceBright,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          element.label['en'] ?? 'Option',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24.0,
+                        child: ListTile(
+                          title: Text(
+                            element.label['en'] ?? 'Option',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          subtitle: Text(
+                            element.description['en'] ?? 'Description',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            textAlign: TextAlign.justify,
                           ),
                         ),
-                        subtitle: Text(
-                          element.description['en'] ?? 'Description',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          textAlign: TextAlign.justify,
+                      );
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 30.0,
+                      horizontal: 8.0,
+                    ),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 20.0, width: 20.0),
+                  ),
+                  loadingWidget: const Align(
+                    alignment: Alignment(0.0, 0.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorBuilder: (context, error) => Align(
+                    alignment: const Alignment(0.0, 0.0),
+                    child: Text(
+                      error.toString(),
+                      style: const TextStyle(color: Color(0xffff0000)),
+                    ),
+                  ),
+                  future: SupabaseService().getByIdCompatibility_options(
+                    questionId!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+          child: Wrap(
+            direction: Axis.horizontal,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: IconButton(
+                  onPressed: questionId! > 1
+                      ? () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CompatibilityQuestionsPage(
+                                questionId: questionId! - 1,
+                              ),
+                            ),
+                          );
+                        }
+                      : null,
+                  icon: Icon(
+                    Icons.keyboard_arrow_left_outlined,
+                    size: 50.0,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  onLongPress: questionId!.isNegative ? () {} : null,
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CompatibilityQuestionsPage(
+                          questionId: questionId! + 1,
                         ),
                       ),
                     );
                   },
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 30.0,
-                    horizontal: 8.0,
-                  ),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 20.0, width: 20.0),
-                ),
-                loadingWidget: const Align(
-                  alignment: Alignment(0.0, 0.0),
-                  child: CircularProgressIndicator(),
-                ),
-                errorBuilder: (context, error) => Align(
-                  alignment: const Alignment(0.0, 0.0),
-                  child: Text(
-                    error.toString(),
-                    style: const TextStyle(color: Color(0xffff0000)),
+                  icon: Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 50.0,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                future: SupabaseService().getByIdCompatibility_options(
-                  questionId!,
-                ),
               ),
-            ),
-          ],
-        ),
-      ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-        child: Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.spaceBetween,
-          children: [
-            FlexSizedBox(
-              width: null,
-              height: null,
-              child: IconButton(
-                onPressed: questionId! > 1
-                    ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => CompatibilityQuestionsPage(
-                              questionId: questionId! - 1,
-                            ),
-                          ),
-                        );
-                      }
-                    : null,
-                icon: Icon(
-                  Icons.keyboard_arrow_left_outlined,
-                  size: 50.0,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                onLongPress: questionId!.isNegative ? () {} : null,
-              ),
-            ),
-            FlexSizedBox(
-              width: null,
-              height: null,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CompatibilityQuestionsPage(
-                        questionId: questionId! + 1,
-                      ),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 50.0,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
