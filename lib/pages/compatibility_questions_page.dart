@@ -42,7 +42,6 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                 width: double.infinity,
                 child: DataBuilder<CompatibilityQuestionsModel?>(
                   builder: (context, data) => Material(
-                    surfaceTintColor: Theme.of(context).colorScheme.primary,
                     elevation: 10.0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -51,6 +50,8 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    surfaceTintColor: Theme.of(context).colorScheme.surfaceTint,
                     child: ListTile(
                       title: Text(
                         data?.label['en'] ?? 'Question',
@@ -64,7 +65,7 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                         data?.section_id?.label['en'] ?? 'Section',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -96,14 +97,17 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                       final CompatibilityOptionsModel element = data[index];
                       return Material(
                         elevation: 5.0,
-                        color: Theme.of(context).colorScheme.surfaceBright,
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(20.0),
                         ),
+                        surfaceTintColor: Theme.of(
+                          context,
+                        ).colorScheme.surfaceTint,
                         child: ListTile(
                           title: Text(
                             element.label['en'] ?? 'Option',
@@ -118,6 +122,16 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.justify,
                           ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CompatibilityQuestionsPage(
+                                      questionId: questionId! + 1,
+                                    ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
@@ -148,58 +162,6 @@ class CompatibilityQuestionsPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.transparent,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-          child: Wrap(
-            direction: Axis.horizontal,
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: IconButton(
-                  onPressed: questionId! > 1
-                      ? () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => CompatibilityQuestionsPage(
-                                questionId: questionId! - 1,
-                              ),
-                            ),
-                          );
-                        }
-                      : null,
-                  icon: Icon(
-                    Icons.keyboard_arrow_left_outlined,
-                    size: 50.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  onLongPress: questionId!.isNegative ? () {} : null,
-                ),
-              ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CompatibilityQuestionsPage(
-                          questionId: questionId! + 1,
-                        ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 50.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
