@@ -15,10 +15,14 @@ class CompatibilityQuestionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        maintainBottomViewPadding: false,
-        minimum: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        minimum: const EdgeInsets.only(
+          top: 40.0,
+          bottom: 0.0,
+          left: 16.0,
+          right: 16.0,
+        ),
+        bottom: false,
         child: Column(
-          spacing: 10.0,
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,15 +30,33 @@ class CompatibilityQuestionsPage extends StatelessWidget {
             FlexSizedBox(
               width: double.infinity,
               child: DataBuilder<CompatibilityQuestionsModel?>(
-                builder: (context, data) => ListTile(
-                  title: Text(
-                    data?.label['en'] ?? 'Question',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium,
+                builder: (context, data) => Material(
+                  surfaceTintColor: Theme.of(context).colorScheme.primary,
+                  elevation: 10.0,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  subtitle: Text(
-                    data?.section_id?.label['en'] ?? 'Section',
-                    textAlign: TextAlign.center,
+                  child: ListTile(
+                    title: Text(
+                      data?.label['en'] ?? 'Question',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24.0,
+                      ),
+                    ),
+                    subtitle: Text(
+                      data?.section_id?.label['en'] ?? 'Section',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
                 loadingWidget: const Align(
@@ -61,67 +83,39 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     final CompatibilityOptionsModel element = data[index];
-                    return SizedBox(
-                      height: 120.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [],
+                    return Material(
+                      elevation: 5.0,
+                      color: Theme.of(context).colorScheme.surfaceBright,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary,
+                          width: 1.0,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            FlexSizedBox(
-                              width: null,
-                              height: null,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 4.0,
-                                  bottom: 2.0,
-                                  left: 10.0,
-                                  right: 10.0,
-                                ),
-                                child: Text(
-                                  element.label['en'] ?? 'title',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                            ),
-                            FlexSizedBox(
-                              width: null,
-                              height: null,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 2.0,
-                                  bottom: 10.0,
-                                  left: 10.0,
-                                  right: 10.0,
-                                ),
-                                child: Text(
-                                  element.description['en'] ?? 'description',
-                                  textAlign: TextAlign.justify,
-                                ),
-                              ),
-                            ),
-                          ],
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          element.label['en'] ?? 'Option',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 24.0,
+                          ),
+                        ),
+                        subtitle: Text(
+                          element.description['en'] ?? 'Description',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.justify,
                         ),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16.0, width: 20.0),
                   padding: const EdgeInsets.symmetric(
-                    vertical: 16.0,
-                    horizontal: 0.0,
+                    vertical: 30.0,
+                    horizontal: 8.0,
                   ),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 20.0, width: 20.0),
                 ),
                 loadingWidget: const Align(
                   alignment: Alignment(0.0, 0.0),
@@ -139,10 +133,43 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.spaceBetween,
+          children: [
             FlexSizedBox(
               width: null,
               height: null,
-              child: ElevatedButton(
+              child: IconButton(
+                onPressed: questionId! > 1
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CompatibilityQuestionsPage(
+                              questionId: questionId! - 1,
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
+                icon: Icon(
+                  Icons.keyboard_arrow_left_outlined,
+                  size: 50.0,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onLongPress: questionId!.isNegative ? () {} : null,
+              ),
+            ),
+            FlexSizedBox(
+              width: null,
+              height: null,
+              child: IconButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -152,13 +179,16 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Button'),
+                icon: Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 50.0,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
           ],
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 }
