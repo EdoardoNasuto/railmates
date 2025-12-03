@@ -24,32 +24,6 @@ class CompatibilityQuestionsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FlexSizedBox(
-              width: null,
-              height: null,
-              child: DataBuilder<CompatibilityQuestionsModel?>(
-                builder: (context, data) => ListTile(
-                  title: Text(
-                    data?.section_id?.label['en'] ?? 'Section',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                ),
-                loadingWidget: const Align(
-                  alignment: Alignment(0.0, 0.0),
-                  child: CircularProgressIndicator(),
-                ),
-                errorBuilder: (context, error) => Align(
-                  alignment: const Alignment(0.0, 0.0),
-                  child: Text(
-                    error.toString(),
-                    style: const TextStyle(color: Color(0xffff0000)),
-                  ),
-                ),
-                future: SupabaseService().getByIdCompatibility_question(
-                  questionId!,
-                ),
-              ),
-            ),
-            FlexSizedBox(
               width: double.infinity,
               child: DataBuilder<CompatibilityQuestionsModel?>(
                 builder: (context, data) => ListTile(
@@ -57,6 +31,10 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                     data?.label['en'] ?? 'Question',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  subtitle: Text(
+                    data?.section_id?.label['en'] ?? 'Section',
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 loadingWidget: const Align(
