@@ -24,19 +24,19 @@ class _CompatibilityQuestionsPageState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.primaryContainer,
-            Theme.of(context).colorScheme.surface,
-          ],
-          begin: const AlignmentGeometry.xy(1.0, -1.0),
-          end: const AlignmentGeometry.xy(1.0, 1.0),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.surface,
+            ],
+            begin: const AlignmentGeometry.xy(1.0, -1.0),
+            end: const AlignmentGeometry.xy(1.0, 1.0),
+          ),
         ),
-      ),
-      child: Scaffold(
-        body: SafeArea(
+        child: SafeArea(
           minimum: const EdgeInsets.only(
             top: 40.0,
             bottom: 40.0,
@@ -212,8 +212,8 @@ class _CompatibilityQuestionsPageState
             ],
           ),
         ),
-        backgroundColor: Colors.transparent,
       ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 }
