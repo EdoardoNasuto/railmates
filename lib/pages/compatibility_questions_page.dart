@@ -49,37 +49,105 @@ class _CompatibilityQuestionsPageState
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               FlexSizedBox(
-                width: double.infinity,
                 child: DataBuilder<CompatibilityQuestionsModel?>(
-                  builder: (context, data) => Material(
-                    elevation: 10.0,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    surfaceTintColor: Theme.of(context).colorScheme.surfaceTint,
-                    child: ListTile(
-                      title: Text(
-                        data?.label['en'] ?? 'Question',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24.0,
+                  builder: (context, data) => Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      FlexSizedBox(
+                        width: null,
+                        height: null,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 0.0,
+                            bottom: 15.0,
+                            left: 0.0,
+                            right: 0.0,
+                          ),
+                          child: Material(
+                            elevation: 5.0,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: LinearProgressIndicator(
+                              value: widget.questionId! / 27,
+                              minHeight: 10.0,
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
                       ),
-                      subtitle: Text(
-                        data?.section_id?.label['en'] ?? 'Section',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontWeight: FontWeight.w700,
+                      FlexSizedBox(
+                        width: null,
+                        height: null,
+                        child: Text(
+                          data?.section_id?.label['en'] ?? 'Section',
+                          style: TextStyle(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onPrimaryContainer,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 30.0,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
+                      FlexSizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 15.0,
+                            bottom: 30.0,
+                            left: 0.0,
+                            right: 0.0,
+                          ),
+                          child: Material(
+                            elevation: 10.0,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                            surfaceTintColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceTint,
+                            child: ListTile(
+                              title: Text(
+                                data?.label['en'] ?? 'Question',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24.0,
+                                ),
+                              ),
+                              subtitle: Visibility(
+                                visible: data!.multi_select!,
+                                child: Text(
+                                  'Multiple answers possible',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.secondary,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   loadingWidget: const Align(
                     alignment: Alignment(0.0, 0.0),
@@ -109,11 +177,13 @@ class _CompatibilityQuestionsPageState
                         elevation: 5.0,
                         color: _selectedIndexes.contains(index)
                             ? Theme.of(context).colorScheme.inversePrimary
-                            : Theme.of(context).colorScheme.primaryContainer,
+                            : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerLowest,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 1.0,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -148,12 +218,11 @@ class _CompatibilityQuestionsPageState
                               }
                             });
                           },
-                          selected: _selectedIndexes.contains(index),
                         ),
                       );
                     },
                     padding: const EdgeInsets.symmetric(
-                      vertical: 30.0,
+                      vertical: 0.0,
                       horizontal: 8.0,
                     ),
                     separatorBuilder: (context, index) =>
@@ -202,7 +271,41 @@ class _CompatibilityQuestionsPageState
                                   );
                                 }
                               : null,
-                          child: const Text('Confirm'),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.resolveWith<Color?>((
+                                  states,
+                                ) {
+                                  if (states.contains(WidgetState.disabled)) {
+                                    return null;
+                                  }
+                                  if (states.contains(WidgetState.hovered)) {
+                                    return null;
+                                  }
+                                  return Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer;
+                                }),
+                            foregroundColor:
+                                const WidgetStatePropertyAll<Color?>(null),
+                            shadowColor: const WidgetStatePropertyAll<Color?>(
+                              null,
+                            ),
+                            elevation: const WidgetStatePropertyAll<double?>(
+                              null,
+                            ),
+                            side: const WidgetStatePropertyAll<BorderSide?>(
+                              null,
+                            ),
+                            shape:
+                                const WidgetStatePropertyAll<
+                                  RoundedRectangleBorder?
+                                >(null),
+                          ),
+                          child: const Text(
+                            'Confirm',
+                            style: TextStyle(fontSize: 28.0),
+                          ),
                         ),
                       ),
                     ],
