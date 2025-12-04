@@ -146,7 +146,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_options')
-        .select('*')
+        .select('*, question_id(*)')
         .eq('question_id', id)
         .order("value");
     return response

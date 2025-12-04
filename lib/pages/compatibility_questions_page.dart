@@ -5,11 +5,22 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
 
 @NowaGenerated()
-class CompatibilityQuestionsPage extends StatelessWidget {
+class CompatibilityQuestionsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const CompatibilityQuestionsPage({this.questionId = 1, super.key});
 
   final int? questionId;
+
+  @override
+  State<CompatibilityQuestionsPage> createState() {
+    return _CompatibilityQuestionsPageState();
+  }
+}
+
+@NowaGenerated()
+class _CompatibilityQuestionsPageState
+    extends State<CompatibilityQuestionsPage> {
+  final Set<int> _selectedIndexes = Set.identity();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +39,10 @@ class CompatibilityQuestionsPage extends StatelessWidget {
         body: SafeArea(
           minimum: const EdgeInsets.only(
             top: 40.0,
-            bottom: 0.0,
+            bottom: 40.0,
             left: 16.0,
             right: 16.0,
           ),
-          bottom: false,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +93,7 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                     ),
                   ),
                   future: SupabaseService().getByIdCompatibility_question(
-                    questionId!,
+                    widget.questionId!,
                   ),
                 ),
               ),
@@ -97,7 +107,9 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                       final CompatibilityOptionsModel element = data[index];
                       return Material(
                         elevation: 5.0,
-                        color: Theme.of(context).colorScheme.primaryContainer,
+                        color: _selectedIndexes.contains(index)
+                            ? Theme.of(context).colorScheme.inversePrimary
+                            : Theme.of(context).colorScheme.primaryContainer,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
@@ -123,15 +135,20 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                             textAlign: TextAlign.justify,
                           ),
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    CompatibilityQuestionsPage(
-                                      questionId: questionId! + 1,
-                                    ),
-                              ),
-                            );
+                            setState(() {
+                              if (_selectedIndexes.contains(index)) {
+                                _selectedIndexes.remove(index);
+                              } else {
+                                if (element.question_id!.multi_select!) {
+                                  _selectedIndexes.add(index);
+                                } else {
+                                  _selectedIndexes.clear();
+                                  _selectedIndexes.add(index);
+                                }
+                              }
+                            });
                           },
+                          selected: _selectedIndexes.contains(index),
                         ),
                       );
                     },
@@ -154,7 +171,41 @@ class CompatibilityQuestionsPage extends StatelessWidget {
                     ),
                   ),
                   future: SupabaseService().getByIdCompatibility_options(
-                    questionId!,
+                    widget.questionId!,
+                  ),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 8.0,
+                  ),
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      FlexSizedBox(
+                        width: null,
+                        height: null,
+                        child: ElevatedButton(
+                          onPressed: _selectedIndexes.isNotEmpty
+                              ? () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CompatibilityQuestionsPage(
+                                            questionId: widget.questionId! + 1,
+                                          ),
+                                    ),
+                                  );
+                                }
+                              : null,
+                          child: const Text('Confirm'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
