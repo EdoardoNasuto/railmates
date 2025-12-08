@@ -1,7 +1,6 @@
 -- This function is a PL/pgSQL trigger that checks the uniqueness of answers to compatibility questions when inserting into the compatibility_answers table.
--- It distinguishes two cases:
---   1. If the question is not multi-select (single select), it prevents multiple answers for the same question and profile.
---   2. If the question is multi-select, it prevents the same option from being selected more than once for the same profile.
+-- It only applies to questions that are not multi-select (single select):
+--   - If the question is single select, it prevents multiple answers for the same question and profile.
 -- If a violation occurs, an exception is raised to ensure the integrity of the answers.
 -- To be used as a BEFORE INSERT trigger on the compatibility_answers table.
 
@@ -25,21 +24,12 @@ BEGIN
         IF EXISTS (
             SELECT 1
             FROM compatibility_answers ca
-            JOIN compatibility_options co ON ca.option_id = co.id
             WHERE ca.profile_id = NEW.profile_id
-                AND co.question_id = question_id_var
+                AND ca.option_id IN (
+                    SELECT id FROM compatibility_options WHERE question_id = question_id_var
+                )
         ) THEN
             RAISE EXCEPTION 'An answer for this question and profile already exists (single select)';
-        END IF;
-    ELSE
-        -- Check that there is no other answer for this option and profile
-        IF EXISTS (
-            SELECT 1
-            FROM compatibility_answers
-            WHERE profile_id = NEW.profile_id
-              AND option_id = NEW.option_id
-        ) THEN
-            RAISE EXCEPTION 'An answer for this option and profile already exists (multi select)';
         END IF;
     END IF;
 
