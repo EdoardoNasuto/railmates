@@ -5,7 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:railmates/pages/profile_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
-import 'package:railmates/components/auth_text_form_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class OtpPage extends StatefulWidget {
@@ -100,14 +100,12 @@ class _OtpPageState extends State<OtpPage> {
                           );
                     },
                     textFields: [
-                      AuthTextFormField(
-                        label: 'Token',
-                        required: true,
+                      PinCodeTextField(
+                        appContext: context,
+                        length: 6,
+                        pinTheme: PinTheme(inactiveColor: Color(0xff000000)),
                         controller: tokenController,
-                        obscure: false,
-                        icon: Icons.generating_tokens_outlined,
-                        errorMessage: 'Token must be 6 digits',
-                        regexValidator: '^\\d{6}\$',
+                        onChanged: (value) {},
                       ),
                       Align(
                         alignment: const Alignment(1.0, 0.0),
