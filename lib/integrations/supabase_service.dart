@@ -6,6 +6,7 @@ import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
+import 'package:railmates/models/compatibility_answers_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -85,7 +86,8 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)})
+          .eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
@@ -148,9 +150,20 @@ class SupabaseService {
         .from('compatibility_options')
         .select('*, question_id(*)')
         .eq('question_id', id)
-        .order("value");
+        .order('value');
     return response
         .map((json) => CompatibilityOptionsModel.fromJson(json))
         .toList();
+  }
+
+  Future<CompatibilityAnswersModel> createCompatibility_answers(
+    CompatibilityAnswersModel data,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_answers')
+        .insert(data.toJson())
+        .select('*')
+        .single();
+    return CompatibilityAnswersModel.fromJson(response);
   }
 }

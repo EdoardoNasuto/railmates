@@ -3,6 +3,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
+import 'package:railmates/models/compatibility_answers_model.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class CompatibilityQuestionsPage extends StatefulWidget {
 @NowaGenerated()
 class _CompatibilityQuestionsPageState
     extends State<CompatibilityQuestionsPage> {
-  final Set<int> _selectedIndexes = Set.identity();
+  final Set<int> _selectedOptionIds = Set.identity();
 
   @override
   Widget build(BuildContext context) {
@@ -173,9 +174,10 @@ class _CompatibilityQuestionsPageState
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       final CompatibilityOptionsModel element = data[index];
+                      final int optionId = element.id!;
                       return Material(
                         elevation: 5.0,
-                        color: _selectedIndexes.contains(index)
+                        color: _selectedOptionIds.contains(optionId)
                             ? Theme.of(context).colorScheme.inversePrimary
                             : Theme.of(
                                 context,
@@ -206,14 +208,14 @@ class _CompatibilityQuestionsPageState
                           ),
                           onTap: () {
                             setState(() {
-                              if (_selectedIndexes.contains(index)) {
-                                _selectedIndexes.remove(index);
+                              if (_selectedOptionIds.contains(optionId)) {
+                                _selectedOptionIds.remove(optionId);
                               } else {
                                 if (element.question_id!.multi_select!) {
-                                  _selectedIndexes.add(index);
+                                  _selectedOptionIds.add(optionId);
                                 } else {
-                                  _selectedIndexes.clear();
-                                  _selectedIndexes.add(index);
+                                  _selectedOptionIds.clear();
+                                  _selectedOptionIds.add(optionId);
                                 }
                               }
                             });
@@ -259,8 +261,16 @@ class _CompatibilityQuestionsPageState
                         width: null,
                         height: null,
                         child: ElevatedButton(
-                          onPressed: _selectedIndexes.isNotEmpty
+                          onPressed: _selectedOptionIds.isNotEmpty
                               ? () {
+                                  _selectedOptionIds.forEach((element) {
+                                    SupabaseService()
+                                        .createCompatibility_answers(
+                                          CompatibilityAnswersModel(
+                                            option_id: element,
+                                          ),
+                                        );
+                                  });
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
