@@ -157,11 +157,11 @@ class SupabaseService {
   }
 
   Future<CompatibilityAnswersModel> createCompatibility_answers(
-    CompatibilityAnswersModel data,
+    int option_id,
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
-        .insert(data.toJson())
+        .insert({'option_id': option_id})
         .select('*')
         .single();
     return CompatibilityAnswersModel.fromJson(response);

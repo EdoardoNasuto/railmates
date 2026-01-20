@@ -1,3 +1,5 @@
+import 'package:railmates/models/profiles_model.dart';
+import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated()
@@ -9,19 +11,25 @@ class CompatibilityAnswersModel {
   factory CompatibilityAnswersModel.fromJson(Map<String, dynamic> json) {
     return CompatibilityAnswersModel(
       id: json['id'],
-      profile_id: json['profile_id'],
-      option_id: json['option_id'],
+      profile_id: ProfilesModel.fromJson(json['profile_id'] ?? {}),
+      option_id: CompatibilityOptionsModel.fromJson(
+        json['option_id'] ?? {},
+      ),
     );
   }
 
   final String? id;
 
-  final String? profile_id;
+  final ProfilesModel? profile_id;
 
-  final int? option_id;
+  final CompatibilityOptionsModel? option_id;
 
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
-    return {'id': id, 'profile_id': profile_id, 'option_id': option_id};
+    return {
+      'id': id,
+      'profile_id': profile_id?.toJson(),
+      'option_id': option_id?.toJson(),
+    };
   }
 }

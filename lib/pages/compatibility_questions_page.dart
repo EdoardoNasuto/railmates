@@ -3,7 +3,6 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
-import 'package:railmates/models/compatibility_answers_model.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
@@ -265,11 +264,7 @@ class _CompatibilityQuestionsPageState
                               ? () {
                                   _selectedOptionIds.forEach((element) {
                                     SupabaseService()
-                                        .createCompatibility_answers(
-                                          CompatibilityAnswersModel(
-                                            option_id: element,
-                                          ),
-                                        );
+                                        .createCompatibility_answers(element);
                                   });
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
