@@ -166,4 +166,11 @@ class SupabaseService {
         .single();
     return CompatibilityAnswersModel.fromJson(response);
   }
+
+  Future<void> deleteCompatibility_answers(int option_id) async {
+    await Supabase.instance.client
+        .from('compatibility_answers')
+        .delete()
+        .eq('option_id', option_id);
+  }
 }

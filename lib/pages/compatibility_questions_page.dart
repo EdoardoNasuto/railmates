@@ -261,10 +261,26 @@ class _CompatibilityQuestionsPageState
                         height: null,
                         child: ElevatedButton(
                           onPressed: _selectedOptionIds.isNotEmpty
-                              ? () {
-                                  _selectedOptionIds.forEach((element) {
-                                    SupabaseService()
-                                        .createCompatibility_answers(element);
+                              ? () async {
+                                  final List<CompatibilityOptionsModel>?
+                                  options = await SupabaseService()
+                                      .getByIdCompatibility_options(
+                                        widget.questionId!,
+                                      );
+                                  options?.forEach((element) async {
+                                    if (_selectedOptionIds.contains(
+                                      element.id,
+                                    )) {
+                                      SupabaseService()
+                                          .createCompatibility_answers(
+                                            element.id!,
+                                          );
+                                    } else {
+                                      SupabaseService()
+                                          .deleteCompatibility_answers(
+                                            element.id!,
+                                          );
+                                    }
                                   });
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
