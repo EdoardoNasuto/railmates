@@ -86,8 +86,7 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)})
-          .eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
@@ -156,15 +155,20 @@ class SupabaseService {
         .toList();
   }
 
-  Future<CompatibilityAnswersModel> createCompatibility_answers(
-    int option_id,
+  Future<List<CompatibilityAnswersModel>> createCompatibility_answers(
+    List<int> selectedIds,
   ) async {
+    final records = selectedIds.map((id) => {'option_id': id}).toList();
+
     final response = await Supabase.instance.client
         .from('compatibility_answers')
-        .insert({'option_id': option_id})
-        .select('*')
-        .single();
-    return CompatibilityAnswersModel.fromJson(response);
+        .insert(records)
+        .select('*');
+
+    final data = response as List<dynamic>;
+    return data
+        .map((json) => CompatibilityAnswersModel.fromJson(json))
+        .toList();
   }
 
   Future<void> deleteCompatibility_answers(int question_id) async {

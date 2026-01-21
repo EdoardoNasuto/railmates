@@ -265,10 +265,9 @@ class _CompatibilityQuestionsPageState
                                   SupabaseService().deleteCompatibility_answers(
                                     widget.questionId!,
                                   );
-                                  _selectedOptionIds.forEach((element) {
-                                    SupabaseService()
-                                        .createCompatibility_answers(element);
-                                  });
+                                  SupabaseService().createCompatibility_answers(
+                                    _selectedOptionIds.toList(),
+                                  );
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
