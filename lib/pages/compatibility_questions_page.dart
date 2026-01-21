@@ -326,4 +326,15 @@ class _CompatibilityQuestionsPageState
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
+
+  @override
+  Future<void> initState() async {
+    final takenOptions = await SupabaseService()
+        .getByQuestionCompatibility_answers(widget.questionId!);
+    takenOptions.forEach((element) {
+      _selectedOptionIds.add(element.option_id!.id!);
+    });
+    super.initState();
+    setState(() {});
+  }
 }

@@ -159,12 +159,10 @@ class SupabaseService {
     List<int> selectedIds,
   ) async {
     final records = selectedIds.map((id) => {'option_id': id}).toList();
-
     final response = await Supabase.instance.client
         .from('compatibility_answers')
         .insert(records)
         .select('*');
-
     final data = response as List<dynamic>;
     return data
         .map((json) => CompatibilityAnswersModel.fromJson(json))
@@ -176,5 +174,16 @@ class SupabaseService {
         .from('compatibility_answers')
         .delete()
         .eq('question_id', question_id);
+  }
+
+  Future<List<CompatibilityAnswersModel>> getByQuestionCompatibility_answers(
+      int question_id) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_answers')
+        .select('*,option_id(*)')
+        .eq('question_id', question_id);
+    return response
+        .map((json) => CompatibilityAnswersModel.fromJson(json))
+        .toList();
   }
 }
