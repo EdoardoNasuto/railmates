@@ -5,7 +5,12 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 @NowaGenerated()
 class CompatibilityAnswersModel {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityAnswersModel({this.id, this.profile_id, this.option_id});
+  const CompatibilityAnswersModel({
+    this.id,
+    this.profile_id,
+    this.option_id,
+    this.question_id,
+  });
 
   @NowaGenerated({'loader': 'auto-from-json'})
   factory CompatibilityAnswersModel.fromJson(Map<String, dynamic> json) {
@@ -15,6 +20,7 @@ class CompatibilityAnswersModel {
       option_id: CompatibilityOptionsModel.fromJson(
         json['option_id'] ?? {},
       ),
+      question_id: json['question_id'],
     );
   }
 
@@ -24,12 +30,15 @@ class CompatibilityAnswersModel {
 
   final CompatibilityOptionsModel? option_id;
 
+  final int? question_id;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'profile_id': profile_id?.toJson(),
       'option_id': option_id?.toJson(),
+      'question_id': question_id,
     };
   }
 }
