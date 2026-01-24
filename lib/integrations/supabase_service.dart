@@ -129,13 +129,13 @@ class SupabaseService {
     return response.map((json) => CountriesModel.fromJson(json)).toList();
   }
 
-  Future<CompatibilityQuestionsModel?> getByIdCompatibility_question(
-    int id,
+  Future<CompatibilityQuestionsModel?> getByPosCompatibility_question(
+    int pos,
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_questions')
         .select('*, section_id(*)')
-        .eq('id', id)
+        .eq('pos', pos)
         .maybeSingle();
     return response != null
         ? CompatibilityQuestionsModel.fromJson(response!)
@@ -143,12 +143,12 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityOptionsModel>> getByIdCompatibility_options(
-    int id,
+    int pos,
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_options')
-        .select('*, question_id(*)')
-        .eq('question_id', id)
+        .select('*, question_id!inner(*)')
+        .eq('question_id.pos', pos)
         .order('value');
     return response
         .map((json) => CompatibilityOptionsModel.fromJson(json))
@@ -177,11 +177,11 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityAnswersModel>> getByQuestionCompatibility_answers(
-      int question_id) async {
+      int pos) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
-        .select('*,option_id(*)')
-        .eq('question_id', question_id);
+        .select('*, option_id(*), question_id!inner(pos)')
+        .eq('question_id.pos', pos);
     return response
         .map((json) => CompatibilityAnswersModel.fromJson(json))
         .toList();

@@ -10,6 +10,7 @@ class CompatibilityQuestionsModel {
     this.multi_select,
     this.label,
     this.section_id,
+    this.pos = 0,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -19,8 +20,10 @@ class CompatibilityQuestionsModel {
       code: json['code'],
       multi_select: json['multi_select'],
       label: json['label'],
-      section_id: CompatibilitySectionsModel.fromJson(json['section_id'] ?? {},
+      section_id: CompatibilitySectionsModel.fromJson(
+        json['section_id'] ?? {},
       ),
+      pos: json['pos'] ?? 0,
     );
   }
 
@@ -34,6 +37,8 @@ class CompatibilityQuestionsModel {
 
   final CompatibilitySectionsModel? section_id;
 
+  final int? pos;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -42,6 +47,7 @@ class CompatibilityQuestionsModel {
       'multi_select': multi_select,
       'label': label,
       'section_id': section_id?.toJson(),
+      'pos': pos,
     };
   }
 }

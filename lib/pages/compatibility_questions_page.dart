@@ -7,9 +7,9 @@ import 'package:railmates/models/compatibility_options_model.dart';
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityQuestionsPage({this.questionId = 1, super.key});
+  const CompatibilityQuestionsPage({this.questionPos = 1, super.key});
 
-  final int? questionId;
+  final int? questionPos;
 
   @override
   State<CompatibilityQuestionsPage> createState() {
@@ -21,6 +21,8 @@ class CompatibilityQuestionsPage extends StatefulWidget {
 class _CompatibilityQuestionsPageState
     extends State<CompatibilityQuestionsPage> {
   final Set<int> _selectedOptionIds = Set.identity();
+
+  int? questionId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _CompatibilityQuestionsPageState
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: LinearProgressIndicator(
-                              value: widget.questionId! / 27,
+                              value: widget.questionPos! / 27,
                               minHeight: 10.0,
                               borderRadius: BorderRadius.circular(10.0),
                               color: Theme.of(context).colorScheme.primary,
@@ -160,8 +162,8 @@ class _CompatibilityQuestionsPageState
                       style: const TextStyle(color: Color(0xffff0000)),
                     ),
                   ),
-                  future: SupabaseService().getByIdCompatibility_question(
-                    widget.questionId!,
+                  future: SupabaseService().getByPosCompatibility_question(
+                    widget.questionPos!,
                   ),
                 ),
               ),
@@ -241,7 +243,7 @@ class _CompatibilityQuestionsPageState
                     ),
                   ),
                   future: SupabaseService().getByIdCompatibility_options(
-                    widget.questionId!,
+                    widget.questionPos!,
                   ),
                 ),
               ),
@@ -263,7 +265,7 @@ class _CompatibilityQuestionsPageState
                           onPressed: _selectedOptionIds.isNotEmpty
                               ? () async {
                                   SupabaseService().deleteCompatibility_answers(
-                                    widget.questionId!,
+                                    questionId!,
                                   );
                                   SupabaseService().createCompatibility_answers(
                                     _selectedOptionIds.toList(),
@@ -272,7 +274,8 @@ class _CompatibilityQuestionsPageState
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           CompatibilityQuestionsPage(
-                                            questionId: widget.questionId! + 1,
+                                            questionPos:
+                                                widget.questionPos! + 1,
                                           ),
                                     ),
                                   );
@@ -330,7 +333,12 @@ class _CompatibilityQuestionsPageState
   @override
   Future<void> initState() async {
     final takenOptions = await SupabaseService()
-        .getByQuestionCompatibility_answers(widget.questionId!);
+        .getByQuestionCompatibility_answers(widget.questionPos!);
+    SupabaseService().getByPosCompatibility_question(widget.questionPos!).then((
+      value,
+    ) {
+      questionId = value?.id;
+    });
     takenOptions.forEach((element) {
       _selectedOptionIds.add(element.option_id!.id!);
     });
