@@ -9,6 +9,16 @@
             "deps": [
                 "lib/pages/compatibility_questions_page.dart"
             ]
+        },
+        {
+            "x": 425.0,
+            "y": 0.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const CompatibilityResultPage()",
+            "deps": [
+                "lib/pages/compatibility_result_page.dart"
+            ]
         }
     ]
 }
