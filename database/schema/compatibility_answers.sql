@@ -14,3 +14,10 @@ execute FUNCTION compatibility_answer_check ();
 
 create trigger compatibility_answers_insert_question_id BEFORE INSERT on compatibility_answers for EACH row
 execute FUNCTION compatibility_answer_add_question_id ();
+
+create trigger compatibility_answers_update_vector
+after INSERT
+or DELETE
+or
+update on compatibility_answers for EACH row
+execute FUNCTION compatibility_vectors_compute ();

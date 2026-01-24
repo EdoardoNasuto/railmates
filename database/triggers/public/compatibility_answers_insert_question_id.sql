@@ -1,4 +1,0 @@
-CREATE TRIGGER compatibility_answers_insert_question_id
-BEFORE INSERT ON public.compatibility_answers
-FOR EACH ROW
-EXECUTE FUNCTION public.compatibility_answer_add_question_id();
