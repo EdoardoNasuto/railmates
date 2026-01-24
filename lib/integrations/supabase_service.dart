@@ -142,7 +142,7 @@ class SupabaseService {
         : null;
   }
 
-  Future<List<CompatibilityOptionsModel>> getByIdCompatibility_options(
+  Future<List<CompatibilityOptionsModel>> getByPosCompatibility_options(
     int pos,
   ) async {
     final response = await Supabase.instance.client
@@ -176,7 +176,7 @@ class SupabaseService {
         .eq('question_id', question_id);
   }
 
-  Future<List<CompatibilityAnswersModel>> getByQuestionCompatibility_answers(
+  Future<List<CompatibilityAnswersModel>> getByQuestionPosCompatibility_answers(
       int pos) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')

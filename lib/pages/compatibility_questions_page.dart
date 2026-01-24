@@ -240,7 +240,7 @@ class _CompatibilityQuestionsPageState
                       style: const TextStyle(color: Color(0xffff0000)),
                     ),
                   ),
-                  future: SupabaseService().getByIdCompatibility_options(
+                  future: SupabaseService().getByPosCompatibility_options(
                     widget.questionPos!,
                   ),
                 ),
@@ -338,7 +338,7 @@ class _CompatibilityQuestionsPageState
   @override
   Future<void> initState() async {
     final takenOptions = await SupabaseService()
-        .getByQuestionCompatibility_answers(widget.questionPos!);
+        .getByQuestionPosCompatibility_answers(widget.questionPos!);
     takenOptions.forEach((element) {
       _selectedOptionIds.add(element.option_id!.id!);
     });
