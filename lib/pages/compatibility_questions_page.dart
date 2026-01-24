@@ -22,8 +22,6 @@ class _CompatibilityQuestionsPageState
     extends State<CompatibilityQuestionsPage> {
   final Set<int> _selectedOptionIds = Set.identity();
 
-  int? questionId = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -264,12 +262,19 @@ class _CompatibilityQuestionsPageState
                         child: ElevatedButton(
                           onPressed: _selectedOptionIds.isNotEmpty
                               ? () async {
-                                  SupabaseService().deleteCompatibility_answers(
-                                    questionId!,
-                                  );
-                                  SupabaseService().createCompatibility_answers(
-                                    _selectedOptionIds.toList(),
-                                  );
+                                  final CompatibilityQuestionsModel? question =
+                                      await SupabaseService()
+                                          .getByPosCompatibility_question(
+                                            widget.questionPos!,
+                                          );
+                                  await SupabaseService()
+                                      .deleteCompatibility_answers(
+                                        question!.id!,
+                                      );
+                                  await SupabaseService()
+                                      .createCompatibility_answers(
+                                        _selectedOptionIds.toList(),
+                                      );
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
@@ -334,11 +339,6 @@ class _CompatibilityQuestionsPageState
   Future<void> initState() async {
     final takenOptions = await SupabaseService()
         .getByQuestionCompatibility_answers(widget.questionPos!);
-    SupabaseService().getByPosCompatibility_question(widget.questionPos!).then((
-      value,
-    ) {
-      questionId = value?.id;
-    });
     takenOptions.forEach((element) {
       _selectedOptionIds.add(element.option_id!.id!);
     });
