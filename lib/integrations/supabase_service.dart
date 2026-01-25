@@ -7,6 +7,7 @@ import 'package:railmates/models/countries_model.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
+import 'package:railmates/models/compatibility_availability_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -86,7 +87,8 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)})
+          .eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
@@ -177,7 +179,8 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityAnswersModel>> getByQuestionPosCompatibility_answers(
-      int pos) async {
+    int pos,
+  ) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
         .select('*, option_id(*), question_id!inner(pos)')
@@ -185,5 +188,27 @@ class SupabaseService {
     return response
         .map((json) => CompatibilityAnswersModel.fromJson(json))
         .toList();
+  }
+
+  Future<CompatibilityAvailabilityModel> createCompatibility_availability(
+    CompatibilityAvailabilityModel data,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_availability')
+        .upsert(data.toJson())
+        .select('*')
+        .single();
+    return CompatibilityAvailabilityModel.fromJson(response);
+  }
+
+  Future<CompatibilityAvailabilityModel?>
+  getByIdCompatibility_availability() async {
+    final response = await Supabase.instance.client
+        .from('compatibility_availability')
+        .select('*')
+        .maybeSingle();
+    return response != null
+        ? CompatibilityAvailabilityModel.fromJson(response!)
+        : null;
   }
 }

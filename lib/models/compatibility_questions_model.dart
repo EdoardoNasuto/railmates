@@ -10,7 +10,7 @@ class CompatibilityQuestionsModel {
     this.multi_select,
     this.label,
     this.section_id,
-    this.pos = 0,
+    this.pos,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -23,7 +23,7 @@ class CompatibilityQuestionsModel {
       section_id: CompatibilitySectionsModel.fromJson(
         json['section_id'] ?? {},
       ),
-      pos: json['pos'] ?? 0,
+      pos: json['pos'],
     );
   }
 
