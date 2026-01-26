@@ -3,7 +3,6 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
-import 'package:railmates/models/compatibility_availability_model.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
@@ -75,7 +74,7 @@ class _CompatibilityQuestionsPageState
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: LinearProgressIndicator(
-                              value: widget.questionPos! / 27,
+                              value: widget.questionPos! / 26,
                               minHeight: 10.0,
                               borderRadius: BorderRadius.circular(10.0),
                               color: Theme.of(context).colorScheme.primary,
@@ -350,10 +349,8 @@ class _CompatibilityQuestionsPageState
                       ),
                     ).then((value) {
                       SupabaseService().createCompatibility_availability(
-                        CompatibilityAvailabilityModel(
-                          start_date: value?.start.toString(),
-                          end_date: value?.end.toString(),
-                        ),
+                        value!.start.toString(),
+                        value!.end.toString(),
                       );
                     });
                   },
