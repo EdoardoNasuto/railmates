@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated()
 class CompatibilityCountriesPage extends StatefulWidget {
@@ -21,7 +21,17 @@ class _CompatibilityCountriesPageState
     extends State<CompatibilityCountriesPage> {
   List<CompatibilityDestinationsModel>? selectedCountries = [];
 
-  bool isButtonEnabled = false;
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedCountries();
+  }
+
+  Future<void> _loadSelectedCountries() async {
+    selectedCountries = await SupabaseService()
+        .getAllCompatibility_destinations();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +126,6 @@ class _CompatibilityCountriesPageState
                               return;
                             }
                           }
-                          isButtonEnabled = selectedCountries?.length == 10;
                           setState(() {});
                         },
                         child: Material(
@@ -191,7 +200,7 @@ class _CompatibilityCountriesPageState
                 width: null,
                 height: null,
                 child: ElevatedButton(
-                  onPressed: isButtonEnabled
+                  onPressed: (selectedCountries?.length == 10)
                       ? () async {
                           await SupabaseService()
                               .deleteCompatibility_destinations();

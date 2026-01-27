@@ -88,7 +88,8 @@ class SupabaseService {
       );
       await Supabase.instance.client
           .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
+          .update({'avatar_url': bucket.getPublicUrl(filePath)})
+          .eq('id', uid!);
     } catch (e) {
       throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
     }
@@ -236,5 +237,15 @@ class SupabaseService {
         .from('compatibility_destinations')
         .delete()
         .eq('profile_id', Supabase.instance.client.auth.currentUser!.id);
+  }
+
+  Future<List<CompatibilityDestinationsModel>>
+  getAllCompatibility_destinations() async {
+    final response = await Supabase.instance.client
+        .from('compatibility_destinations')
+        .select('*');
+    return response
+        .map((json) => CompatibilityDestinationsModel.fromJson(json))
+        .toList();
   }
 }
