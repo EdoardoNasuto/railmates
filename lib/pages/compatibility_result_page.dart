@@ -77,7 +77,7 @@ class CompatibilityResultPage extends StatelessWidget {
                     ),
                   ),
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 20, width: 20),
+                      const SizedBox(height: 20.0, width: 20.0),
                 ),
               ),
             ],

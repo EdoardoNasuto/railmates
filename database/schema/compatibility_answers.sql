@@ -9,9 +9,6 @@ create table public.compatibility_answers (
   constraint compatibility_answers_question_id_fkey foreign KEY (question_id) references compatibility_questions (id) on delete CASCADE
 ) TABLESPACE pg_default;
 
-create trigger compatibility_answer_insert_check BEFORE INSERT on compatibility_answers for EACH row
-execute FUNCTION compatibility_answer_check ();
-
 create trigger compatibility_answers_insert_question_id BEFORE INSERT on compatibility_answers for EACH row
 execute FUNCTION compatibility_answer_add_question_id ();
 
@@ -21,3 +18,6 @@ or DELETE
 or
 update on compatibility_answers for EACH row
 execute FUNCTION compatibility_vectors_compute ();
+
+create trigger compatibility_answer_insert_check BEFORE INSERT on compatibility_answers for EACH row
+execute FUNCTION compatibility_answer_check ();

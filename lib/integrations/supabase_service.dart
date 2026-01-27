@@ -8,6 +8,7 @@ import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
 import 'package:railmates/models/compatibility_model.dart';
+import 'package:railmates/models/compatibility_destinations_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -117,6 +118,14 @@ class SupabaseService {
     return response.map((json) => CitiesModel.fromJson(json)).toList();
   }
 
+  Future<List<CountriesModel>> getAllCountries() async {
+    final response = await Supabase.instance.client
+        .from('countries')
+        .select('*')
+        .order('population');
+    return response.map((json) => CountriesModel.fromJson(json)).toList();
+  }
+
   Future<List<CountriesModel>> getByPrefixCountries(
     String prefix, {
     int limit = 5,
@@ -195,13 +204,9 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility')
-        .upsert({
-          'start_date': start_date,
-          'end_date': end_date,
-        })
+        .upsert({'start_date': start_date, 'end_date': end_date})
         .select('*')
         .single();
-
     return CompatibilityModel.fromJson(response);
   }
 
@@ -210,6 +215,26 @@ class SupabaseService {
         .from('compatibility')
         .select('*')
         .maybeSingle();
-    return response != null ? CompatibilityModel.fromJson(response) : null;
+    return response != null ? CompatibilityModel.fromJson(response!) : null;
+  }
+
+  Future<List<CompatibilityDestinationsModel>> createCompatibility_destinations(
+    List<CompatibilityDestinationsModel> dataList,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_destinations')
+        .insert(dataList.map((d) => d.toJson()).toList())
+        .select('*');
+    final data = response as List<dynamic>;
+    return data
+        .map((json) => CompatibilityDestinationsModel.fromJson(json))
+        .toList();
+  }
+
+  Future<void> deleteCompatibility_destinations() async {
+    await Supabase.instance.client
+        .from('compatibility_destinations')
+        .delete()
+        .eq('profile_id', Supabase.instance.client.auth.currentUser!.id);
   }
 }
