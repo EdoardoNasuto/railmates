@@ -41,7 +41,7 @@ BEGIN
       AND (LEAST(c.end_date, current_end) - GREATEST(c.start_date, current_start)) >= min_common_days
 
       -- C. Filtre Vectoriel (HNSW)
-      AND (c.personality <=> current_personality) < max_distance
+      AND (c.personality <-> current_personality) / vector_dims(current_personality) < max_distance
 
       -- D. Filtre Destination "Lourd" (Calcul exact après filtrage rapide)
       AND (
@@ -64,7 +64,7 @@ BEGIN
         ) i
       ) DESC,
       -- (Optionnel) Départager par personnalité si le nombre de pays est identique
-      c.personality <=> current_personality ASC 
+      c.personality <-> current_personality ASC 
     LIMIT 1;
 
     -- 4. Si trouvé, mise à jour
