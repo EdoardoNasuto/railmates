@@ -1,33 +1,29 @@
 
 DECLARE
     _user_id uuid;
-    _vector_data integer[];
+    _country_ids bigint[];
 BEGIN
-    -- Gestion du ID utilisateur selon l'opération
+    -- 1. Determine User ID based on the operation
     IF (TG_OP = 'DELETE') THEN
         _user_id := OLD.profile_id;
     ELSE
         _user_id := NEW.profile_id;
     END IF;
 
-    -- Construction du vecteur binaire [1, 0, 0, 1...]
-    -- Basé sur l'ordre immuable des IDs de la table countries
-    SELECT array_agg(
-        CASE 
-            WHEN cd.country_id IS NOT NULL THEN 1 
-            ELSE 0 
-        END
-        ORDER BY c.id ASC
-    )
-    INTO _vector_data
-    FROM public.countries c
-    LEFT JOIN public.compatibility_destinations cd 
-        ON c.id = cd.country_id AND cd.profile_id = _user_id;
+    -- 2. Aggregate country IDs into an array
+    -- We use COALESCE to ensure we get an empty array '{}' instead of NULL if no countries exist
+    SELECT COALESCE(array_agg(country_id ORDER BY country_id ASC), '{}')
+    INTO _country_ids
+    FROM public.compatibility_destinations
+    WHERE profile_id = _user_id;
 
-    -- Mise à jour de la table compatibility
-    UPDATE public.compatibility
-    SET destination = _vector_data
-    WHERE user_id = _user_id;
+    -- 3. Upsert (Insert or Update) into compatibility table
+    -- If the user_id exists, update the destination. If not, insert a new row.
+    INSERT INTO public.compatibility (user_id, destination)
+    VALUES (_user_id, _country_ids)
+    ON CONFLICT (user_id) 
+    DO UPDATE SET
+        destination = EXCLUDED.destination;
 
     RETURN NULL;
 END;
