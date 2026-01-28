@@ -14,6 +14,9 @@ declare
   candidate_start date;
   candidate_end date;
   
+  -- Configuration seuils
+  max_distance float8 := 0.2; -- Correspond à > 80% de similarité (1 - 0.8)
+  
   found_new_member boolean;
 begin
   -- 1. Initialisation avec le Seed User
@@ -39,9 +42,14 @@ begin
     WHERE 
       c.user_id <> ALL(current_group_ids) -- Pas déjà dans le groupe
       AND c.essential = current_essential
-      -- Dates
+      
+      -- Filtre de Similarité (> 80%)
+      AND (c.personality <=> current_personality) < max_distance
+
+      -- Dates (Chevauchement suffisant)
       AND (LEAST(c.end_date, current_end) - GREATEST(c.start_date, current_start)) >= min_common_days
-      -- Destinations (Intersection)
+      
+      -- Destinations (Intersection suffisante)
       AND (
           SELECT count(*) 
           FROM (
@@ -60,33 +68,34 @@ begin
       current_group_ids := array_append(current_group_ids, candidate_id);
       found_new_member := true;
 
-      -- Update Dates
+      -- Update Dates (Réduction de la fenêtre)
       current_start := GREATEST(current_start, candidate_start);
       current_end := LEAST(current_end, candidate_end);
 
-      -- Update Destinations
-      SELECT array_agg(x) INTO current_destinations
+      -- Update Destinations (Intersection stricte)
+      -- Utilisation de COALESCE pour éviter de casser la boucle si l'intersection devient vide (cas rare mais possible)
+      SELECT COALESCE(array_agg(x), '{}') INTO current_destinations
       FROM (
         SELECT unnest(current_destinations) AS x
         INTERSECT
         SELECT unnest(candidate_destinations)
       ) t;
 
-      -- Update Personality (Moyenne)
+      -- Update Personality (Recalcul du centre de gravité du groupe)
       SELECT avg(personality) INTO current_personality 
       FROM public.compatibility 
       WHERE public.compatibility.user_id = ANY(current_group_ids);
     ELSE
-      EXIT; -- Plus de candidat valide
+      EXIT; -- Plus de candidat valide respectant les 80%
     END IF;
 
   END LOOP;
 
-  -- 5. Retourner le résultat (CORRECTION ICI : ::int)
+  -- 5. Retourner le résultat
   RETURN QUERY
   SELECT 
     gm.uid as user_id,
     (gm.uid = seed_user_id) as is_seed,
-    gm.idx::int as match_round  -- <--- CORRECTION: conversion explicite de bigint vers int
+    gm.idx::int as match_round
   FROM unnest(current_group_ids) with ordinality as gm(uid, idx);
 end;
