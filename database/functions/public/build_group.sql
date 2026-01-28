@@ -1,8 +1,8 @@
 DECLARE
   -- État du groupe
   current_group_ids uuid[] := array[seed_user_id];
-  current_personality extensions.vector;
-  current_essential extensions.vector; 
+  current_personality vector;
+  current_essential vector; 
   current_destinations int[];
   current_start date;
   current_end date;
@@ -41,10 +41,9 @@ BEGIN
       AND (LEAST(c.end_date, current_end) - GREATEST(c.start_date, current_start)) >= min_common_days
 
       -- C. Filtre Vectoriel (HNSW)
-      AND (c.personality <#> current_personality) < max_distance
+      AND (c.personality <=> current_personality) < max_distance
 
       -- D. Filtre Destination "Lourd" (Calcul exact après filtrage rapide)
-      -- On ne fait ce calcul coûteux que sur les quelques lignes qui ont passé les filtres A, B et C
       AND (
           SELECT count(*)
           FROM (
@@ -54,8 +53,18 @@ BEGIN
           ) i
       ) >= min_common_countries
 
+    -- MODIFICATION ICI : Tri par nombre de destinations communes (DESC pour avoir le MAX)
     ORDER BY 
-      c.personality <#> current_personality ASC
+      (
+        SELECT count(*)
+        FROM (
+          SELECT unnest(c.destination)
+          INTERSECT
+          SELECT unnest(current_destinations)
+        ) i
+      ) DESC,
+      -- (Optionnel) Départager par personnalité si le nombre de pays est identique
+      c.personality <=> current_personality ASC 
     LIMIT 1;
 
     -- 4. Si trouvé, mise à jour
@@ -74,8 +83,7 @@ BEGIN
         SELECT unnest(candidate_rec.destination)
       ) INTO current_destinations;
 
-      -- Mise à jour Personality (Via SQL standard pour éviter l'erreur d'opérateur)
-      -- C'est très rapide car on filtre sur les IDs du groupe (Primary Key scan)
+      -- Mise à jour Personality
       SELECT AVG(personality) INTO current_personality 
       FROM public.compatibility 
       WHERE public.compatibility.user_id = ANY(current_group_ids);
