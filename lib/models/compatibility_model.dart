@@ -10,8 +10,10 @@ class CompatibilityModel {
     this.destination,
     this.start_date,
     this.end_date,
-    this.min_days = 0,
-    this.max_days = 0,
+    this.min_days,
+    this.max_days,
+    this.min_mates,
+    this.max_mates,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -25,6 +27,8 @@ class CompatibilityModel {
       end_date: json['end_date'],
       min_days: json['min_days'],
       max_days: json['max_days'],
+      min_mates: json['min_mates'],
+      max_mates: json['max_mates'],
     );
   }
 
@@ -44,6 +48,10 @@ class CompatibilityModel {
 
   final int? max_days;
 
+  final int? min_mates;
+
+  final int? max_mates;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -55,6 +63,8 @@ class CompatibilityModel {
       'end_date': end_date,
       'min_days': min_days,
       'max_days': max_days,
+      'min_mates': min_mates,
+      'max_mates': max_mates,
     };
   }
 }

@@ -25,6 +25,10 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
 
   DateTime? endDate;
 
+  int? minMates = 2;
+
+  int? maxMates = 6;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,10 +87,14 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   child: const Text('Your availability'),
                 ),
               ),
-              const FlexSizedBox(child: Text('Ideal trip duration ?')),
+              const FlexSizedBox(
+                child: Text(
+                  'Ideal trip duration ?',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                ),
+              ),
               FlexSizedBox(
                 width: double.infinity,
-                flex: 1,
                 child: Wrap(
                   direction: Axis.horizontal,
                   children: [
@@ -139,6 +147,69 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   ],
                 ),
               ),
+              const FlexSizedBox(
+                width: null,
+                height: null,
+                child: Text(
+                  'What is your ideal group size ?',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  children: [
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: Text('At least ' + minMates!.toString() + ' days'),
+                    ),
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: NSlider(
+                        value: minMates!.toDouble(),
+                        onChanged: (value) {
+                          setState(() {
+                            minMates = value.toInt();
+                          });
+                        },
+                        max: 6.0,
+                        divisions: 4,
+                        min: 2.0,
+                        thumbColor: Theme.of(context).colorScheme.surface,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                      ),
+                    ),
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: Text('At most ' + maxMates!.toString() + ' days'),
+                    ),
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: NSlider(
+                        value: maxMates!.toDouble(),
+                        onChanged: (value) {
+                          setState(() {
+                            maxMates = value.toInt();
+                          });
+                        },
+                        max: 6.0,
+                        divisions: 4,
+                        min: 2.0,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                        thumbColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               FlexSizedBox(
                 child: ElevatedButton(
                   onPressed: () {
@@ -150,6 +221,8 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                               end_date: endDate?.toString(),
                               min_days: minDays,
                               max_days: maxDays,
+                              min_mates: minMates,
+                              max_mates: maxMates,
                             ),
                           )
                           .then(
