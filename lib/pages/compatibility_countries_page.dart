@@ -113,15 +113,20 @@ class _CompatibilityCountriesPageState
                                 ),
                               );
                             } else {
-                              showDialog(
-                                builder: (context) => const AlertDialog(
-                                  title: Text(
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
                                     'You can only choose 10 countries',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onErrorContainer,
+                                    ),
                                   ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.errorContainer,
                                 ),
-                                useRootNavigator: false,
-                                context: context,
-                                anchorPoint: const Offset(0.0, 0.0),
                               );
                               return;
                             }
@@ -139,6 +144,12 @@ class _CompatibilityCountriesPageState
                           shadowColor: Theme.of(context).colorScheme.shadow,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24.0),
+                            side: BorderSide(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                              width: 2.0,
+                            ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
