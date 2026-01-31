@@ -7,6 +7,8 @@ create table public.compatibility (
   end_date date null,
   min_days smallint null,
   max_days smallint null,
+  min_mates smallint null,
+  max_mates smallint null,
   constraint compatibility_vectors_pkey primary key (user_id),
   constraint compatibility_vectors_user_key unique (user_id),
   constraint compatibility_user_id_fkey foreign KEY (user_id) references profiles (id) on delete CASCADE,

@@ -109,9 +109,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       child: NSlider(
                         value: minDays!.toDouble(),
                         onChanged: (value) {
-                          setState(() {
-                            minDays = value.toInt();
-                          });
+                          if (value <= maxDays!) {
+                            setState(() {
+                              minDays = value.toInt();
+                            });
+                          }
                         },
                         max: 28.0,
                         divisions: 3,
@@ -132,9 +134,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       child: NSlider(
                         value: maxDays!.toDouble(),
                         onChanged: (value) {
-                          setState(() {
-                            maxDays = value.toInt();
-                          });
+                          if (minDays! <= value) {
+                            setState(() {
+                              maxDays = value.toInt();
+                            });
+                          }
                         },
                         max: 28.0,
                         divisions: 3,
@@ -172,9 +176,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       child: NSlider(
                         value: minMates!.toDouble(),
                         onChanged: (value) {
-                          setState(() {
-                            minMates = value.toInt();
-                          });
+                          if (value <= maxMates!) {
+                            setState(() {
+                              minMates = value.toInt();
+                            });
+                          }
                         },
                         max: 6.0,
                         divisions: 4,
@@ -195,9 +201,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       child: NSlider(
                         value: maxMates!.toDouble(),
                         onChanged: (value) {
-                          setState(() {
-                            maxMates = value.toInt();
-                          });
+                          if (minMates! <= value) {
+                            setState(() {
+                              maxMates = value.toInt();
+                            });
+                          }
                         },
                         max: 6.0,
                         divisions: 4,
@@ -216,43 +224,43 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                     if (startDate != null && endDate != null) {
                       SupabaseService()
                           .createCompatibility(
-                            CompatibilityModel(
-                              start_date: startDate?.toString(),
-                              end_date: endDate?.toString(),
-                              min_days: minDays,
-                              max_days: maxDays,
-                              min_mates: minMates,
-                              max_mates: maxMates,
-                            ),
-                          )
+                        CompatibilityModel(
+                          start_date: startDate?.toString(),
+                          end_date: endDate?.toString(),
+                          min_days: minDays,
+                          max_days: maxDays,
+                          min_mates: minMates,
+                          max_mates: maxMates,
+                        ),
+                      )
                           .then(
-                            (value) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CompatibilityCountriesPage(),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Invalid data, check the entries',
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onErrorContainer,
-                                    ),
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.errorContainer,
-                                ),
-                              );
-                              return null;
-                            },
+                        (value) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const CompatibilityCountriesPage(),
+                            ),
                           );
+                        },
+                        onError: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Invalid data, check the entries',
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onErrorContainer,
+                                ),
+                              ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.errorContainer,
+                            ),
+                          );
+                          return null;
+                        },
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
