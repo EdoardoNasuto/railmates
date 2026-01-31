@@ -74,7 +74,7 @@ class _CompatibilityCountriesPageState
                     textAlign: TextAlign.center,
                   ),
                   subtitle: const Text(
-                    'Choose 10 countries',
+                    'Choose 10 countries you would like to visit',
                     textAlign: TextAlign.center,
                   ),
                 ),

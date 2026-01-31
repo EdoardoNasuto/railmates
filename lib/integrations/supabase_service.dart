@@ -199,18 +199,6 @@ class SupabaseService {
         .toList();
   }
 
-  Future<CompatibilityModel> createCompatibility_availability(
-    String start_date,
-    String end_date,
-  ) async {
-    final response = await Supabase.instance.client
-        .from('compatibility')
-        .upsert({'start_date': start_date, 'end_date': end_date})
-        .select('*')
-        .single();
-    return CompatibilityModel.fromJson(response);
-  }
-
   Future<CompatibilityModel?> getByIdCompatibility_availability() async {
     final response = await Supabase.instance.client
         .from('compatibility')
@@ -247,5 +235,16 @@ class SupabaseService {
     return response
         .map((json) => CompatibilityDestinationsModel.fromJson(json))
         .toList();
+  }
+
+  Future<CompatibilityModel> createCompatibility(
+    CompatibilityModel data,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility')
+        .insert(data.toJson())
+        .select('*')
+        .single();
+    return CompatibilityModel.fromJson(response);
   }
 }

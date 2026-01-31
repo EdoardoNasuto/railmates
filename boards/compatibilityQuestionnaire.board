@@ -1,7 +1,7 @@
 {
     "canvases": [
         {
-            "x": 425.0,
+            "x": 850.0,
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
@@ -11,7 +11,7 @@
             ]
         },
         {
-            "x": 850.0,
+            "x": 1275.0,
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
@@ -21,13 +21,23 @@
             ]
         },
         {
-            "x": 0.0,
+            "x": 425.0,
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const CompatibilityCountriesPage()",
             "deps": [
                 "lib/pages/compatibility_countries_page.dart"
+            ]
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const CompatibilityDaysPage()",
+            "deps": [
+                "lib/pages/compatibility_days_page.dart"
             ]
         }
     ]

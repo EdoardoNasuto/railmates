@@ -327,36 +327,6 @@ class _CompatibilityQuestionsPageState
                   ),
                 ),
               ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: IconButton(
-                  onPressed: () async {
-                    final initialDateRange = await SupabaseService()
-                        .getByIdCompatibility_availability();
-                    showDateRangePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                      anchorPoint: const Offset(0.0, 0.0),
-                      initialDateRange: DateTimeRange(
-                        start: initialDateRange?.start_date != null
-                            ? DateTime.parse(initialDateRange!.start_date!)
-                            : DateTime.now(),
-                        end: initialDateRange?.end_date != null
-                            ? DateTime.parse(initialDateRange!.end_date!)
-                            : DateTime.now(),
-                      ),
-                    ).then((value) {
-                      SupabaseService().createCompatibility_availability(
-                        value!.start.toString(),
-                        value!.end.toString(),
-                      );
-                    });
-                  },
-                  icon: const Icon(Icons.edit_calendar),
-                ),
-              ),
             ],
           ),
         ),
