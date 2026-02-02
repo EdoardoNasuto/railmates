@@ -12,7 +12,7 @@ class AuthTextFormField extends StatefulWidget {
     this.obscure = false,
     this.onTap,
     this.errorMessage = 'Invalid format',
-    this.regexValidator,
+    this.regexValidator = '',
     super.key,
   });
 
