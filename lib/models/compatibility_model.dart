@@ -14,6 +14,8 @@ class CompatibilityModel {
     this.max_days,
     this.min_mates,
     this.max_mates,
+    this.min_budget,
+    this.max_budget,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -29,6 +31,8 @@ class CompatibilityModel {
       max_days: json['max_days'],
       min_mates: json['min_mates'],
       max_mates: json['max_mates'],
+      min_budget: json['min_budget'],
+      max_budget: json['max_budget'],
     );
   }
 
@@ -52,6 +56,10 @@ class CompatibilityModel {
 
   final int? max_mates;
 
+  final int? min_budget;
+
+  final int? max_budget;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -65,6 +73,8 @@ class CompatibilityModel {
       'max_days': max_days,
       'min_mates': min_mates,
       'max_mates': max_mates,
+      'min_budget': min_budget,
+      'max_budget': max_budget,
     };
   }
 }

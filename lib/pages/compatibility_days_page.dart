@@ -29,6 +29,8 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
 
   int? maxMates = 6;
 
+  int? budget = 500;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,49 +220,91 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   ],
                 ),
               ),
+              const FlexSizedBox(
+                width: null,
+                height: null,
+                child: Text(
+                  'What is your ideal group size ?',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  children: [
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: Text(budget!.toString() + '€'),
+                    ),
+                    FlexSizedBox(
+                      width: null,
+                      height: null,
+                      child: NSlider(
+                        value: budget!.toDouble(),
+                        onChanged: (value) {
+                          setState(() {
+                            budget = value.toInt();
+                          });
+                        },
+                        max: 800.0,
+                        divisions: 12,
+                        min: 200.0,
+                        thumbColor: Theme.of(context).colorScheme.surface,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               FlexSizedBox(
                 child: ElevatedButton(
                   onPressed: () {
                     if (startDate != null && endDate != null) {
                       SupabaseService()
                           .createCompatibility(
-                        CompatibilityModel(
-                          start_date: startDate?.toString(),
-                          end_date: endDate?.toString(),
-                          min_days: minDays,
-                          max_days: maxDays,
-                          min_mates: minMates,
-                          max_mates: maxMates,
-                        ),
-                      )
+                            CompatibilityModel(
+                              start_date: startDate?.toString(),
+                              end_date: endDate?.toString(),
+                              min_days: minDays,
+                              max_days: maxDays,
+                              min_mates: minMates,
+                              max_mates: maxMates,
+                              min_budget: budget! - 100,
+                              max_budget: budget! + 100,
+                            ),
+                          )
                           .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CompatibilityCountriesPage(),
-                            ),
-                          );
-                        },
-                        onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Invalid data, check the entries',
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onErrorContainer,
+                            (value) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CompatibilityCountriesPage(),
                                 ),
-                              ),
-                              backgroundColor: Theme.of(
-                                context,
-                              ).colorScheme.errorContainer,
-                            ),
+                              );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Invalid data, check the entries',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onErrorContainer,
+                                    ),
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.errorContainer,
+                                ),
+                              );
+                              return null;
+                            },
                           );
-                          return null;
-                        },
-                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
