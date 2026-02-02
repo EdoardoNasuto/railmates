@@ -35,6 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   TextEditingController? phoneController = TextEditingController();
 
+  String? gender;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,6 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 last_name: lastNameController?.text,
                                 birth_date: birthDateController?.text,
                                 phone: phoneController?.text,
+                                gender: gender,
                               ),
                             )
                             .then(
@@ -190,6 +193,59 @@ class _ProfilePageState extends State<ProfilePage> {
                           required: true,
                           controller: lastNameController,
                           icon: Icons.person,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 0.0,
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            items: const [
+                              DropdownMenuItem<String>(
+                                value: 'W',
+                                child: Text('Women'),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: 'M',
+                                child: Text('Man'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              gender = value;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.transgender,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              labelText: '',
+                              hintText: 'Gender',
+                              filled: true,
+                              fillColor: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainer,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                              ),
+                            ),
+                            iconSize: 24.0,
+                            elevation: 8,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return 'Field is required';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
                         AuthTextFormField(
                           label: 'Birth Date',

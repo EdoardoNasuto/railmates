@@ -11,6 +11,7 @@ class ProfilesModel {
     this.birth_date,
     this.city,
     this.phone,
+    this.gender,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -23,6 +24,7 @@ class ProfilesModel {
       birth_date: json['birth_date'],
       city: json['city'],
       phone: json['phone'],
+      gender: json['gender'],
     );
   }
 
@@ -40,6 +42,8 @@ class ProfilesModel {
 
   final String? phone;
 
+  final String? gender;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -50,6 +54,7 @@ class ProfilesModel {
       'birth_date': birth_date,
       'city': city,
       'phone': phone,
+      'gender': gender,
     };
   }
 }
