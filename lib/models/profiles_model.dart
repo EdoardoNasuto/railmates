@@ -10,6 +10,7 @@ class ProfilesModel {
     this.avatar_url,
     this.birth_date,
     this.city,
+    this.phone,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -21,6 +22,7 @@ class ProfilesModel {
       avatar_url: json['avatar_url'],
       birth_date: json['birth_date'],
       city: json['city'],
+      phone: json['phone'],
     );
   }
 
@@ -36,6 +38,8 @@ class ProfilesModel {
 
   final int? city;
 
+  final String? phone;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -45,6 +49,7 @@ class ProfilesModel {
       'avatar_url': avatar_url,
       'birth_date': birth_date,
       'city': city,
+      'phone': phone,
     };
   }
 }

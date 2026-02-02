@@ -33,6 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Uint8List? _avatarBytes;
 
+  TextEditingController? phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 first_name: firstNameController?.text,
                                 last_name: lastNameController?.text,
                                 birth_date: birthDateController?.text,
+                                phone: phoneController?.text,
                               ),
                             )
                             .then(
@@ -224,7 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                             if (picked != null && birthDateController != null) {
-                              birthDateController?.text = picked!
+                              birthDateController?.text = picked
                                   .toString()
                                   .split(' ')[0];
                               setState(() {});
@@ -247,6 +250,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             cityController?.text = result!.name!;
                             cityId = result?.id;
                           },
+                        ),
+                        AuthTextFormField(
+                          label: 'Phone',
+                          regexValidator: '^\\+[1-9]\\d{6,14}\$',
+                          required: true,
+                          controller: phoneController,
+                          icon: Icons.phone_paused_sharp,
                         ),
                       ],
                       icon: Icons.person_pin,
