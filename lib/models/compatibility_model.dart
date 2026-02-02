@@ -6,7 +6,6 @@ class CompatibilityModel {
   const CompatibilityModel({
     this.user_id,
     this.personality,
-    this.essential,
     this.destination,
     this.start_date,
     this.end_date,
@@ -23,7 +22,6 @@ class CompatibilityModel {
     return CompatibilityModel(
       user_id: json['user_id'],
       personality: json['personality'],
-      essential: json['essential'],
       destination: json['destination'],
       start_date: json['start_date'],
       end_date: json['end_date'],
@@ -39,8 +37,6 @@ class CompatibilityModel {
   final String? user_id;
 
   final String? personality;
-
-  final String? essential;
 
   final String? destination;
 
@@ -65,7 +61,6 @@ class CompatibilityModel {
     return {
       'user_id': user_id,
       'personality': personality,
-      'essential': essential,
       'destination': destination,
       'start_date': start_date,
       'end_date': end_date,

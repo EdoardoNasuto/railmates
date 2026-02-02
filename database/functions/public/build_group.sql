@@ -22,7 +22,6 @@ DECLARE
   
   -- Vecteurs et Destinations
   current_personality extensions.vector;
-  current_essential extensions.vector; 
   current_destinations int[];
   
   -- Calendrier
@@ -45,11 +44,11 @@ DECLARE
 BEGIN
   -- 1. Initialisation Seed
   SELECT 
-    personality, essential, destination, start_date, end_date, 
+    personality, destination, start_date, end_date, 
     min_days, max_days, min_mates, max_mates,
     min_budget, max_budget
   INTO 
-    current_personality, current_essential, current_destinations, current_start, current_end, 
+    current_personality, current_destinations, current_start, current_end, 
     current_min_duration, current_max_duration, current_min_mates, current_max_mates,
     current_min_budget, current_max_budget
   FROM public.compatibility
@@ -69,16 +68,14 @@ BEGIN
     FROM public.compatibility c
     WHERE 
       -- A. Filtres de base
-      c.essential = current_essential
-      AND c.user_id <> ALL(current_group_ids)
+      c.user_id <> ALL(current_group_ids)
       AND c.destination && current_destinations
 
       -- B. Compatibilité DURÉES (Jours)
       AND GREATEST(c.min_days, current_min_duration) <= LEAST(c.max_days, current_max_duration)
       AND (LEAST(c.end_date, current_end) - GREATEST(c.start_date, current_start)) >= GREATEST(c.min_days, current_min_duration)
 
-      -- C. Compatibilité BUDGET (NOUVEAU - Même logique que Durée)
-      -- Le plus haut des minimums doit être inférieur ou égal au plus bas des maximums
+      -- C. Compatibilité BUDGET
       AND GREATEST(c.min_budget, current_min_budget) <= LEAST(c.max_budget, current_max_budget)
 
       -- D. Compatibilité TAILLES DE GROUPE (Mates)
