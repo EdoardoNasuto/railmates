@@ -40,7 +40,7 @@ DECLARE
   candidate_rec record;
   
   -- Config
-  max_distance float8 := 0.15;
+  max_distance float8 := 0.4;
 BEGIN
   -- 1. Initialisation Seed
   SELECT 
@@ -83,7 +83,7 @@ BEGIN
       AND (current_group_size + 1) <= LEAST(c.max_mates, current_max_mates) -- Look-ahead
 
       -- E. Filtre Vectoriel (Personnalité)
-      AND (c.personality <-> current_personality) / vector_dims(current_personality) < max_distance
+      AND (c.personality <-> current_personality) / sqrt(vector_dims(current_personality)) < max_distance
 
       -- F. Filtre Destination "Lourd"
       AND (
