@@ -154,7 +154,7 @@ class _CompatibilityCountriesPageState
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 16.0,
-                              horizontal: 8.0,
+                              horizontal: 16.0,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -162,17 +162,13 @@ class _CompatibilityCountriesPageState
                               spacing: 10.0,
                               children: [
                                 FlexSizedBox(
-                                  child: Container(
-                                    width: 70.0,
-                                    height: 45.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: Colors.grey.shade200,
-                                    ),
-                                    clipBehavior: Clip.hardEdge,
+                                  width: double.infinity,
+                                  flex: 1,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
                                     child: SvgPicture(
                                       SvgNetworkLoader(element.flag_url!),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
