@@ -3,13 +3,20 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
+import 'package:railmates/pages/compatibility_result_page.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityQuestionsPage({this.questionPos = 1, super.key});
+  const CompatibilityQuestionsPage({
+    this.questionPos = 1,
+    this.questionsCount = 20,
+    super.key,
+  });
 
   final int? questionPos;
+
+  final int? questionsCount;
 
   @override
   State<CompatibilityQuestionsPage> createState() {
@@ -74,7 +81,8 @@ class _CompatibilityQuestionsPageState
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: LinearProgressIndicator(
-                              value: widget.questionPos! / 26,
+                              value:
+                                  widget.questionPos! / widget.questionsCount!,
                               minHeight: 10.0,
                               borderRadius: BorderRadius.circular(10.0),
                               color: Theme.of(context).colorScheme.primary,
@@ -275,15 +283,25 @@ class _CompatibilityQuestionsPageState
                                       .createCompatibility_answers(
                                         _selectedOptionIds.toList(),
                                       );
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          CompatibilityQuestionsPage(
-                                            questionPos:
-                                                widget.questionPos! + 1,
-                                          ),
-                                    ),
-                                  );
+                                  if (widget.questionPos ==
+                                      widget.questionsCount) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CompatibilityResultPage(),
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CompatibilityQuestionsPage(
+                                              questionPos:
+                                                  widget.questionPos! + 1,
+                                            ),
+                                      ),
+                                    );
+                                  }
                                 }
                               : null,
                           style: ButtonStyle(
