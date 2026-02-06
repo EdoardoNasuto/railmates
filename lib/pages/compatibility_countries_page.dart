@@ -4,6 +4,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:railmates/global_state.dart';
 
 @NowaGenerated()
 class CompatibilityCountriesPage extends StatefulWidget {
@@ -28,8 +29,8 @@ class _CompatibilityCountriesPageState
   }
 
   Future<void> _loadSelectedCountries() async {
-    selectedCountries = await SupabaseService()
-        .getAllCompatibility_destinations();
+    selectedCountries =
+        await SupabaseService().getAllCompatibility_destinations();
     setState(() {});
   }
 
@@ -65,7 +66,7 @@ class _CompatibilityCountriesPageState
                 height: null,
                 child: ListTile(
                   title: Text(
-                    'Favorite countries',
+                    GlobalState.of(context).localizations.favoriteCountries,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w800,
@@ -73,8 +74,8 @@ class _CompatibilityCountriesPageState
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  subtitle: const Text(
-                    'Choose 10 countries you would like to visit',
+                  subtitle: Text(
+                    GlobalState.of(context).localizations.chooseUpTo10Countries,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -86,11 +87,11 @@ class _CompatibilityCountriesPageState
                   builder: (context, data) => GridView.custom(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 15.0,
-                          crossAxisSpacing: 15.0,
-                          childAspectRatio: 1.1,
-                        ),
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 15.0,
+                      crossAxisSpacing: 15.0,
+                      childAspectRatio: 1.1,
+                    ),
                     childrenDelegate: SliverChildBuilderDelegate((
                       context,
                       index,
@@ -116,7 +117,9 @@ class _CompatibilityCountriesPageState
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'You can only choose 10 countries',
+                                    GlobalState.of(context)
+                                        .localizations
+                                        .onlyChoose10Countries,
                                     style: TextStyle(
                                       color: Theme.of(
                                         context,
@@ -134,10 +137,9 @@ class _CompatibilityCountriesPageState
                           setState(() {});
                         },
                         child: Material(
-                          color:
-                              (selectedCountries!.any(
-                                (dest) => dest.country_id == element.id,
-                              ))
+                          color: (selectedCountries!.any(
+                            (dest) => dest.country_id == element.id,
+                          ))
                               ? Theme.of(context).colorScheme.inversePrimary
                               : Theme.of(context).colorScheme.surfaceContainer,
                           elevation: 5.0,
@@ -213,12 +215,12 @@ class _CompatibilityCountriesPageState
                               .deleteCompatibility_destinations();
                           await SupabaseService()
                               .createCompatibility_destinations(
-                                selectedCountries!,
-                              );
+                            selectedCountries!,
+                          );
                         }
                       : null,
                   onLongPress: null,
-                  child: const Text('Confirm'),
+                  child: Text(GlobalState.of(context).localizations.confirm),
                 ),
               ),
             ],

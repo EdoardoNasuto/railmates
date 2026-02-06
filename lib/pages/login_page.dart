@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/pages/otp_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -52,53 +53,68 @@ class _LoginPageState extends State<LoginPage> {
                     submitForm: () {
                       SupabaseService()
                           .signIn(
-                            emailController.text,
-                            passwordController!.text,
-                          )
+                        emailController.text,
+                        passwordController!.text,
+                      )
                           .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Login successful!'),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    RegExp('message:\\s*([^,]+)')
-                                            .firstMatch(error.toString())
-                                            ?.group(1) ??
-                                        'Error raised',
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.error,
-                                ),
-                              );
-                            },
+                        (value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                GlobalState.of(
+                                  context,
+                                ).localizations.loginSuccessful,
+                              ),
+                            ),
                           );
+                        },
+                        onError: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                RegExp('message:s*([^,]+)')
+                                        .firstMatch(error.toString())
+                                        ?.group(1) ??
+                                    GlobalState.of(
+                                      context,
+                                    ).localizations.errorRaised,
+                              ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.error,
+                            ),
+                          );
+                        },
+                      );
                     },
                     textFields: [
                       AuthTextFormField(
-                        label: 'Email',
+                        label: GlobalState.of(context).localizations.email,
                         required: true,
+                        requiredErrorMessage: GlobalState.of(
+                          context,
+                        ).localizations.fieldRequired,
                         controller: emailController,
                         obscure: false,
                         icon: Icons.email_outlined,
-                        errorMessage: 'Invalid format',
+                        errorMessage: GlobalState.of(
+                          context,
+                        ).localizations.invalidFormat,
                         regexValidator:
                             '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                       ),
                       AuthTextFormField(
-                        label: 'Password',
+                        label: GlobalState.of(context).localizations.password,
                         required: true,
+                        requiredErrorMessage: GlobalState.of(
+                          context,
+                        ).localizations.fieldRequired,
                         controller: passwordController,
                         obscure: true,
                         icon: Icons.lock_outline_rounded,
-                        errorMessage:
-                            'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                        errorMessage: GlobalState.of(
+                          context,
+                        ).localizations.passwordRequirements,
                         regexValidator:
                             '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                       ),
@@ -109,40 +125,46 @@ class _LoginPageState extends State<LoginPage> {
                             SupabaseService()
                                 .resetPasswordForEmail(emailController.text)
                                 .then(
-                                  (value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Email sent'),
-                                      ),
-                                    );
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => OtpPage(
-                                          email: emailController.text,
-                                          otpType: OtpType.recovery,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  onError: (error) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          RegExp('message:\\s*([^,]+)')
-                                                  .firstMatch(error.toString())
-                                                  ?.group(1) ??
-                                              'Error raised',
-                                        ),
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).colorScheme.error,
-                                      ),
-                                    );
-                                  },
+                              (value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      GlobalState.of(
+                                        context,
+                                      ).localizations.emailSent,
+                                    ),
+                                  ),
                                 );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => OtpPage(
+                                      email: emailController.text,
+                                      otpType: OtpType.recovery,
+                                    ),
+                                  ),
+                                );
+                              },
+                              onError: (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      RegExp('message:\\s*([^,]+)')
+                                              .firstMatch(error.toString())
+                                              ?.group(1) ??
+                                          'Error raised',
+                                    ),
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: Text(
-                            'Forgot password?',
+                            GlobalState.of(
+                              context,
+                            ).localizations.forgotPassword,
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -153,7 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                     icon: Icons.account_circle_outlined,
-                    nom: 'Login',
+                    nom: GlobalState.of(context).localizations.login,
+                    buttonName: GlobalState.of(context).localizations.login,
                   ),
                   FlexSizedBox(
                     width: double.infinity,
@@ -167,7 +190,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Not registered yet?'),
+                          Text(
+                            GlobalState.of(
+                              context,
+                            ).localizations.notRegisteredYet,
+                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
@@ -177,7 +204,9 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             },
                             child: Text(
-                              'Create account',
+                              GlobalState.of(
+                                context,
+                              ).localizations.createAccount,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).colorScheme.primary,

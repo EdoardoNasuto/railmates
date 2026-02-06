@@ -3,6 +3,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/pages/city_search_page.dart';
 import 'package:railmates/pages/compatibility_questions_page.dart';
@@ -31,22 +32,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppState>(
-      create: (context) => AppState(),
-      builder: (context, child) => MaterialApp(
-        theme: AppState.of(context).theme,
-        routes: {
-          'CitySearchPage': (context) => const CitySearchPage(),
-          'CompatibilityQuestionsPage': (context) =>
-              const CompatibilityQuestionsPage(),
-          'CountrySearchPage': (context) => const CountrySearchPage(),
-          'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
-          'LoginPage': (context) => const LoginPage(),
-          'OtpPage': (context) => const OtpPage(),
-          'ProfilePage': (context) => const ProfilePage(),
-          'RegisterPage': (context) => const RegisterPage(),
+    return ChangeNotifierProvider<GlobalState>(
+      create: (context) => GlobalState(),
+      child: ChangeNotifierProvider<AppState>(
+        create: (context) => AppState(),
+        builder: (context, child) {
+          return MaterialApp(
+            title: GlobalState.of(context).localizations.appTitle,
+            theme: AppState.of(context).theme,
+            routes: {
+              'CitySearchPage': (context) => const CitySearchPage(),
+              'CompatibilityQuestionsPage': (context) =>
+                  const CompatibilityQuestionsPage(),
+              'CountrySearchPage': (context) => const CountrySearchPage(),
+              'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
+              'LoginPage': (context) => const LoginPage(),
+              'OtpPage': (context) => const OtpPage(),
+              'ProfilePage': (context) => const ProfilePage(),
+              'RegisterPage': (context) => const RegisterPage(),
+            },
+            initialRoute: 'LoginPage',
+          );
         },
-        initialRoute: 'LoginPage',
       ),
     );
   }

@@ -5,17 +5,16 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 class AuthForm extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const AuthForm({
-    this.nom = 'Login',
-    this.buttonName = 'Sign in',
+    this.nom,
+    this.buttonName,
     this.icon = Icons.login_rounded,
     this.submitForm,
     this.textFields = const [],
     super.key,
   });
+  final String? nom;
 
-  final String nom;
-
-  final String buttonName;
+  final String? buttonName;
 
   final IconData? icon;
 
@@ -58,7 +57,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
               ),
               Text(
-                widget.nom,
+                widget.nom ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28.0,
@@ -118,7 +117,7 @@ class _AuthFormState extends State<AuthForm> {
                       right: 0.0,
                     ),
                     child: Text(
-                      widget.buttonName,
+                      widget.buttonName ?? '',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,

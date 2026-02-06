@@ -3,6 +3,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/global_state.dart';
 
 @NowaGenerated()
 class ForgotPasswordPage extends StatefulWidget {
@@ -56,27 +57,38 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   FlexSizedBox(
                     child: AuthForm(
-                      nom: 'Reset password',
+                      nom: GlobalState.of(context).localizations.resetPassword,
                       icon: Icons.lock_reset,
                       textFields: [
                         AuthTextFormField(
-                          label: 'New password',
+                          label:
+                              GlobalState.of(context).localizations.newPassword,
                           controller: newPasswordController,
                           obscure: true,
                           required: true,
+                          requiredErrorMessage: GlobalState.of(context)
+                              .localizations
+                              .fieldRequired,
                           icon: Icons.lock_outlined,
-                          errorMessage:
-                              'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                          errorMessage: GlobalState.of(context)
+                              .localizations
+                              .passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         AuthTextFormField(
-                          label: 'Confirm password',
+                          label: GlobalState.of(context)
+                              .localizations
+                              .confirmPassword,
                           required: true,
+                          requiredErrorMessage: GlobalState.of(context)
+                              .localizations
+                              .fieldRequired,
                           obscure: true,
                           icon: Icons.lock,
-                          errorMessage:
-                              'Required: 8+ chars, lowercase, uppercase, digit, symbol',
+                          errorMessage: GlobalState.of(context)
+                              .localizations
+                              .passwordRequirements,
                           controller: confirmNewPasswordController,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
@@ -87,40 +99,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             confirmNewPasswordController?.text) {
                           SupabaseService()
                               .updateUser(
-                                widget.email,
-                                newPasswordController?.text,
-                              )
+                            widget.email,
+                            newPasswordController?.text,
+                          )
                               .then(
-                                (value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Password successfully changed !',
-                                      ),
-                                    ),
-                                  );
-                                },
-                                onError: (error) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        RegExp('message:\\s*([^,]+)')
-                                                .firstMatch(error.toString())
-                                                ?.group(1) ??
-                                            'Error raised',
-                                      ),
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.error,
-                                    ),
-                                  );
-                                },
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    GlobalState.of(context)
+                                        .localizations
+                                        .passwordSuccessfullyChanged,
+                                  ),
+                                ),
                               );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    RegExp('message:\\s*([^,]+)')
+                                            .firstMatch(error.toString())
+                                            ?.group(1) ??
+                                        GlobalState.of(context)
+                                            .localizations
+                                            .errorRaised,
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
+                              );
+                            },
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
-                                'Password confirmation does not match',
+                              content: Text(
+                                GlobalState.of(context)
+                                    .localizations
+                                    .passwordConfirmationMismatch,
                               ),
                               backgroundColor: Theme.of(
                                 context,
@@ -129,7 +147,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           );
                         }
                       },
-                      buttonName: 'Reset password',
+                      buttonName:
+                          GlobalState.of(context).localizations.resetPassword,
                     ),
                   ),
                 ],

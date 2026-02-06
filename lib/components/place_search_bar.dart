@@ -5,11 +5,12 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 @NowaGenerated({'auto-width': 393.0, 'auto-height': 53.0})
 class PlaceSearchBar extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const PlaceSearchBar({this.controller, this.onChange, super.key});
+  const PlaceSearchBar({this.controller, this.onChange, this.hint, super.key});
 
   final TextEditingController? controller;
 
   final void Function(String value)? onChange;
+  final String? hint;
 
   @override
   State<PlaceSearchBar> createState() {
@@ -56,7 +57,7 @@ class _PlaceSearchBarState extends State<PlaceSearchBar> {
             vertical: 18.0,
             horizontal: 10.0,
           ),
-          hintText: 'Rechercher une ville',
+          hintText: widget.hint ?? '',
           border: InputBorder.none,
         ),
         autofocus: true,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/global_state.dart';
+
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/pages/compatibility_countries_page.dart';
@@ -65,11 +67,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
             spacing: 20.0,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const FlexSizedBox(
+              FlexSizedBox(
                 width: null,
                 height: null,
                 child: Text(
-                  'Important information',
+                  GlobalState.of(context).localizations.importantInformation,
                   style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w800),
                 ),
               ),
@@ -98,17 +100,14 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   onLongPress: null,
                   child: Text(
                     dates == null
-                        ? 'Your availability'
-                        : 'From ' +
-                            (dates?.start.toString().split(' ').first ?? '') +
-                            ' to ' +
-                            (dates?.end.toString().split(' ').first ?? ''),
+                        ? GlobalState.of(context).localizations.yourAvailability
+                        : '${dates?.start.toString().split(' ').first ?? ''} → ${dates?.end.toString().split(' ').first ?? ''}',
                   ),
                 ),
               ),
-              const FlexSizedBox(
+              FlexSizedBox(
                 child: Text(
-                  'Ideal trip duration ?',
+                  GlobalState.of(context).localizations.idealTripDuration,
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
                 ),
               ),
@@ -117,7 +116,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Column(
                   children: [
                     Text(
-                      'From ${days.start.toInt()} to ${days.end.toInt()} days',
+                      '${days.start.toInt()} - ${days.end.toInt()}',
                     ),
                     RangeSlider(
                       values: days,
@@ -138,11 +137,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   ],
                 ),
               ),
-              const FlexSizedBox(
+              FlexSizedBox(
                 width: null,
                 height: null,
                 child: Text(
-                  'What is your ideal group size ?',
+                  GlobalState.of(context).localizations.idealTripDuration,
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
                 ),
               ),
@@ -151,7 +150,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Column(
                   children: [
                     Text(
-                      'From ${mates.start.toInt()} to ${mates.end.toInt()} mates',
+                      '${mates.start.toInt()} - ${mates.end.toInt()}',
                     ),
                     RangeSlider(
                       values: mates,
@@ -172,11 +171,11 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   ],
                 ),
               ),
-              const FlexSizedBox(
+              FlexSizedBox(
                 width: null,
                 height: null,
                 child: Text(
-                  'What is your ideal budget range ?',
+                  GlobalState.of(context).localizations.idealTripDuration,
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
                 ),
               ),
@@ -184,9 +183,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Text(
-                      'From ${budget.start.toInt()}€ to ${budget.end.toInt()}€',
-                    ),
+                    Text('${budget.start.toInt()} - ${budget.end.toInt()}'),
                     RangeSlider(
                       values: budget,
                       min: 200.0,
@@ -251,7 +248,9 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Incomplete information',
+                            GlobalState.of(context)
+                                .localizations
+                                .incompleteInformation,
                             style: TextStyle(
                               color: Theme.of(
                                 context,
@@ -265,7 +264,8 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       );
                     }
                   },
-                  child: const Text('Button'),
+                  child: Text(
+                      GlobalState.of(context).localizations.continueButton),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:railmates/pages/compatibility_result_page.dart';
@@ -94,7 +95,11 @@ class _CompatibilityQuestionsPageState
                         width: null,
                         height: null,
                         child: Text(
-                          data?.section_id?.label['en'] ?? 'Section',
+                          data?.section_id?.label[GlobalState.of(
+                                context,
+                                listen: false,
+                              ).locale!.languageCode] ??
+                              'Section',
                           style: TextStyle(
                             color: Theme.of(
                               context,
@@ -131,7 +136,13 @@ class _CompatibilityQuestionsPageState
                             ).colorScheme.surfaceTint,
                             child: ListTile(
                               title: Text(
-                                data?.label['en'] ?? 'Question',
+                                data?.label[GlobalState.of(
+                                      context,
+                                      listen: false,
+                                    ).locale!.languageCode] ??
+                                    GlobalState.of(
+                                      context,
+                                    ).localizations.question,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -141,7 +152,9 @@ class _CompatibilityQuestionsPageState
                               subtitle: Visibility(
                                 visible: data!.multi_select!,
                                 child: Text(
-                                  'Multiple answers possible',
+                                  GlobalState.of(
+                                    context,
+                                  ).localizations.multipleAnswersPossible,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Theme.of(
@@ -201,7 +214,11 @@ class _CompatibilityQuestionsPageState
                         ).colorScheme.surfaceTint,
                         child: ListTile(
                           title: Text(
-                            element.label['en'] ?? 'Option',
+                            element.label[GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).locale!.languageCode] ??
+                                GlobalState.of(context).localizations.option,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
@@ -209,7 +226,13 @@ class _CompatibilityQuestionsPageState
                             ),
                           ),
                           subtitle: Text(
-                            element.description['en'] ?? 'Description',
+                            element.description[GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).locale!.languageCode] ??
+                                GlobalState.of(
+                                  context,
+                                ).localizations.description,
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.justify,
                           ),
@@ -273,16 +296,16 @@ class _CompatibilityQuestionsPageState
                                   final CompatibilityQuestionsModel? question =
                                       await SupabaseService()
                                           .getByPosCompatibility_question(
-                                            widget.questionPos!,
-                                          );
+                                    widget.questionPos!,
+                                  );
                                   await SupabaseService()
                                       .deleteCompatibility_answers(
-                                        question!.id!,
-                                      );
+                                    question!.id!,
+                                  );
                                   await SupabaseService()
                                       .createCompatibility_answers(
-                                        _selectedOptionIds.toList(),
-                                      );
+                                    _selectedOptionIds.toList(),
+                                  );
                                   if (widget.questionPos ==
                                       widget.questionsCount) {
                                     Navigator.of(context).push(
@@ -296,9 +319,8 @@ class _CompatibilityQuestionsPageState
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             CompatibilityQuestionsPage(
-                                              questionPos:
-                                                  widget.questionPos! + 1,
-                                            ),
+                                          questionPos: widget.questionPos! + 1,
+                                        ),
                                       ),
                                     );
                                   }
@@ -307,18 +329,18 @@ class _CompatibilityQuestionsPageState
                           style: ButtonStyle(
                             backgroundColor:
                                 WidgetStateProperty.resolveWith<Color?>((
-                                  states,
-                                ) {
-                                  if (states.contains(WidgetState.disabled)) {
-                                    return null;
-                                  }
-                                  if (states.contains(WidgetState.hovered)) {
-                                    return null;
-                                  }
-                                  return Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer;
-                                }),
+                              states,
+                            ) {
+                              if (states.contains(WidgetState.disabled)) {
+                                return null;
+                              }
+                              if (states.contains(WidgetState.hovered)) {
+                                return null;
+                              }
+                              return Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer;
+                            }),
                             foregroundColor:
                                 const WidgetStatePropertyAll<Color?>(null),
                             shadowColor: const WidgetStatePropertyAll<Color?>(
@@ -330,14 +352,12 @@ class _CompatibilityQuestionsPageState
                             side: const WidgetStatePropertyAll<BorderSide?>(
                               null,
                             ),
-                            shape:
-                                const WidgetStatePropertyAll<
-                                  RoundedRectangleBorder?
-                                >(null),
+                            shape: const WidgetStatePropertyAll<
+                                RoundedRectangleBorder?>(null),
                           ),
-                          child: const Text(
-                            'Confirm',
-                            style: TextStyle(fontSize: 28.0),
+                          child: Text(
+                            GlobalState.of(context).localizations.confirm,
+                            style: const TextStyle(fontSize: 28.0),
                           ),
                         ),
                       ),

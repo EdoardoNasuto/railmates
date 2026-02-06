@@ -6,19 +6,20 @@ class AuthTextFormField extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const AuthTextFormField({
     this.icon = Icons.text_fields,
-    this.label = 'Label',
+    this.label,
     this.controller,
     this.required = false,
     this.obscure = false,
     this.onTap,
-    this.errorMessage = 'Invalid format',
+    this.errorMessage,
+    this.requiredErrorMessage,
     this.regexValidator = '',
     super.key,
   });
 
   final IconData? icon;
 
-  final String label;
+  final String? label;
 
   final TextEditingController? controller;
 
@@ -28,7 +29,8 @@ class AuthTextFormField extends StatefulWidget {
 
   final void Function()? onTap;
 
-  final String errorMessage;
+  final String? errorMessage;
+  final String? requiredErrorMessage;
 
   final String? regexValidator;
 
@@ -72,7 +74,7 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
             obscureText: _isObscure,
             validator: (value) {
               if (widget.required && (value == null || value!.isEmpty)) {
-                return 'Field is required';
+                return widget.requiredErrorMessage ?? 'Required';
               }
               if (!RegExp(widget.regexValidator!).hasMatch(value!)) {
                 return widget.errorMessage;

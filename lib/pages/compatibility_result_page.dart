@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/global_state.dart';
 
 @NowaGenerated()
 class CompatibilityResultPage extends StatelessWidget {
@@ -38,7 +39,7 @@ class CompatibilityResultPage extends StatelessWidget {
                 height: null,
                 child: ListTile(
                   title: Text(
-                    'Tile',
+                    GlobalState.of(context).localizations.appTitle,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w800,
@@ -46,7 +47,8 @@ class CompatibilityResultPage extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  subtitle: const Text('Dates', textAlign: TextAlign.center),
+                  subtitle: Text(GlobalState.of(context).localizations.dates,
+                      textAlign: TextAlign.center),
                 ),
               ),
               FlexSizedBox(
@@ -64,14 +66,18 @@ class CompatibilityResultPage extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: const ListTile(
+                    child: ListTile(
                       title: Text(
-                        '{FirstName} {LastName}',
+                        GlobalState.of(context)
+                            .localizations
+                            .resultNameTemplate,
                         style: TextStyle(fontSize: 26.0),
                         textAlign: TextAlign.center,
                       ),
                       subtitle: Text(
-                        '{Age} {Region} {Country}',
+                        GlobalState.of(context)
+                            .localizations
+                            .resultDetailTemplate,
                         textAlign: TextAlign.center,
                       ),
                     ),
