@@ -7,14 +7,10 @@ class CompatibilityModel {
     this.user_id,
     this.personality,
     this.destination,
-    this.start_date,
-    this.end_date,
-    this.min_days,
-    this.max_days,
-    this.min_mates,
-    this.max_mates,
-    this.min_budget,
-    this.max_budget,
+    this.dates,
+    this.days,
+    this.mates,
+    this.budget,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -23,14 +19,10 @@ class CompatibilityModel {
       user_id: json['user_id'],
       personality: json['personality'],
       destination: json['destination'],
-      start_date: json['start_date'],
-      end_date: json['end_date'],
-      min_days: json['min_days'],
-      max_days: json['max_days'],
-      min_mates: json['min_mates'],
-      max_mates: json['max_mates'],
-      min_budget: json['min_budget'],
-      max_budget: json['max_budget'],
+      dates: json['dates'],
+      days: json['days'],
+      mates: json['mates'],
+      budget: json['budget'],
     );
   }
 
@@ -38,23 +30,15 @@ class CompatibilityModel {
 
   final String? personality;
 
-  final String? destination;
+  final dynamic destination;
 
-  final String? start_date;
+  final String? dates;
 
-  final String? end_date;
+  final String? days;
 
-  final int? min_days;
+  final String? mates;
 
-  final int? max_days;
-
-  final int? min_mates;
-
-  final int? max_mates;
-
-  final int? min_budget;
-
-  final int? max_budget;
+  final String? budget;
 
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
@@ -62,14 +46,10 @@ class CompatibilityModel {
       'user_id': user_id,
       'personality': personality,
       'destination': destination,
-      'start_date': start_date,
-      'end_date': end_date,
-      'min_days': min_days,
-      'max_days': max_days,
-      'min_mates': min_mates,
-      'max_mates': max_mates,
-      'min_budget': min_budget,
-      'max_budget': max_budget,
+      'dates': dates,
+      'days': days,
+      'mates': mates,
+      'budget': budget,
     };
   }
 }

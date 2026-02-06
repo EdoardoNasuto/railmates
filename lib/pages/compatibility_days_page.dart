@@ -17,19 +17,26 @@ class CompatibilityDaysPage extends StatefulWidget {
 
 @NowaGenerated()
 class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
-  int? minDays = 7;
+  RangeValues days = const RangeValues(7.0, 28.0);
 
-  int? maxDays = 28;
+  DateTimeRange? dates;
 
-  DateTime? startDate;
+  RangeValues mates = const RangeValues(2.0, 6.0);
 
-  DateTime? endDate;
+  RangeValues budget = const RangeValues(400.0, 600.0);
 
-  int? minMates = 2;
+  String? _toDateRange(DateTimeRange? range) {
+    if (range == null) {
+      return null;
+    }
+    final start = range.start.toIso8601String().split('T').first;
+    final end = range.end.toIso8601String().split('T').first;
+    return '[${start},${end}]';
+  }
 
-  int? maxMates = 6;
-
-  int? budget = 500;
+  String _toInt4Range(RangeValues range) {
+    return '[${range.start.toInt()},${range.end.toInt()}]';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,23 +77,33 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 width: null,
                 height: 40.0,
                 child: ElevatedButton(
-                  onPressed: () {
-                    showDateRangePicker(
+                  onPressed: () async {
+                    final picked = await showDateRangePicker(
                       context: context,
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 365)),
                       anchorPoint: const Offset(0.0, 0.0),
-                      initialDateRange: DateTimeRange(
-                        start: startDate ?? DateTime.now(),
-                        end: endDate ?? DateTime.now(),
-                      ),
-                    ).then((value) {
-                      startDate = value?.start;
-                      endDate = value?.end;
-                    });
+                      initialDateRange: dates ??
+                          DateTimeRange(
+                            start: DateTime.now(),
+                            end: DateTime.now().add(const Duration(days: 7)),
+                          ),
+                    );
+                    if (picked != null) {
+                      setState(() {
+                        dates = picked;
+                      });
+                    }
                   },
                   onLongPress: null,
-                  child: const Text('Your availability'),
+                  child: Text(
+                    dates == null
+                        ? 'Your availability'
+                        : 'From ' +
+                            (dates?.start.toString().split(' ').first ?? '') +
+                            ' to ' +
+                            (dates?.end.toString().split(' ').first ?? ''),
+                  ),
                 ),
               ),
               const FlexSizedBox(
@@ -97,58 +114,26 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
               ),
               FlexSizedBox(
                 width: double.infinity,
-                child: Wrap(
-                  direction: Axis.horizontal,
+                child: Column(
                   children: [
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: Text('At least ' + minDays!.toString() + ' days'),
+                    Text(
+                      'From ${days.start.toInt()} to ${days.end.toInt()} days',
                     ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: NSlider(
-                        value: minDays!.toDouble(),
-                        onChanged: (value) {
-                          if (value <= maxDays!) {
-                            setState(() {
-                              minDays = value.toInt();
-                            });
-                          }
-                        },
-                        max: 28.0,
-                        divisions: 3,
-                        min: 7.0,
-                        thumbColor: Theme.of(context).colorScheme.surface,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                    RangeSlider(
+                      values: days,
+                      min: 7.0,
+                      max: 28.0,
+                      divisions: 3,
+                      labels: RangeLabels(
+                        days.start.toInt().toString(),
+                        days.end.toInt().toString(),
                       ),
-                    ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: Text('At most ' + maxDays!.toString() + ' days'),
-                    ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: NSlider(
-                        value: maxDays!.toDouble(),
-                        onChanged: (value) {
-                          if (minDays! <= value) {
-                            setState(() {
-                              maxDays = value.toInt();
-                            });
-                          }
-                        },
-                        max: 28.0,
-                        divisions: 3,
-                        min: 7.0,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        overlayColor: Theme.of(context).colorScheme.onTertiary,
-                        thumbColor: Theme.of(context).colorScheme.surface,
-                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          days = value;
+                        });
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
                     ),
                   ],
                 ),
@@ -162,60 +147,27 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 ),
               ),
               FlexSizedBox(
-                width: null,
-                height: null,
-                child: Wrap(
-                  direction: Axis.horizontal,
+                width: double.infinity,
+                child: Column(
                   children: [
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: Text('At least ' + minMates!.toString() + ' days'),
+                    Text(
+                      'From ${mates.start.toInt()} to ${mates.end.toInt()} mates',
                     ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: NSlider(
-                        value: minMates!.toDouble(),
-                        onChanged: (value) {
-                          if (value <= maxMates!) {
-                            setState(() {
-                              minMates = value.toInt();
-                            });
-                          }
-                        },
-                        max: 6.0,
-                        divisions: 4,
-                        min: 2.0,
-                        thumbColor: Theme.of(context).colorScheme.surface,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                    RangeSlider(
+                      values: mates,
+                      min: 2.0,
+                      max: 6.0,
+                      divisions: 4,
+                      labels: RangeLabels(
+                        mates.start.toInt().toString(),
+                        mates.end.toInt().toString(),
                       ),
-                    ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: Text('At most ' + maxMates!.toString() + ' days'),
-                    ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: NSlider(
-                        value: maxMates!.toDouble(),
-                        onChanged: (value) {
-                          if (minMates! <= value) {
-                            setState(() {
-                              maxMates = value.toInt();
-                            });
-                          }
-                        },
-                        max: 6.0,
-                        divisions: 4,
-                        min: 2.0,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        overlayColor: Theme.of(context).colorScheme.onTertiary,
-                        thumbColor: Theme.of(context).colorScheme.surface,
-                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          mates = value;
+                        });
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
                     ),
                   ],
                 ),
@@ -224,38 +176,32 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 width: null,
                 height: null,
                 child: Text(
-                  'What is your ideal group size ?',
+                  'What is your ideal budget range ?',
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
                 ),
               ),
               FlexSizedBox(
-                width: null,
-                height: null,
-                child: Wrap(
-                  direction: Axis.horizontal,
+                width: double.infinity,
+                child: Column(
                   children: [
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: Text(budget!.toString() + '€'),
+                    Text(
+                      'From ${budget.start.toInt()}€ to ${budget.end.toInt()}€',
                     ),
-                    FlexSizedBox(
-                      width: null,
-                      height: null,
-                      child: NSlider(
-                        value: budget!.toDouble(),
-                        onChanged: (value) {
-                          setState(() {
-                            budget = value.toInt();
-                          });
-                        },
-                        max: 800.0,
-                        divisions: 12,
-                        min: 200.0,
-                        thumbColor: Theme.of(context).colorScheme.surface,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        overlayColor: Theme.of(context).colorScheme.onTertiary,
+                    RangeSlider(
+                      values: budget,
+                      min: 200.0,
+                      max: 800.0,
+                      divisions: 12,
+                      labels: RangeLabels(
+                        budget.start.toInt().toString(),
+                        budget.end.toInt().toString(),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          budget = value;
+                        });
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
                     ),
                   ],
                 ),
@@ -263,48 +209,44 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
               FlexSizedBox(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (startDate != null && endDate != null) {
+                    if (dates != null) {
                       SupabaseService()
                           .createCompatibility(
-                            CompatibilityModel(
-                              start_date: startDate?.toString(),
-                              end_date: endDate?.toString(),
-                              min_days: minDays,
-                              max_days: maxDays,
-                              min_mates: minMates,
-                              max_mates: maxMates,
-                              min_budget: budget! - 100,
-                              max_budget: budget! + 100,
-                            ),
-                          )
+                        CompatibilityModel(
+                          dates: _toDateRange(dates),
+                          days: _toInt4Range(days),
+                          mates: _toInt4Range(mates),
+                          budget: _toInt4Range(budget),
+                        ),
+                      )
                           .then(
-                            (value) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CompatibilityCountriesPage(),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Invalid data, check the entries',
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onErrorContainer,
-                                    ),
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.errorContainer,
-                                ),
-                              );
-                              return null;
-                            },
+                        (value) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const CompatibilityCountriesPage(),
+                            ),
                           );
+                        },
+                        onError: (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                error.toString(),
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onErrorContainer,
+                                ),
+                              ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.errorContainer,
+                            ),
+                          );
+                          return null;
+                        },
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
