@@ -23,18 +23,15 @@ COMMENT ON SCHEMA "public" IS 'standard public schema';
 
 
 
-CREATE OR REPLACE FUNCTION "public"."build_group"("seed_user_id" "uuid", "min_common_countries" integer DEFAULT 1) RETURNS TABLE("uid" "uuid", "is_seed" boolean, "idx" integer, "dates" "daterange", "days" "int4range", "mates" "int4range", "budget" "int4range")
+CREATE OR REPLACE FUNCTION "public"."build_group"("seed_user_id" "uuid", "min_common_countries" integer DEFAULT 1) RETURNS TABLE("user_id" "uuid", "final_dates" "daterange", "final_days" "int4range", "final_mates" "int4range", "final_budget" "int4range", "destination_stats" "jsonb")
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
-  -- Variables internes (préfixées par current_ pour éviter les conflits)
   current_group_ids uuid[] := array[seed_user_id];
   current_group_size int := 1;
-  
   current_personality vector; 
   current_destinations int[];
   
-  -- Variables "buffer" pour stocker les intersections
   current_dates daterange;
   current_days int4range;
   current_mates int4range;
@@ -43,45 +40,64 @@ DECLARE
   candidate_rec record;
   max_distance float8 := 0.4;
 BEGIN
+  -- 0. Sécurité : Si le Seed est déjà en groupe, on arrête tout de suite.
+  -- CORRECTION ICI : Ajout de l'alias 'gm' pour lever l'ambiguïté sur 'user_id'
+  IF EXISTS (SELECT 1 FROM public.group_members gm WHERE gm.user_id = seed_user_id) THEN
+    RETURN;
+  END IF;
+
   -- 1. Initialisation Seed
-  -- CORRECTION ICI : Utilisation de l'alias 'c' pour lever l'ambiguïté
   SELECT 
     c.personality, c.destination, c.dates, c.days, c.mates, c.budget
   INTO 
     current_personality, current_destinations, current_dates, current_days, current_mates, current_budget
-  FROM public.compatibility_test c  -- <-- Alias défini ici
-  WHERE c.user_id = seed_user_id;
+  FROM public.compatibility c
+  WHERE c.user_id = seed_user_id
+    AND c.personality IS NOT NULL
+    AND c.destination IS NOT NULL
+    AND c.dates IS NOT NULL
+    AND c.days IS NOT NULL
+    AND c.mates IS NOT NULL
+    AND c.budget IS NOT NULL;
 
   IF current_personality IS NULL THEN RETURN; END IF;
 
-  -- 2. Boucle
+  -- 2. Boucle de construction
   WHILE current_group_size < (upper(current_mates) - 1) LOOP
     
-    -- 3. Recherche candidat
-    -- CORRECTION ICI AUSSI : Utilisation stricte de l'alias 'c'
     SELECT 
       c.user_id, c.personality, c.destination, 
       c.dates, c.days, c.mates, c.budget
     INTO candidate_rec
-    FROM public.compatibility_test c
+    FROM public.compatibility c
     WHERE 
-      c.user_id <> ALL(current_group_ids)
+      -- A. Vérification de l'intégrité
+      c.personality IS NOT NULL
+      AND c.destination IS NOT NULL
+      AND c.dates IS NOT NULL
+      AND c.days IS NOT NULL
+      AND c.mates IS NOT NULL
+      AND c.budget IS NOT NULL
+
+      -- B. On exclut ceux déjà dans CE groupe
+      AND c.user_id <> ALL(current_group_ids)
+      
+      -- C. On exclut ceux déjà dans un AUTRE groupe
+      AND NOT EXISTS (
+          SELECT 1 
+          FROM public.group_members gm 
+          WHERE gm.user_id = c.user_id
+      )
+
+      -- D. Compatibilité
       AND c.destination && current_destinations
       AND c.days && current_days
       AND c.budget && current_budget
       AND c.mates && current_mates
       AND c.dates && current_dates 
-      
-      -- Logique temporelle
       AND (upper(c.dates * current_dates) - lower(c.dates * current_dates)) >= lower(c.days * current_days)
-      
-      -- Logique taille
       AND (current_group_size + 1) < upper(c.mates * current_mates)
-      
-      -- Logique Vectorielle
       AND (c.personality <-> current_personality) / sqrt(vector_dims(current_personality)) < max_distance
-      
-      -- Logique Destination
       AND (
           SELECT count(*)
           FROM (
@@ -90,25 +106,15 @@ BEGIN
             SELECT unnest(current_destinations)
           ) i
       ) >= min_common_countries
-
     ORDER BY 
-      (
-        SELECT count(*)
-        FROM (
-          SELECT unnest(c.destination)
-          INTERSECT
-          SELECT unnest(current_destinations)
-        ) i
-      ) DESC,
+      (SELECT count(*) FROM (SELECT unnest(c.destination) INTERSECT SELECT unnest(current_destinations)) i) DESC,
       c.personality <-> current_personality ASC 
     LIMIT 1;
 
-    -- 4. Mise à jour si trouvé
     IF candidate_rec.user_id IS NOT NULL THEN
       current_group_ids := array_append(current_group_ids, candidate_rec.user_id);
       current_group_size := current_group_size + 1;
       
-      -- Intersection des ranges
       current_dates  := current_dates * candidate_rec.dates;
       current_days   := current_days * candidate_rec.days;
       current_mates  := current_mates * candidate_rec.mates;
@@ -120,35 +126,43 @@ BEGIN
         SELECT unnest(candidate_rec.destination)
       ) INTO current_destinations;
 
-      -- On cible explicitement la table pour le calcul de moyenne aussi
       SELECT AVG(t.personality) INTO current_personality 
-      FROM public.compatibility_test t
+      FROM public.compatibility t
       WHERE t.user_id = ANY(current_group_ids);
-
     ELSE
       EXIT; 
     END IF;
-
   END LOOP;
 
-  -- 5. Validation
+  -- 3. Validation taille
   IF current_group_size < lower(current_mates) THEN
     RETURN;
   END IF;
 
-  -- 6. Retour
+  -- 4. Retour
   RETURN QUERY
+  WITH group_destinations_cte AS (
+      SELECT unnest(c.destination) as dest_id
+      FROM public.compatibility c
+      WHERE c.user_id = ANY(current_group_ids)
+  ),
+  stats AS (
+      SELECT jsonb_object_agg(dest_id::text, count_val) as summary
+      FROM (
+          SELECT dest_id, count(*) as count_val
+          FROM group_destinations_cte
+          GROUP BY dest_id
+      ) s
+  )
   SELECT 
     gm.uid,
-    (gm.uid = seed_user_id),
-    gm.idx::int,
-    current_dates,  -- Ici on renvoie les variables internes vers les colonnes de sortie
+    current_dates,
     current_days,
     current_mates,
-    current_budget
-  FROM unnest(current_group_ids) with ordinality as gm(uid, idx);
-END;
-$$;
+    current_budget,
+    (SELECT summary FROM stats)
+  FROM unnest(current_group_ids) as gm(uid);
+END;$$;
 
 
 ALTER FUNCTION "public"."build_group"("seed_user_id" "uuid", "min_common_countries" integer) OWNER TO "postgres";
@@ -240,6 +254,56 @@ END;$$;
 
 
 ALTER FUNCTION "public"."compatibility_destinations_update_vector"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."compatibility_group_creation"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+    rec record;
+    v_group_id uuid;
+    v_group_created boolean := false;
+    v_dest_id text;
+    v_dest_count int;
+    target_user_id uuid;
+BEGIN
+    -- On récupère l'ID de l'utilisateur concerné (NEW car c'est un INSERT ou UPDATE)
+    target_user_id := NEW.user_id;
+
+    -- On itère sur les résultats de votre fonction de matching
+    FOR rec IN SELECT * FROM public.build_group(target_user_id) LOOP
+        
+        -- A. Création du groupe (une seule fois pour la première ligne trouvée)
+        IF NOT v_group_created THEN
+            INSERT INTO public.groups (dates, days, mates, budget)
+            VALUES (rec.final_dates, rec.final_days, rec.final_mates, rec.final_budget)
+            RETURNING id INTO v_group_id;
+            
+            v_group_created := true;
+
+            -- B. Insertion des statistiques de destinations (JSON -> Table SQL)
+            FOR v_dest_id, v_dest_count IN SELECT * FROM jsonb_each_text(rec.destination_stats)
+            LOOP
+                INSERT INTO public.group_destinations (id, countries_id, counts)
+                VALUES (v_group_id, v_dest_id::bigint, v_dest_count::smallint);
+            END LOOP;
+        END IF;
+
+        -- C. Insertion des membres
+        -- On met à jour le groupe si l'utilisateur est déjà ailleurs (ON CONFLICT)
+        INSERT INTO public.group_members (group_id, user_id)
+        VALUES (v_group_id, rec.user_id)
+        ON CONFLICT (user_id) 
+        DO UPDATE SET group_id = EXCLUDED.group_id;
+        
+    END LOOP;
+
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."compatibility_group_creation"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."compatibility_vectors_compute"() RETURNS "trigger"
@@ -451,20 +515,6 @@ CREATE TABLE IF NOT EXISTS "public"."compatibility_sections" (
 ALTER TABLE "public"."compatibility_sections" OWNER TO "postgres";
 
 
-CREATE TABLE IF NOT EXISTS "public"."compatibility_test" (
-    "user_id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "personality" "extensions"."vector",
-    "destination" integer[],
-    "dates" "daterange",
-    "days" "int4range",
-    "mates" "int4range",
-    "budget" "int4range"
-);
-
-
-ALTER TABLE "public"."compatibility_test" OWNER TO "postgres";
-
-
 CREATE TABLE IF NOT EXISTS "public"."countries" (
     "id" bigint NOT NULL,
     "name" "text",
@@ -497,6 +547,16 @@ CREATE TABLE IF NOT EXISTS "public"."countries" (
 ALTER TABLE "public"."countries" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."group_destinations" (
+    "id" "uuid" NOT NULL,
+    "countries_id" bigint NOT NULL,
+    "counts" smallint
+);
+
+
+ALTER TABLE "public"."group_destinations" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."group_members" (
     "group_id" "uuid" NOT NULL,
     "user_id" "uuid" NOT NULL
@@ -508,7 +568,11 @@ ALTER TABLE "public"."group_members" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."groups" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "dates" "daterange",
+    "days" "int4range",
+    "mates" "int4range",
+    "budget" "int4range"
 );
 
 
@@ -581,16 +645,6 @@ ALTER TABLE ONLY "public"."compatibility_questions"
 
 
 
-ALTER TABLE ONLY "public"."compatibility_test"
-    ADD CONSTRAINT "compatibility_test_pkey" PRIMARY KEY ("user_id");
-
-
-
-ALTER TABLE ONLY "public"."compatibility_test"
-    ADD CONSTRAINT "compatibility_test_user_key" UNIQUE ("user_id");
-
-
-
 ALTER TABLE ONLY "public"."compatibility"
     ADD CONSTRAINT "compatibility_vectors_pkey" PRIMARY KEY ("user_id");
 
@@ -608,6 +662,11 @@ ALTER TABLE ONLY "public"."countries"
 
 ALTER TABLE ONLY "public"."countries"
     ADD CONSTRAINT "countries_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."group_destinations"
+    ADD CONSTRAINT "group_destinations_pkey" PRIMARY KEY ("id", "countries_id");
 
 
 
@@ -650,10 +709,6 @@ CREATE INDEX "compatibility_destination_idx" ON "public"."compatibility" USING "
 
 
 
-CREATE INDEX "compatibility_test_destination_idx" ON "public"."compatibility_test" USING "gin" ("destination");
-
-
-
 CREATE OR REPLACE TRIGGER "compatibility_answer_insert_check" BEFORE INSERT ON "public"."compatibility_answers" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_answer_check"();
 
 
@@ -667,6 +722,10 @@ CREATE OR REPLACE TRIGGER "compatibility_answers_update_vector" AFTER INSERT OR 
 
 
 CREATE OR REPLACE TRIGGER "compatibility_destinations_vector" AFTER INSERT ON "public"."compatibility_destinations" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_destinations_update_vector"();
+
+
+
+CREATE OR REPLACE TRIGGER "compatibility_on_change" AFTER INSERT OR UPDATE ON "public"."compatibility" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_group_creation"();
 
 
 
@@ -700,7 +759,7 @@ ALTER TABLE ONLY "public"."compatibility_destinations"
 
 
 ALTER TABLE ONLY "public"."compatibility_destinations"
-    ADD CONSTRAINT "compatibility_destinations_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "public"."compatibility"("user_id") ON DELETE CASCADE;
+    ADD CONSTRAINT "compatibility_destinations_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "public"."profiles"("id");
 
 
 
@@ -714,13 +773,23 @@ ALTER TABLE ONLY "public"."compatibility"
 
 
 
+ALTER TABLE ONLY "public"."group_destinations"
+    ADD CONSTRAINT "group_destinations_countries_id_fkey" FOREIGN KEY ("countries_id") REFERENCES "public"."countries"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."group_destinations"
+    ADD CONSTRAINT "group_destinations_id_fkey" FOREIGN KEY ("id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
+
+
+
 ALTER TABLE ONLY "public"."group_members"
     ADD CONSTRAINT "group_members_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
 
 
 
 ALTER TABLE ONLY "public"."group_members"
-    ADD CONSTRAINT "group_members_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."compatibility"("user_id") ON DELETE CASCADE;
+    ADD CONSTRAINT "group_members_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."profiles"("id");
 
 
 
@@ -828,10 +897,10 @@ ALTER TABLE "public"."compatibility_questions" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."compatibility_sections" ENABLE ROW LEVEL SECURITY;
 
 
-ALTER TABLE "public"."compatibility_test" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."countries" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."group_destinations" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."group_members" ENABLE ROW LEVEL SECURITY;
@@ -871,6 +940,12 @@ GRANT ALL ON FUNCTION "public"."compatibility_answer_check"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."compatibility_destinations_update_vector"() TO "anon";
 GRANT ALL ON FUNCTION "public"."compatibility_destinations_update_vector"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."compatibility_destinations_update_vector"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."compatibility_group_creation"() TO "anon";
+GRANT ALL ON FUNCTION "public"."compatibility_group_creation"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."compatibility_group_creation"() TO "service_role";
 
 
 
@@ -946,15 +1021,15 @@ GRANT ALL ON TABLE "public"."compatibility_sections" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."compatibility_test" TO "anon";
-GRANT ALL ON TABLE "public"."compatibility_test" TO "authenticated";
-GRANT ALL ON TABLE "public"."compatibility_test" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."countries" TO "anon";
 GRANT ALL ON TABLE "public"."countries" TO "authenticated";
 GRANT ALL ON TABLE "public"."countries" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."group_destinations" TO "anon";
+GRANT ALL ON TABLE "public"."group_destinations" TO "authenticated";
+GRANT ALL ON TABLE "public"."group_destinations" TO "service_role";
 
 
 
