@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/pages/city_search_page.dart';
-import 'package:railmates/global_state.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class ProfilePage extends StatefulWidget {
@@ -90,17 +90,20 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(GlobalState.of(context)
-                                    .localizations
-                                    .avatarUploadSuccess),
+                                content: Text(
+                                  GlobalState.of(
+                                    context,
+                                  ).localizations.avatarUploadSuccess,
+                                ),
                               ),
                             );
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(GlobalState.of(context)
-                                    .localizations
-                                    .avatarUploadError(e.toString())),
+                                content: Text(
+                                  GlobalState.of(context).localizations
+                                      .avatarUploadError(e.toString()),
+                                ),
                               ),
                             );
                           }
@@ -152,61 +155,64 @@ class _ProfilePageState extends State<ProfilePage> {
                       submitForm: () {
                         SupabaseService()
                             .updateProfiles(
-                          ProfilesModel(
-                            city: cityId,
-                            first_name: firstNameController?.text,
-                            last_name: lastNameController?.text,
-                            birth_date: birthDateController?.text,
-                            phone: phoneController?.text,
-                            gender: gender,
-                          ),
-                        )
+                              ProfilesModel(
+                                city: cityId,
+                                first_name: firstNameController?.text,
+                                last_name: lastNameController?.text,
+                                birth_date: birthDateController?.text,
+                                phone: phoneController?.text,
+                                gender: gender,
+                              ),
+                            )
                             .then(
-                          (value) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(GlobalState.of(context)
-                                    .localizations
-                                    .registrationSuccessful),
-                              ),
+                              (value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      GlobalState.of(
+                                        context,
+                                      ).localizations.registrationSuccessful,
+                                    ),
+                                  ),
+                                );
+                              },
+                              onError: (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      RegExp('message:\\s*([^,]+)')
+                                              .firstMatch(error.toString())
+                                              ?.group(1) ??
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.errorRaised,
+                                    ),
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
+                                  ),
+                                );
+                              },
                             );
-                          },
-                          onError: (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  RegExp('message:\\s*([^,]+)')
-                                          .firstMatch(error.toString())
-                                          ?.group(1) ??
-                                      GlobalState.of(context)
-                                          .localizations
-                                          .errorRaised,
-                                ),
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.error,
-                              ),
-                            );
-                          },
-                        );
                       },
                       textFields: [
                         AuthTextFormField(
-                          label:
-                              GlobalState.of(context).localizations.firstName,
+                          label: GlobalState.of(
+                            context,
+                          ).localizations.firstName,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: firstNameController,
                           icon: Icons.person_outline,
                         ),
                         AuthTextFormField(
                           label: GlobalState.of(context).localizations.lastName,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: lastNameController,
                           icon: Icons.person,
                         ),
@@ -219,14 +225,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             items: [
                               DropdownMenuItem<String>(
                                 value: 'W',
-                                child: Text(GlobalState.of(context)
-                                    .localizations
-                                    .women),
+                                child: Text(
+                                  GlobalState.of(context).localizations.women,
+                                ),
                               ),
                               DropdownMenuItem<String>(
                                 value: 'M',
                                 child: Text(
-                                    GlobalState.of(context).localizations.man),
+                                  GlobalState.of(context).localizations.man,
+                                ),
                               ),
                             ],
                             onChanged: (value) {
@@ -238,8 +245,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               labelText: '',
-                              hintText:
-                                  GlobalState.of(context).localizations.gender,
+                              hintText: GlobalState.of(
+                                context,
+                              ).localizations.gender,
                               filled: true,
                               fillColor: Theme.of(
                                 context,
@@ -261,21 +269,22 @@ class _ProfilePageState extends State<ProfilePage> {
                             elevation: 8,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
-                                return GlobalState.of(context)
-                                    .localizations
-                                    .fieldRequired;
+                                return GlobalState.of(
+                                  context,
+                                ).localizations.fieldRequired;
                               }
                               return null;
                             },
                           ),
                         ),
                         AuthTextFormField(
-                          label:
-                              GlobalState.of(context).localizations.birthDate,
+                          label: GlobalState.of(
+                            context,
+                          ).localizations.birthDate,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: birthDateController,
                           icon: Icons.cake_outlined,
                           onTap: () async {
@@ -309,8 +318,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                             if (picked != null && birthDateController != null) {
-                              birthDateController?.text =
-                                  picked.toString().split(' ')[0];
+                              birthDateController?.text = picked
+                                  .toString()
+                                  .split(' ')[0];
                               setState(() {});
                             }
                           },
@@ -318,18 +328,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         AuthTextFormField(
                           label: GlobalState.of(context).localizations.city,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: cityController,
                           icon: Icons.location_city,
                           onTap: () async {
                             final CitiesModel? result =
                                 await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const CitySearchPage(),
-                              ),
-                            );
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CitySearchPage(),
+                                  ),
+                                );
                             cityController?.text = result!.name!;
                             cityId = result?.id;
                           },
@@ -338,12 +349,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           label: GlobalState.of(context).localizations.phone,
                           regexValidator: '^\\+[1-9]\\d{6,14}\$',
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .invalidFormat,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.invalidFormat,
                           controller: phoneController,
                           icon: Icons.phone_paused_sharp,
                         ),

@@ -296,16 +296,16 @@ class _CompatibilityQuestionsPageState
                                   final CompatibilityQuestionsModel? question =
                                       await SupabaseService()
                                           .getByPosCompatibility_question(
-                                    widget.questionPos!,
-                                  );
+                                            widget.questionPos!,
+                                          );
                                   await SupabaseService()
                                       .deleteCompatibility_answers(
-                                    question!.id!,
-                                  );
+                                        question!.id!,
+                                      );
                                   await SupabaseService()
                                       .createCompatibility_answers(
-                                    _selectedOptionIds.toList(),
-                                  );
+                                        _selectedOptionIds.toList(),
+                                      );
                                   if (widget.questionPos ==
                                       widget.questionsCount) {
                                     Navigator.of(context).push(
@@ -319,8 +319,9 @@ class _CompatibilityQuestionsPageState
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             CompatibilityQuestionsPage(
-                                          questionPos: widget.questionPos! + 1,
-                                        ),
+                                              questionPos:
+                                                  widget.questionPos! + 1,
+                                            ),
                                       ),
                                     );
                                   }
@@ -329,18 +330,18 @@ class _CompatibilityQuestionsPageState
                           style: ButtonStyle(
                             backgroundColor:
                                 WidgetStateProperty.resolveWith<Color?>((
-                              states,
-                            ) {
-                              if (states.contains(WidgetState.disabled)) {
-                                return null;
-                              }
-                              if (states.contains(WidgetState.hovered)) {
-                                return null;
-                              }
-                              return Theme.of(
-                                context,
-                              ).colorScheme.primaryContainer;
-                            }),
+                                  states,
+                                ) {
+                                  if (states.contains(WidgetState.disabled)) {
+                                    return null;
+                                  }
+                                  if (states.contains(WidgetState.hovered)) {
+                                    return null;
+                                  }
+                                  return Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer;
+                                }),
                             foregroundColor:
                                 const WidgetStatePropertyAll<Color?>(null),
                             shadowColor: const WidgetStatePropertyAll<Color?>(
@@ -352,8 +353,10 @@ class _CompatibilityQuestionsPageState
                             side: const WidgetStatePropertyAll<BorderSide?>(
                               null,
                             ),
-                            shape: const WidgetStatePropertyAll<
-                                RoundedRectangleBorder?>(null),
+                            shape:
+                                const WidgetStatePropertyAll<
+                                  RoundedRectangleBorder?
+                                >(null),
                           ),
                           child: Text(
                             GlobalState.of(context).localizations.confirm,

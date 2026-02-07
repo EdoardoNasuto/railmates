@@ -9,6 +9,8 @@ import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
 import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
+import 'package:railmates/models/group_members_model.dart';
+import 'package:railmates/models/group_destinations_model.dart';
 
 @NowaGenerated()
 class SupabaseService {
@@ -245,5 +247,35 @@ class SupabaseService {
         .select('*')
         .single();
     return CompatibilityModel.fromJson(response);
+  }
+
+  Future<List<GroupMembersModel>> getAllGroup_members(String groupId) async {
+    final response = await Supabase.instance.client
+        .from('group_members')
+        .select('*, user_id(*)')
+        .eq('group_id', groupId);
+    return response.map((json) => GroupMembersModel.fromJson(json)).toList();
+  }
+
+  Future<GroupMembersModel?> getMyGroup() async {
+    final response = await Supabase.instance.client
+        .from('group_members')
+        .select('*')
+        .eq('user_id', Supabase.instance.client.auth.currentUser!.id)
+        .maybeSingle();
+    return response != null ? GroupMembersModel.fromJson(response!) : null;
+  }
+
+  Future<List<GroupDestinationsModel>> getAllGroup_destinations(
+    String groupId,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('group_destinations')
+        .select('*, countries_id(*)')
+        .eq('group_id', groupId)
+        .order('counts');
+    return response
+        .map((json) => GroupDestinationsModel.fromJson(json))
+        .toList();
   }
 }

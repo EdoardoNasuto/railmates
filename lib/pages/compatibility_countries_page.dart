@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:railmates/global_state.dart';
 
 @NowaGenerated()
 class CompatibilityCountriesPage extends StatefulWidget {
@@ -117,9 +117,9 @@ class _CompatibilityCountriesPageState
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    GlobalState.of(context)
-                                        .localizations
-                                        .onlyChoose10Countries,
+                                    GlobalState.of(
+                                      context,
+                                    ).localizations.onlyChoose10Countries,
                                     style: TextStyle(
                                       color: Theme.of(
                                         context,

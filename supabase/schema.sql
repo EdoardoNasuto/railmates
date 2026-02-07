@@ -548,7 +548,7 @@ ALTER TABLE "public"."countries" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."group_destinations" (
-    "id" "uuid" NOT NULL,
+    "group_id" "uuid" NOT NULL,
     "countries_id" bigint NOT NULL,
     "counts" smallint
 );
@@ -666,7 +666,7 @@ ALTER TABLE ONLY "public"."countries"
 
 
 ALTER TABLE ONLY "public"."group_destinations"
-    ADD CONSTRAINT "group_destinations_pkey" PRIMARY KEY ("id", "countries_id");
+    ADD CONSTRAINT "group_destinations_pkey" PRIMARY KEY ("group_id", "countries_id");
 
 
 
@@ -779,7 +779,7 @@ ALTER TABLE ONLY "public"."group_destinations"
 
 
 ALTER TABLE ONLY "public"."group_destinations"
-    ADD CONSTRAINT "group_destinations_id_fkey" FOREIGN KEY ("id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
+    ADD CONSTRAINT "group_destinations_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
 
 
 
@@ -845,6 +845,14 @@ CREATE POLICY "Enable read access for all users" ON "public"."compatibility_sect
 
 
 CREATE POLICY "Enable read access for all users" ON "public"."countries" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."group_destinations" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."group_members" FOR SELECT USING (true);
 
 
 
