@@ -1,6 +1,5 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:typed_data';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/models/countries_model.dart';
@@ -72,28 +71,6 @@ class SupabaseService {
     return await Supabase.instance.client.auth.updateUser(
       UserAttributes(email: email, password: password),
     );
-  }
-
-  Future<void> avatarsUpload(Uint8List bytes) async {
-    final String? uid = Supabase.instance.client.auth.currentUser?.id;
-    if (uid == null) {
-      throw Exception('User ID is null');
-    }
-    final String filePath = '${uid}/avatar.jpg';
-    final storage = Supabase.instance.client.storage;
-    final bucket = storage.from('avatars');
-    try {
-      await bucket.uploadBinary(
-        filePath,
-        bytes,
-        fileOptions: const FileOptions(upsert: true),
-      );
-      await Supabase.instance.client
-          .from('profiles')
-          .update({'avatar_url': bucket.getPublicUrl(filePath)}).eq('id', uid!);
-    } catch (e) {
-      throw Exception('Erreur lors de l\'upload de l\'avatar : ${e}');
-    }
   }
 
   Future<ProfilesModel> updateProfiles(ProfilesModel data) async {
@@ -229,7 +206,7 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityDestinationsModel>>
-      getAllCompatibility_destinations() async {
+  getAllCompatibility_destinations() async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
         .select('*');

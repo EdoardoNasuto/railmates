@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_form.dart';
+import 'package:railmates/global_state.dart';
+import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
@@ -31,8 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController? birthDateController = TextEditingController();
 
   TextEditingController? cityController = TextEditingController();
-
-  Uint8List? _avatarBytes;
 
   TextEditingController? phoneController = TextEditingController();
 
@@ -64,90 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        shape: const CircleBorder(),
-                        padding: EdgeInsets.zero,
-                      ),
-                      onPressed: () async {
-                        final result = await showMediaPicker(
-                          context: context,
-                          multiSelection: false,
-                          mediaType: MediaType.image,
-                          sourceType: MediaSourceType.gallery,
-                          preferredCamera: CameraDevice.rear,
-                        );
-                        if (result.isNotEmpty) {
-                          final bytes = await result.first.readAsBytes();
-                          setState(() {
-                            _avatarBytes = bytes;
-                          });
-                          try {
-                            await SupabaseService().avatarsUpload(
-                              _avatarBytes!,
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  GlobalState.of(
-                                    context,
-                                  ).localizations.avatarUploadSuccess,
-                                ),
-                              ),
-                            );
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  GlobalState.of(context).localizations
-                                      .avatarUploadError(e.toString()),
-                                ),
-                              ),
-                            );
-                          }
-                        }
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 48.0,
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.surfaceVariant,
-                            backgroundImage: _avatarBytes != null
-                                ? MemoryImage(_avatarBytes!)
-                                : null,
-                          ),
-                          if (_avatarBytes != null)
-                            Container(
-                              width: 96.0,
-                              height: 96.0,
-                              decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.scrim.withOpacity(0.55),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          Container(
-                            width: 96.0,
-                            height: 96.0,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.add_a_photo,
-                              size: 32.0,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withOpacity(0.85),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   FlexSizedBox(
                     child: AuthForm(
                       nom: GlobalState.of(context).localizations.createProfile,

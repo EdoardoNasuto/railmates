@@ -7,7 +7,6 @@ class ProfilesModel {
     this.id,
     this.first_name,
     this.last_name,
-    this.avatar_url,
     this.birth_date,
     this.city,
     this.phone,
@@ -20,7 +19,6 @@ class ProfilesModel {
       id: json['id'],
       first_name: json['first_name'],
       last_name: json['last_name'],
-      avatar_url: json['avatar_url'],
       birth_date: json['birth_date'],
       city: json['city'],
       phone: json['phone'],
@@ -33,8 +31,6 @@ class ProfilesModel {
   final String? first_name;
 
   final String? last_name;
-
-  final String? avatar_url;
 
   final String? birth_date;
 
@@ -50,7 +46,6 @@ class ProfilesModel {
       'id': id,
       'first_name': first_name,
       'last_name': last_name,
-      'avatar_url': avatar_url,
       'birth_date': birth_date,
       'city': city,
       'phone': phone,

@@ -28,8 +28,6 @@ abstract class AppLocalizations {
   String get checkEmailVerification;
   String get createProfile;
   String get save;
-  String get avatarUploadSuccess;
-  String avatarUploadError(String error);
   String get registrationSuccessful;
   String get passwordConfirmationMismatch;
   String get alreadyHaveAccount;

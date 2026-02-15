@@ -98,25 +98,13 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                   final GroupMembersModel element = data[index];
                                   final user = element.user_id;
                                   return ListTile(
-                                    leading:
-                                        user?.avatar_url != null &&
-                                            user!.avatar_url!.isNotEmpty
-                                        ? CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              element.user_id!.avatar_url!,
-                                            ),
-                                            radius: 24.0,
-                                          )
-                                        : const CircleAvatar(
-                                            radius: 24.0,
-                                            child: Icon(Icons.person),
-                                          ),
                                     title: Text(
                                       '${element.user_id?.first_name} ${element.user_id?.last_name}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18.0,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                     subtitle: Column(
                                       crossAxisAlignment:
@@ -125,11 +113,6 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                         if (user?.gender != null &&
                                             user!.gender!.isNotEmpty)
                                           Text('Genre : ${user?.gender}'),
-                                        if (user?.birth_date != null &&
-                                            user!.birth_date!.isNotEmpty)
-                                          Text(
-                                            'Date de naissance : ${user?.birth_date}',
-                                          ),
                                         if (user?.phone != null &&
                                             user!.phone!.isNotEmpty)
                                           Text('Téléphone : ${user?.phone}'),

@@ -29,13 +29,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get save => 'Enregistrer';
 
   @override
-  String get avatarUploadSuccess => 'Avatar téléchargé avec succès !';
-
-  @override
-  String avatarUploadError(String error) =>
-      'Erreur de téléchargement de l\'avatar : $error';
-
-  @override
   String get registrationSuccessful => 'Inscription réussie !';
 
   @override

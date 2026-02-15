@@ -367,8 +367,8 @@ CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO ''
     AS $$begin
-  insert into public.profiles (id, last_name, avatar_url)
-  values (new.id, new.raw_user_meta_data->>'last_name', new.raw_user_meta_data->>'avatar_url');
+  insert into public.profiles (id, last_name)
+  values (new.id, new.raw_user_meta_data->>'last_name');
   return new;
 end;$$;
 
@@ -378,32 +378,13 @@ ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."handle_profile_deletion"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$
-DECLARE
-  -- Mettez ici le nom EXACT de votre bucket (ex: 'avatars')
-  bucket_cible text := 'avatars';
-BEGIN
-  ---------------------------------------------------------
-  -- 1. Supprimer le contenu du dossier de l'utilisateur
-  ---------------------------------------------------------
-  -- On cible le bucket 'avatars'
-  -- Et les fichiers dont le nom commence par l'ID de l'utilisateur
-  -- Exemple de name: "d9e8f.../avatar.png"
-  DELETE FROM storage.objects
-  WHERE bucket_id = bucket_cible
-  AND name LIKE OLD.id::text || '/%';
+    AS $$BEGIN
+  if exists (select 1 from auth.users where id = old.id) then
+    delete from auth.users where id = old.id;
+  end if;
 
-  ---------------------------------------------------------
-  -- 2. Supprimer le compte Auth
-  ---------------------------------------------------------
-  -- On vérifie si l'utilisateur existe encore dans auth
-  IF EXISTS (SELECT 1 FROM auth.users WHERE id = OLD.id) THEN
-    DELETE FROM auth.users WHERE id = OLD.id;
-  END IF;
-
-  RETURN OLD;
-END;
-$$;
+  return old;
+END;$$;
 
 
 ALTER FUNCTION "public"."handle_profile_deletion"() OWNER TO "postgres";
@@ -591,7 +572,6 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
     "first_name" "text",
     "last_name" "text",
-    "avatar_url" "text",
     "birth_date" "date",
     "city" bigint,
     "phone" "text",
