@@ -150,6 +150,7 @@ BEGIN
           SELECT dest_id, count(*) as count_val
           FROM group_destinations_cte
           GROUP BY dest_id
+          HAVING count(*) > 1
       ) s
   )
   SELECT 
