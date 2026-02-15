@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
-
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/pages/compatibility_countries_page.dart';
@@ -72,7 +71,10 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 height: null,
                 child: Text(
                   GlobalState.of(context).localizations.importantInformation,
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w800),
+                  style: const TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               FlexSizedBox(
@@ -85,7 +87,8 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 365)),
                       anchorPoint: const Offset(0.0, 0.0),
-                      initialDateRange: dates ??
+                      initialDateRange:
+                          dates ??
                           DateTimeRange(
                             start: DateTime.now(),
                             end: DateTime.now().add(const Duration(days: 7)),
@@ -108,16 +111,17 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
               FlexSizedBox(
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               FlexSizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Text(
-                      '${days.start.toInt()} - ${days.end.toInt()}',
-                    ),
+                    Text('${days.start.toInt()} - ${days.end.toInt()}'),
                     RangeSlider(
                       values: days,
                       min: 7.0,
@@ -142,16 +146,17 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 height: null,
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               FlexSizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Text(
-                      '${mates.start.toInt()} - ${mates.end.toInt()}',
-                    ),
+                    Text('${mates.start.toInt()} - ${mates.end.toInt()}'),
                     RangeSlider(
                       values: mates,
                       min: 2.0,
@@ -176,7 +181,10 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 height: null,
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               FlexSizedBox(
@@ -209,48 +217,48 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                     if (dates != null) {
                       SupabaseService()
                           .createCompatibility(
-                        CompatibilityModel(
-                          dates: _toDateRange(dates),
-                          days: _toInt4Range(days),
-                          mates: _toInt4Range(mates),
-                          budget: _toInt4Range(budget),
-                        ),
-                      )
+                            CompatibilityModel(
+                              dates: _toDateRange(dates),
+                              days: _toInt4Range(days),
+                              mates: _toInt4Range(mates),
+                              budget: _toInt4Range(budget),
+                            ),
+                          )
                           .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CompatibilityCountriesPage(),
-                            ),
-                          );
-                        },
-                        onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                error.toString(),
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onErrorContainer,
+                            (value) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CompatibilityCountriesPage(),
                                 ),
-                              ),
-                              backgroundColor: Theme.of(
-                                context,
-                              ).colorScheme.errorContainer,
-                            ),
+                              );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    error.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onErrorContainer,
+                                    ),
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.errorContainer,
+                                ),
+                              );
+                              return null;
+                            },
                           );
-                          return null;
-                        },
-                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            GlobalState.of(context)
-                                .localizations
-                                .incompleteInformation,
+                            GlobalState.of(
+                              context,
+                            ).localizations.incompleteInformation,
                             style: TextStyle(
                               color: Theme.of(
                                 context,
@@ -265,7 +273,8 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                     }
                   },
                   child: Text(
-                      GlobalState.of(context).localizations.continueButton),
+                    GlobalState.of(context).localizations.continueButton,
+                  ),
                 ),
               ),
             ],

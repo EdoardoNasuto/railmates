@@ -51,6 +51,7 @@ BEGIN
     current_personality, current_destinations, current_dates, current_days, current_mates, current_budget
   FROM public.compatibility c
   WHERE c.user_id = seed_user_id
+    AND c.ready = true
     AND c.personality IS NOT NULL
     AND c.destination IS NOT NULL
     AND c.dates IS NOT NULL
@@ -70,7 +71,8 @@ BEGIN
     FROM public.compatibility c
     WHERE 
       -- A. Vérification de l'intégrité
-      c.personality IS NOT NULL
+      c.ready = true
+      AND c.personality IS NOT NULL
       AND c.destination IS NOT NULL
       AND c.dates IS NOT NULL
       AND c.days IS NOT NULL
@@ -419,7 +421,8 @@ CREATE TABLE IF NOT EXISTS "public"."compatibility" (
     "dates" "daterange",
     "days" "int4range",
     "mates" "int4range",
-    "budget" "int4range"
+    "budget" "int4range",
+    "ready" boolean DEFAULT false
 );
 
 

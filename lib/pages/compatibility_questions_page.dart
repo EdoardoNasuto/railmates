@@ -4,6 +4,7 @@ import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
+import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/pages/compatibility_result_page.dart';
 
 @NowaGenerated()
@@ -178,7 +179,7 @@ class _CompatibilityQuestionsPageState
                     alignment: const Alignment(0.0, 0.0),
                     child: Text(
                       error.toString(),
-                      style: const TextStyle(color: Color(0xffff0000)),
+                      style: const TextStyle(color: Color(0xFFFF0000)),
                     ),
                   ),
                   future: SupabaseService().getByPosCompatibility_question(
@@ -268,7 +269,7 @@ class _CompatibilityQuestionsPageState
                     alignment: const Alignment(0.0, 0.0),
                     child: Text(
                       error.toString(),
-                      style: const TextStyle(color: Color(0xffff0000)),
+                      style: const TextStyle(color: Color(0xFFFF0000)),
                     ),
                   ),
                   future: SupabaseService().getByPosCompatibility_options(
@@ -308,6 +309,9 @@ class _CompatibilityQuestionsPageState
                                       );
                                   if (widget.questionPos ==
                                       widget.questionsCount) {
+                                    SupabaseService().updateCompatibility(
+                                      const CompatibilityModel(ready: true),
+                                    );
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>

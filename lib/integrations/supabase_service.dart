@@ -235,6 +235,18 @@ class SupabaseService {
     return CompatibilityModel.fromJson(response);
   }
 
+  Future<CompatibilityModel> updateCompatibility(
+    CompatibilityModel data,
+  ) async {
+    final response = await Supabase.instance.client
+        .from('compatibility')
+        .update(data.toJson())
+        .eq('user_id', Supabase.instance.client.auth.currentUser!.id)
+        .select('*')
+        .single();
+    return CompatibilityModel.fromJson(response);
+  }
+
   Future<List<GroupMembersModel>> getAllGroup_members() async {
     final response = await Supabase.instance.client
         .from('group_members')

@@ -5,6 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:railmates/pages/compatibility_questions_page.dart';
 
 @NowaGenerated()
 class CompatibilityCountriesPage extends StatefulWidget {
@@ -29,8 +30,8 @@ class _CompatibilityCountriesPageState
   }
 
   Future<void> _loadSelectedCountries() async {
-    selectedCountries =
-        await SupabaseService().getAllCompatibility_destinations();
+    selectedCountries = await SupabaseService()
+        .getAllCompatibility_destinations();
     setState(() {});
   }
 
@@ -87,11 +88,11 @@ class _CompatibilityCountriesPageState
                   builder: (context, data) => GridView.custom(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 15.0,
-                      crossAxisSpacing: 15.0,
-                      childAspectRatio: 1.1,
-                    ),
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 15.0,
+                          crossAxisSpacing: 15.0,
+                          childAspectRatio: 1.1,
+                        ),
                     childrenDelegate: SliverChildBuilderDelegate((
                       context,
                       index,
@@ -137,9 +138,10 @@ class _CompatibilityCountriesPageState
                           setState(() {});
                         },
                         child: Material(
-                          color: (selectedCountries!.any(
-                            (dest) => dest.country_id == element.id,
-                          ))
+                          color:
+                              (selectedCountries!.any(
+                                (dest) => dest.country_id == element.id,
+                              ))
                               ? Theme.of(context).colorScheme.inversePrimary
                               : Theme.of(context).colorScheme.surfaceContainer,
                           elevation: 5.0,
@@ -199,7 +201,7 @@ class _CompatibilityCountriesPageState
                     alignment: const Alignment(0.0, 0.0),
                     child: Text(
                       error.toString(),
-                      style: const TextStyle(color: Color(0xffff0000)),
+                      style: const TextStyle(color: Color(0xFFFF0000)),
                     ),
                   ),
                   future: SupabaseService().getAllCountries(),
@@ -215,7 +217,13 @@ class _CompatibilityCountriesPageState
                               .deleteCompatibility_destinations();
                           await SupabaseService()
                               .createCompatibility_destinations(
-                            selectedCountries!,
+                                selectedCountries!,
+                              );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const CompatibilityQuestionsPage(),
+                            ),
                           );
                         }
                       : null,
