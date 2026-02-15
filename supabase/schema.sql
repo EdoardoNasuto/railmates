@@ -352,6 +352,17 @@ END;$$;
 ALTER FUNCTION "public"."compatibility_vectors_compute"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."get_my_group_ids"() RETURNS SETOF "uuid"
+    LANGUAGE "sql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+  SELECT group_id FROM group_members WHERE user_id = auth.uid();
+$$;
+
+
+ALTER FUNCTION "public"."get_my_group_ids"() OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO ''
@@ -840,11 +851,15 @@ CREATE POLICY "Enable read access for all users" ON "public"."countries" FOR SEL
 
 
 
-CREATE POLICY "Enable read access for all users" ON "public"."group_destinations" FOR SELECT USING (true);
+CREATE POLICY "Enable read for users based on group_id" ON "public"."group_destinations" FOR SELECT TO "authenticated" USING (("group_id" IN ( SELECT "public"."get_my_group_ids"() AS "get_my_group_ids")));
 
 
 
-CREATE POLICY "Enable read access for all users" ON "public"."group_members" FOR SELECT USING (true);
+CREATE POLICY "Enable read for users based on group_id" ON "public"."group_members" FOR SELECT TO "authenticated" USING (("group_id" IN ( SELECT "public"."get_my_group_ids"() AS "get_my_group_ids")));
+
+
+
+CREATE POLICY "Enable read for users based on group_id" ON "public"."groups" FOR SELECT TO "authenticated" USING (("id" IN ( SELECT "public"."get_my_group_ids"() AS "get_my_group_ids")));
 
 
 
@@ -952,6 +967,12 @@ GRANT ALL ON FUNCTION "public"."compatibility_group_creation"() TO "service_role
 GRANT ALL ON FUNCTION "public"."compatibility_vectors_compute"() TO "anon";
 GRANT ALL ON FUNCTION "public"."compatibility_vectors_compute"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."compatibility_vectors_compute"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "anon";
+GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "service_role";
 
 
 

@@ -9,12 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 @NowaGenerated()
 class CompatibilityResultPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityResultPage({
-    this.group_id = '67e9cff5-3466-48f3-aa54-c5cffbb0fcb4',
-    super.key,
-  });
-
-  final String? group_id;
+  const CompatibilityResultPage({super.key});
 
   @override
   State<CompatibilityResultPage> createState() {
@@ -161,9 +156,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                   ),
                                 ),
                               ),
-                              future: SupabaseService().getAllGroup_members(
-                                widget.group_id!,
-                              ),
+                              future: SupabaseService().getAllGroup_members(),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -274,7 +267,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                   ),
                                 ),
                                 future: SupabaseService()
-                                    .getAllGroup_destinations(widget.group_id!),
+                                    .getAllGroup_destinations(),
                               ),
                             ),
                           ],

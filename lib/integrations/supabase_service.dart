@@ -249,30 +249,17 @@ class SupabaseService {
     return CompatibilityModel.fromJson(response);
   }
 
-  Future<List<GroupMembersModel>> getAllGroup_members(String groupId) async {
+  Future<List<GroupMembersModel>> getAllGroup_members() async {
     final response = await Supabase.instance.client
         .from('group_members')
-        .select('*, user_id(*)')
-        .eq('group_id', groupId);
+        .select('*, user_id(*)');
     return response.map((json) => GroupMembersModel.fromJson(json)).toList();
   }
 
-  Future<GroupMembersModel?> getMyGroup() async {
-    final response = await Supabase.instance.client
-        .from('group_members')
-        .select('*')
-        .eq('user_id', Supabase.instance.client.auth.currentUser!.id)
-        .maybeSingle();
-    return response != null ? GroupMembersModel.fromJson(response!) : null;
-  }
-
-  Future<List<GroupDestinationsModel>> getAllGroup_destinations(
-    String groupId,
-  ) async {
+  Future<List<GroupDestinationsModel>> getAllGroup_destinations() async {
     final response = await Supabase.instance.client
         .from('group_destinations')
         .select('*, countries_id(*)')
-        .eq('group_id', groupId)
         .order('counts');
     return response
         .map((json) => GroupDestinationsModel.fromJson(json))
