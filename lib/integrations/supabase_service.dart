@@ -97,6 +97,15 @@ class SupabaseService {
     return response.map((json) => CitiesModel.fromJson(json)).toList();
   }
 
+  Future<CitiesModel?> getByIdCities(int id) async {
+    final response = await Supabase.instance.client
+        .from('cities')
+        .select('*, country_id(name)')
+        .eq('id', id)
+        .maybeSingle();
+    return response != null ? CitiesModel.fromJson(response!) : null;
+  }
+
   Future<List<CountriesModel>> getAllCountries() async {
     final response = await Supabase.instance.client
         .from('countries')
@@ -206,7 +215,7 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityDestinationsModel>>
-  getAllCompatibility_destinations() async {
+      getAllCompatibility_destinations() async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
         .select('*');

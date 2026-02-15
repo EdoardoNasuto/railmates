@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/group_members_model.dart';
+import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/group_destinations_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -91,12 +92,11 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 itemCount: data.length,
                                 separatorBuilder: (context, index) =>
                                     const Divider(
-                                      height: 1.0,
-                                      color: Color(0xFFC4C4C4),
-                                    ),
+                                  height: 1.0,
+                                  color: Color(0xFFC4C4C4),
+                                ),
                                 itemBuilder: (context, index) {
                                   final GroupMembersModel element = data[index];
-                                  final user = element.user_id;
                                   return ListTile(
                                     title: Text(
                                       '${element.user_id?.first_name} ${element.user_id?.last_name}',
@@ -110,12 +110,51 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        if (user?.gender != null &&
-                                            user!.gender!.isNotEmpty)
-                                          Text('Genre : ${user?.gender}'),
-                                        if (user?.phone != null &&
-                                            user!.phone!.isNotEmpty)
-                                          Text('Téléphone : ${user?.phone}'),
+                                        FlexSizedBox(
+                                          width: null,
+                                          height: null,
+                                          child: Text(
+                                            '${GlobalState.of(context).localizations.gender} : ${element.user_id?.gender}',
+                                          ),
+                                        ),
+                                        FlexSizedBox(
+                                          width: null,
+                                          height: null,
+                                          child: Text(
+                                            '${GlobalState.of(context).localizations.phone} : ${element.user_id?.phone}',
+                                          ),
+                                        ),
+                                        FlexSizedBox(
+                                          width: null,
+                                          height: null,
+                                          child: DataBuilder<CitiesModel?>(
+                                            builder: (context, data) => Text(
+                                              '${GlobalState.of(context).localizations.city} : ${data?.name}, ${data?.country_id?.name}',
+                                            ),
+                                            loadingWidget: const Align(
+                                              alignment: Alignment(0.0, 0.0),
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                            errorBuilder: (context, error) =>
+                                                Align(
+                                              alignment: const Alignment(
+                                                0.0,
+                                                0.0,
+                                              ),
+                                              child: Text(
+                                                error.toString(),
+                                                style: const TextStyle(
+                                                  color: Color(0xFFFF0000),
+                                                ),
+                                              ),
+                                            ),
+                                            future:
+                                                SupabaseService().getByIdCities(
+                                              element.user_id!.city!,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(
@@ -152,11 +191,11 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 builder: (context, data) => GridView.custom(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        mainAxisSpacing: 10.0,
-                                        crossAxisSpacing: 10.0,
-                                        childAspectRatio: 0.8,
-                                      ),
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 10.0,
+                                    crossAxisSpacing: 10.0,
+                                    childAspectRatio: 0.8,
+                                  ),
                                   childrenDelegate: SliverChildBuilderDelegate((
                                     context,
                                     index,
@@ -202,8 +241,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                                     BorderRadius.circular(10.0),
                                                 child: SvgPicture(
                                                   SvgNetworkLoader(
-                                                    element
-                                                        .countries_id!
+                                                    element.countries_id!
                                                         .flag_url!,
                                                   ),
                                                   fit: BoxFit.fill,
