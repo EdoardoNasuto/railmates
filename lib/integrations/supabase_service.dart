@@ -194,17 +194,15 @@ class SupabaseService {
     return response != null ? CompatibilityModel.fromJson(response!) : null;
   }
 
-  Future<List<CompatibilityDestinationsModel>> createCompatibility_destinations(
-    List<CompatibilityDestinationsModel> dataList,
+  Future<CompatibilityDestinationsModel> createCompatibility_destinations(
+    CompatibilityDestinationsModel data,
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
-        .insert(dataList.map((d) => d.toJson()).toList())
-        .select('*');
-    final data = response as List<dynamic>;
-    return data
-        .map((json) => CompatibilityDestinationsModel.fromJson(json))
-        .toList();
+        .insert(data.toJson())
+        .select('*')
+        .single();
+    return CompatibilityDestinationsModel.fromJson(response);
   }
 
   Future<void> deleteCompatibility_destinations() async {

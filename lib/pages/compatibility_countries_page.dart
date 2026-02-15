@@ -130,6 +130,7 @@ class _CompatibilityCountriesPageState
                                   backgroundColor: Theme.of(
                                     context,
                                   ).colorScheme.errorContainer,
+                                  duration: const Duration(milliseconds: 750),
                                 ),
                               );
                               return;
@@ -215,10 +216,13 @@ class _CompatibilityCountriesPageState
                       ? () async {
                           await SupabaseService()
                               .deleteCompatibility_destinations();
-                          await SupabaseService()
-                              .createCompatibility_destinations(
-                                selectedCountries!,
-                              );
+                          selectedCountries?.forEach((element) {
+                            SupabaseService().createCompatibility_destinations(
+                              CompatibilityDestinationsModel(
+                                country_id: element.country_id,
+                              ),
+                            );
+                          });
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
