@@ -25,8 +25,7 @@ COMMENT ON SCHEMA "public" IS 'standard public schema';
 
 CREATE OR REPLACE FUNCTION "public"."build_group"("seed_user_id" "uuid", "min_common_countries" integer DEFAULT 1) RETURNS TABLE("user_id" "uuid", "final_dates" "daterange", "final_days" "int4range", "final_mates" "int4range", "final_budget" "int4range", "destination_stats" "jsonb")
     LANGUAGE "plpgsql"
-    AS $$
-DECLARE
+    AS $$DECLARE
   current_group_ids uuid[] := array[seed_user_id];
   current_group_size int := 1;
   current_personality vector; 
@@ -41,7 +40,6 @@ DECLARE
   max_distance float8 := 0.4;
 BEGIN
   -- 0. Sécurité : Si le Seed est déjà en groupe, on arrête tout de suite.
-  -- CORRECTION ICI : Ajout de l'alias 'gm' pour lever l'ambiguïté sur 'user_id'
   IF EXISTS (SELECT 1 FROM public.group_members gm WHERE gm.user_id = seed_user_id) THEN
     RETURN;
   END IF;
@@ -81,7 +79,7 @@ BEGIN
 
       -- B. On exclut ceux déjà dans CE groupe
       AND c.user_id <> ALL(current_group_ids)
-      
+
       -- C. On exclut ceux déjà dans un AUTRE groupe
       AND NOT EXISTS (
           SELECT 1 
@@ -125,8 +123,8 @@ BEGIN
         INTERSECT
         SELECT unnest(candidate_rec.destination)
       ) INTO current_destinations;
-
-      SELECT AVG(t.personality) INTO current_personality 
+      
+      SELECT AVG(t.personality) INTO current_personality
       FROM public.compatibility t
       WHERE t.user_id = ANY(current_group_ids);
     ELSE
@@ -258,8 +256,7 @@ ALTER FUNCTION "public"."compatibility_destinations_update_vector"() OWNER TO "p
 
 CREATE OR REPLACE FUNCTION "public"."compatibility_group_creation"() RETURNS "trigger"
     LANGUAGE "plpgsql"
-    AS $$
-DECLARE
+    AS $$DECLARE
     rec record;
     v_group_id uuid;
     v_group_created boolean := false;
@@ -284,7 +281,7 @@ BEGIN
             -- B. Insertion des statistiques de destinations (JSON -> Table SQL)
             FOR v_dest_id, v_dest_count IN SELECT * FROM jsonb_each_text(rec.destination_stats)
             LOOP
-                INSERT INTO public.group_destinations (id, countries_id, counts)
+                INSERT INTO public.group_destinations (group_id, countries_id, counts)
                 VALUES (v_group_id, v_dest_id::bigint, v_dest_count::smallint);
             END LOOP;
         END IF;
@@ -299,8 +296,7 @@ BEGIN
     END LOOP;
 
     RETURN NEW;
-END;
-$$;
+END;$$;
 
 
 ALTER FUNCTION "public"."compatibility_group_creation"() OWNER TO "postgres";
@@ -650,11 +646,6 @@ ALTER TABLE ONLY "public"."compatibility"
 
 
 
-ALTER TABLE ONLY "public"."compatibility"
-    ADD CONSTRAINT "compatibility_vectors_user_key" UNIQUE ("user_id");
-
-
-
 ALTER TABLE ONLY "public"."countries"
     ADD CONSTRAINT "countries_id_key" UNIQUE ("id");
 
@@ -721,7 +712,7 @@ CREATE OR REPLACE TRIGGER "compatibility_answers_update_vector" AFTER INSERT OR 
 
 
 
-CREATE OR REPLACE TRIGGER "compatibility_destinations_vector" AFTER INSERT ON "public"."compatibility_destinations" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_destinations_update_vector"();
+CREATE OR REPLACE TRIGGER "compatibility_destinations_vector" AFTER INSERT OR DELETE OR UPDATE ON "public"."compatibility_destinations" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_destinations_update_vector"();
 
 
 

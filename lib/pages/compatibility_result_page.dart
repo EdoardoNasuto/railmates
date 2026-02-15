@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CompatibilityResultPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
   const CompatibilityResultPage({
-    this.group_id = '58ccf004-e2cc-44e1-818f-67311ab9526d',
+    this.group_id = '67e9cff5-3466-48f3-aa54-c5cffbb0fcb4',
     super.key,
   });
 
@@ -80,7 +80,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const TabBar(
-                        labelColor: Color(0xff000000),
+                        labelColor: Color(0xFF000000),
                         tabs: const [
                           Tab(child: Text('Membres')),
                           Tab(child: Text('Destinations')),
@@ -97,7 +97,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 separatorBuilder: (context, index) =>
                                     const Divider(
                                       height: 1.0,
-                                      color: Color(0xffc4c4c4),
+                                      color: Color(0xFFC4C4C4),
                                     ),
                                 itemBuilder: (context, index) {
                                   final GroupMembersModel element = data[index];
@@ -144,7 +144,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                       vertical: 8.0,
                                       horizontal: 16.0,
                                     ),
-                                    tileColor: const Color(0x66ffe1b0),
+                                    tileColor: const Color(0x66FFE1B0),
                                   );
                                 },
                               ),
@@ -157,7 +157,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 child: Text(
                                   error.toString(),
                                   style: const TextStyle(
-                                    color: Color(0xffff0000),
+                                    color: Color(0xFFFF0000),
                                   ),
                                 ),
                               ),
@@ -269,7 +269,7 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                   child: Text(
                                     error.toString(),
                                     style: const TextStyle(
-                                      color: Color(0xffff0000),
+                                      color: Color(0xFFFF0000),
                                     ),
                                   ),
                                 ),
