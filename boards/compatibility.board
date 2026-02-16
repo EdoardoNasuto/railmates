@@ -5,9 +5,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const CompatibilityDaysPage()",
+            "widget": "const CompatibilityEssentialsPage()",
             "deps": [
-                "lib/pages/compatibility_days_page.dart"
+                "lib/pages/compatibility_essentials_page.dart"
             ]
         },
         {
@@ -15,9 +15,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const CompatibilityCountriesPage()",
+            "widget": "const CompatibilityDestinationsPage()",
             "deps": [
-                "lib/pages/compatibility_countries_page.dart"
+                "lib/pages/compatibility_destinations_page.dart"
             ]
         },
         {
@@ -35,9 +35,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const CompatibilityResultPage()",
+            "widget": "const CompatibilityGroupPage()",
             "deps": [
-                "lib/pages/compatibility_result_page.dart"
+                "lib/pages/compatibility_group_page.dart"
             ]
         }
     ]

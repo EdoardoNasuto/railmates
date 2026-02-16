@@ -8,18 +8,18 @@ import 'package:railmates/models/group_destinations_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 @NowaGenerated()
-class CompatibilityResultPage extends StatefulWidget {
+class CompatibilityGroupPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityResultPage({super.key});
+  const CompatibilityGroupPage({super.key});
 
   @override
-  State<CompatibilityResultPage> createState() {
-    return _CompatibilityResultPageState();
+  State<CompatibilityGroupPage> createState() {
+    return _CompatibilityGroupPageState();
   }
 }
 
 @NowaGenerated()
-class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
+class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,9 +92,9 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 itemCount: data.length,
                                 separatorBuilder: (context, index) =>
                                     const Divider(
-                                  height: 1.0,
-                                  color: Color(0xFFC4C4C4),
-                                ),
+                                      height: 1.0,
+                                      color: Color(0xFFC4C4C4),
+                                    ),
                                 itemBuilder: (context, index) {
                                   final GroupMembersModel element = data[index];
                                   return ListTile(
@@ -138,21 +138,21 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                             ),
                                             errorBuilder: (context, error) =>
                                                 Align(
-                                              alignment: const Alignment(
-                                                0.0,
-                                                0.0,
-                                              ),
-                                              child: Text(
-                                                error.toString(),
-                                                style: const TextStyle(
-                                                  color: Color(0xFFFF0000),
+                                                  alignment: const Alignment(
+                                                    0.0,
+                                                    0.0,
+                                                  ),
+                                                  child: Text(
+                                                    error.toString(),
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFFF0000),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            future:
-                                                SupabaseService().getByIdCities(
-                                              element.user_id!.city!,
-                                            ),
+                                            future: SupabaseService()
+                                                .getByIdCities(
+                                                  element.user_id!.city!,
+                                                ),
                                           ),
                                         ),
                                       ],
@@ -191,11 +191,11 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                 builder: (context, data) => GridView.custom(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 10.0,
-                                    crossAxisSpacing: 10.0,
-                                    childAspectRatio: 0.8,
-                                  ),
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 10.0,
+                                        crossAxisSpacing: 10.0,
+                                        childAspectRatio: 0.8,
+                                      ),
                                   childrenDelegate: SliverChildBuilderDelegate((
                                     context,
                                     index,
@@ -241,7 +241,8 @@ class _CompatibilityResultPageState extends State<CompatibilityResultPage> {
                                                     BorderRadius.circular(10.0),
                                                 child: SvgPicture(
                                                   SvgNetworkLoader(
-                                                    element.countries_id!
+                                                    element
+                                                        .countries_id!
                                                         .flag_url!,
                                                   ),
                                                   fit: BoxFit.fill,

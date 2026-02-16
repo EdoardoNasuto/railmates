@@ -8,19 +8,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/pages/compatibility_questions_page.dart';
 
 @NowaGenerated()
-class CompatibilityCountriesPage extends StatefulWidget {
+class CompatibilityDestinationsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityCountriesPage({super.key});
+  const CompatibilityDestinationsPage({super.key});
 
   @override
-  State<CompatibilityCountriesPage> createState() {
-    return _CompatibilityCountriesPageState();
+  State<CompatibilityDestinationsPage> createState() {
+    return _CompatibilityDestinationsPageState();
   }
 }
 
 @NowaGenerated()
-class _CompatibilityCountriesPageState
-    extends State<CompatibilityCountriesPage> {
+class _CompatibilityDestinationsPageState
+    extends State<CompatibilityDestinationsPage> {
   List<CompatibilityDestinationsModel>? selectedCountries = [];
 
   @override

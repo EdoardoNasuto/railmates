@@ -3,21 +3,22 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/compatibility_model.dart';
-import 'package:railmates/pages/compatibility_countries_page.dart';
+import 'package:railmates/pages/compatibility_destinations_page.dart';
 
 @NowaGenerated()
-class CompatibilityDaysPage extends StatefulWidget {
+class CompatibilityEssentialsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityDaysPage({super.key});
+  const CompatibilityEssentialsPage({super.key});
 
   @override
-  State<CompatibilityDaysPage> createState() {
-    return _CompatibilityDaysPageState();
+  State<CompatibilityEssentialsPage> createState() {
+    return _CompatibilityEssentialsPageState();
   }
 }
 
 @NowaGenerated()
-class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
+class _CompatibilityEssentialsPageState
+    extends State<CompatibilityEssentialsPage> {
   DateTimeRange dates = DateTimeRange(
     start: DateTime.now(),
     end: DateTime.now().add(const Duration(days: 30)),
@@ -166,8 +167,10 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                             side: const WidgetStatePropertyAll<BorderSide?>(
                               null,
                             ),
-                            shape: const WidgetStatePropertyAll<
-                                RoundedRectangleBorder?>(null),
+                            shape:
+                                const WidgetStatePropertyAll<
+                                  RoundedRectangleBorder?
+                                >(null),
                           ),
                         ),
                       ),
@@ -325,41 +328,41 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   onPressed: () {
                     SupabaseService()
                         .createCompatibility(
-                      CompatibilityModel(
-                        dates: _toDateRange(dates),
-                        days: _toInt4Range(days),
-                        mates: _toInt4Range(mates),
-                        budget: _toInt4Range(budget),
-                      ),
-                    )
+                          CompatibilityModel(
+                            dates: _toDateRange(dates),
+                            days: _toInt4Range(days),
+                            mates: _toInt4Range(mates),
+                            budget: _toInt4Range(budget),
+                          ),
+                        )
                         .then(
-                      (value) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const CompatibilityCountriesPage(),
-                          ),
-                        );
-                      },
-                      onError: (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              error.toString(),
-                              style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onErrorContainer,
+                          (value) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompatibilityDestinationsPage(),
                               ),
-                            ),
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.errorContainer,
-                          ),
+                            );
+                          },
+                          onError: (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  error.toString(),
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onErrorContainer,
+                                  ),
+                                ),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.errorContainer,
+                              ),
+                            );
+                            return null;
+                          },
                         );
-                        return null;
-                      },
-                    );
                   },
                   label: Text(
                     GlobalState.of(context).localizations.continueButton,
