@@ -152,7 +152,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importantInformation => 'Informations importantes';
 
   @override
-  String get yourAvailability => 'Vos disponibilités';
+  String get yourAvailability => 'Tes disponibilités';
 
   @override
   String get idealTripDuration => 'Durée idéale du voyage';

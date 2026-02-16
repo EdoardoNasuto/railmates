@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/pages/compatibility_countries_page.dart';
 
@@ -18,18 +18,30 @@ class CompatibilityDaysPage extends StatefulWidget {
 
 @NowaGenerated()
 class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
-  RangeValues days = const RangeValues(7.0, 28.0);
+  DateTimeRange dates = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().add(const Duration(days: 30)),
+  );
 
-  DateTimeRange? dates;
+  RangeValues days = const RangeValues(7.0, 28.0);
 
   RangeValues mates = const RangeValues(2.0, 6.0);
 
   RangeValues budget = const RangeValues(400.0, 600.0);
 
-  String? _toDateRange(DateTimeRange? range) {
-    if (range == null) {
-      return null;
-    }
+  @override
+  void initState() {
+    super.initState();
+    SupabaseService().getUserCompatibility().then((value) {
+      days = _fromInt4Range(value!.days!);
+      mates = _fromInt4Range(value!.mates!);
+      budget = _fromInt4Range(value!.budget!);
+      dates = _fromDateRange(value!.dates!);
+      setState(() {});
+    });
+  }
+
+  String _toDateRange(DateTimeRange range) {
     final start = range.start.toIso8601String().split('T').first;
     final end = range.end.toIso8601String().split('T').first;
     return '[${start},${end}]';
@@ -37,6 +49,20 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
 
   String _toInt4Range(RangeValues range) {
     return '[${range.start.toInt()},${range.end.toInt()}]';
+  }
+
+  DateTimeRange _fromDateRange(String rangeStr) {
+    final parts = rangeStr.substring(1, rangeStr.length - 1).split(',');
+    final start = DateTime.parse(parts[0]);
+    final end = DateTime.parse(parts[1]);
+    return DateTimeRange(start: start, end: end);
+  }
+
+  RangeValues _fromInt4Range(String rangeStr) {
+    final parts = rangeStr.substring(1, rangeStr.length - 1).split(',');
+    final start = double.parse(parts[0]);
+    final end = double.parse(parts[1]);
+    return RangeValues(start, end);
   }
 
   @override
@@ -72,8 +98,19 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Text(
                   GlobalState.of(context).localizations.importantInformation,
                   style: const TextStyle(
-                    fontSize: 30.0,
+                    fontSize: 26.0,
                     fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: Text(
+                  GlobalState.of(context).localizations.yourAvailability,
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -87,12 +124,6 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 365)),
                       anchorPoint: const Offset(0.0, 0.0),
-                      initialDateRange:
-                          dates ??
-                          DateTimeRange(
-                            start: DateTime.now(),
-                            end: DateTime.now().add(const Duration(days: 7)),
-                          ),
                     );
                     if (picked != null) {
                       setState(() {
@@ -102,9 +133,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                   },
                   onLongPress: null,
                   child: Text(
-                    dates == null
-                        ? GlobalState.of(context).localizations.yourAvailability
-                        : '${dates?.start.toString().split(' ').first ?? ''} → ${dates?.end.toString().split(' ').first ?? ''}',
+                    '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
                   ),
                 ),
               ),
@@ -112,7 +141,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
                   style: const TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -147,7 +176,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
                   style: const TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -182,7 +211,7 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
                 child: Text(
                   GlobalState.of(context).localizations.idealTripDuration,
                   style: const TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -214,63 +243,43 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
               FlexSizedBox(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (dates != null) {
-                      SupabaseService()
-                          .createCompatibility(
-                            CompatibilityModel(
-                              dates: _toDateRange(dates),
-                              days: _toInt4Range(days),
-                              mates: _toInt4Range(mates),
-                              budget: _toInt4Range(budget),
-                            ),
-                          )
-                          .then(
-                            (value) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CompatibilityCountriesPage(),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    error.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onErrorContainer,
-                                    ),
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.errorContainer,
-                                ),
-                              );
-                              return null;
-                            },
-                          );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            GlobalState.of(
-                              context,
-                            ).localizations.incompleteInformation,
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onErrorContainer,
-                            ),
+                    SupabaseService()
+                        .createCompatibility(
+                          CompatibilityModel(
+                            dates: _toDateRange(dates),
+                            days: _toInt4Range(days),
+                            mates: _toInt4Range(mates),
+                            budget: _toInt4Range(budget),
                           ),
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.errorContainer,
-                        ),
-                      );
-                    }
+                        )
+                        .then(
+                          (value) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompatibilityCountriesPage(),
+                              ),
+                            );
+                          },
+                          onError: (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  error.toString(),
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onErrorContainer,
+                                  ),
+                                ),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.errorContainer,
+                              ),
+                            );
+                            return null;
+                          },
+                        );
                   },
                   child: Text(
                     GlobalState.of(context).localizations.continueButton,
