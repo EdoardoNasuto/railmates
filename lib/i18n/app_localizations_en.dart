@@ -148,13 +148,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultDetailTemplate => '{Age} {Region} {Country}';
 
   @override
-  String get importantInformation => 'Important information';
+  String get essentialInformation => 'Essential information';
 
   @override
   String get yourAvailability => 'Your availability';
 
   @override
   String get idealTripDuration => 'Ideal trip duration';
+
+  @override
+  String get numberOfMates => 'Number of mates';
+
+  @override
+  String get budget => 'Budget';
 
   @override
   String get incompleteInformation => 'Incomplete information';

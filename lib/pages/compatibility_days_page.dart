@@ -89,201 +89,282 @@ class _CompatibilityDaysPageState extends State<CompatibilityDaysPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 20.0,
+            spacing: 30.0,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               FlexSizedBox(
                 width: null,
                 height: null,
                 child: Text(
-                  GlobalState.of(context).localizations.importantInformation,
+                  GlobalState.of(context).localizations.essentialInformation,
                   style: const TextStyle(
                     fontSize: 26.0,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: Text(
-                  GlobalState.of(context).localizations.yourAvailability,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              FlexSizedBox(
-                width: null,
-                height: 40.0,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final picked = await showDateRangePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                      anchorPoint: const Offset(0.0, 0.0),
-                    );
-                    if (picked != null) {
-                      setState(() {
-                        dates = picked;
-                      });
-                    }
-                  },
-                  onLongPress: null,
-                  child: Text(
-                    '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
-                  ),
-                ),
-              ),
-              FlexSizedBox(
-                child: Text(
-                  GlobalState.of(context).localizations.idealTripDuration,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              FlexSizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Text('${days.start.toInt()} - ${days.end.toInt()}'),
-                    RangeSlider(
-                      values: days,
-                      min: 7.0,
-                      max: 28.0,
-                      divisions: 3,
-                      labels: RangeLabels(
-                        days.start.toInt().toString(),
-                        days.end.toInt().toString(),
+              Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 10.0,
+                    children: [
+                      Row(
+                        spacing: 10.0,
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            GlobalState.of(
+                              context,
+                            ).localizations.yourAvailability,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          days = value;
-                        });
-                      },
-                      activeColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ],
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50.0,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            await showDateRangePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(
+                                const Duration(days: 365),
+                              ),
+                              anchorPoint: const Offset(0.0, 0.0),
+                            );
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.date_range),
+                          label: Text(
+                            '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll<Color?>(
+                              Theme.of(context).colorScheme.primaryContainer,
+                            ),
+                            foregroundColor: WidgetStatePropertyAll<Color?>(
+                              Theme.of(context).colorScheme.onSurface,
+                            ),
+                            shadowColor: const WidgetStatePropertyAll<Color?>(
+                              null,
+                            ),
+                            elevation: const WidgetStatePropertyAll<double?>(
+                              null,
+                            ),
+                            side: const WidgetStatePropertyAll<BorderSide?>(
+                              null,
+                            ),
+                            shape: const WidgetStatePropertyAll<
+                                RoundedRectangleBorder?>(null),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: Text(
-                  GlobalState.of(context).localizations.idealTripDuration,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
+              Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 5.0,
+                    children: [
+                      Row(
+                        spacing: 10.0,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            GlobalState.of(
+                              context,
+                            ).localizations.idealTripDuration,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text('${days.start.toInt()} - ${days.end.toInt()} jours'),
+                      RangeSlider(
+                        values: days,
+                        min: 7.0,
+                        max: 28.0,
+                        divisions: 3,
+                        labels: RangeLabels(
+                          days.start.toInt().toString(),
+                          days.end.toInt().toString(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            days = value;
+                          });
+                        },
+                        activeColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 5.0,
+                    children: [
+                      Row(
+                        spacing: 10.0,
+                        children: [
+                          Icon(
+                            Icons.people,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            GlobalState.of(context).localizations.numberOfMates,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${mates.start.toInt()} - ${mates.end.toInt()} personnes',
+                      ),
+                      RangeSlider(
+                        values: mates,
+                        min: 2.0,
+                        max: 6.0,
+                        divisions: 4,
+                        labels: RangeLabels(
+                          mates.start.toInt().toString(),
+                          mates.end.toInt().toString(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            mates = value;
+                          });
+                        },
+                        activeColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 5.0,
+                    children: [
+                      Row(
+                        spacing: 10.0,
+                        children: [
+                          Icon(
+                            Icons.euro,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            GlobalState.of(context).localizations.budget,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text('${budget.start.toInt()}€ - ${budget.end.toInt()}€'),
+                      RangeSlider(
+                        values: budget,
+                        min: 200.0,
+                        max: 800.0,
+                        divisions: 12,
+                        labels: RangeLabels(
+                          budget.start.toInt().toString(),
+                          budget.end.toInt().toString(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            budget = value;
+                          });
+                        },
+                        activeColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
                   ),
                 ),
               ),
               FlexSizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Text('${mates.start.toInt()} - ${mates.end.toInt()}'),
-                    RangeSlider(
-                      values: mates,
-                      min: 2.0,
-                      max: 6.0,
-                      divisions: 4,
-                      labels: RangeLabels(
-                        mates.start.toInt().toString(),
-                        mates.end.toInt().toString(),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          mates = value;
-                        });
-                      },
-                      activeColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ],
-                ),
-              ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: Text(
-                  GlobalState.of(context).localizations.idealTripDuration,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              FlexSizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Text('${budget.start.toInt()} - ${budget.end.toInt()}'),
-                    RangeSlider(
-                      values: budget,
-                      min: 200.0,
-                      max: 800.0,
-                      divisions: 12,
-                      labels: RangeLabels(
-                        budget.start.toInt().toString(),
-                        budget.end.toInt().toString(),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          budget = value;
-                        });
-                      },
-                      activeColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ],
-                ),
-              ),
-              FlexSizedBox(
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                   onPressed: () {
                     SupabaseService()
                         .createCompatibility(
-                          CompatibilityModel(
-                            dates: _toDateRange(dates),
-                            days: _toInt4Range(days),
-                            mates: _toInt4Range(mates),
-                            budget: _toInt4Range(budget),
-                          ),
-                        )
+                      CompatibilityModel(
+                        dates: _toDateRange(dates),
+                        days: _toInt4Range(days),
+                        mates: _toInt4Range(mates),
+                        budget: _toInt4Range(budget),
+                      ),
+                    )
                         .then(
-                          (value) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CompatibilityCountriesPage(),
-                              ),
-                            );
-                          },
-                          onError: (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  error.toString(),
-                                  style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onErrorContainer,
-                                  ),
-                                ),
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.errorContainer,
-                              ),
-                            );
-                            return null;
-                          },
+                      (value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const CompatibilityCountriesPage(),
+                          ),
                         );
+                      },
+                      onError: (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              error.toString(),
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onErrorContainer,
+                              ),
+                            ),
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.errorContainer,
+                          ),
+                        );
+                        return null;
+                      },
+                    );
                   },
-                  child: Text(
+                  label: Text(
                     GlobalState.of(context).localizations.continueButton,
                   ),
+                  icon: const Icon(Icons.arrow_forward),
                 ),
               ),
             ],

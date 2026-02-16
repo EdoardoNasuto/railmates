@@ -149,13 +149,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get resultDetailTemplate => '{Age} {Region} {Country}';
 
   @override
-  String get importantInformation => 'Informations importantes';
+  String get essentialInformation => 'Informations essentielles';
 
   @override
   String get yourAvailability => 'Tes disponibilités';
 
   @override
   String get idealTripDuration => 'Durée idéale du voyage';
+
+  @override
+  String get numberOfMates => 'Nombre de compagnons';
+
+  @override
+  String get budget => 'Budget';
 
   @override
   String get incompleteInformation => 'Informations incomplètes';

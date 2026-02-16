@@ -213,7 +213,7 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityDestinationsModel>>
-  getAllCompatibility_destinations() async {
+      getAllCompatibility_destinations() async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
         .select('*');
@@ -227,7 +227,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility')
-        .insert(data.toJson())
+        .upsert(data.toJson())
         .select('*')
         .single();
     return CompatibilityModel.fromJson(response);

@@ -68,9 +68,11 @@ abstract class AppLocalizations {
   String get dates;
   String get resultNameTemplate;
   String get resultDetailTemplate;
-  String get importantInformation;
+  String get essentialInformation;
   String get yourAvailability;
   String get idealTripDuration;
+  String get numberOfMates;
+  String get budget;
   String get incompleteInformation;
   String get continueButton;
   String get favoriteCountries;
