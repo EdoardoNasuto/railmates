@@ -167,9 +167,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get incompleteInformation => 'Informations incomplètes';
 
   @override
-  String get continueButton => 'Continuer';
-
-  @override
   String get favoriteCountries => 'Pays favoris';
 
   @override

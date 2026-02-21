@@ -74,7 +74,6 @@ abstract class AppLocalizations {
   String get numberOfMates;
   String get budget;
   String get incompleteInformation;
-  String get continueButton;
   String get favoriteCountries;
   String get chooseUpTo10Countries;
   String get onlyChoose10Countries;

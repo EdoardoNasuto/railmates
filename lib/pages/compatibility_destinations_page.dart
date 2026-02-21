@@ -23,8 +23,11 @@ class _CompatibilityDestinationsPageState
     extends State<CompatibilityDestinationsPage> {
   List<CompatibilityDestinationsModel>? selectedCountries = [];
 
+  bool visible = true;
+
   @override
   void initState() {
+    visible = false;
     super.initState();
     _loadSelectedCountries();
   }
@@ -32,6 +35,7 @@ class _CompatibilityDestinationsPageState
   Future<void> _loadSelectedCountries() async {
     selectedCountries = await SupabaseService()
         .getAllCompatibility_destinations();
+    visible = true;
     setState(() {});
   }
 
@@ -84,128 +88,134 @@ class _CompatibilityDestinationsPageState
               FlexSizedBox(
                 width: double.infinity,
                 flex: 1,
-                child: DataBuilder<List<CountriesModel>>(
-                  builder: (context, data) => GridView.custom(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 15.0,
-                          crossAxisSpacing: 15.0,
-                          childAspectRatio: 1.1,
-                        ),
-                    childrenDelegate: SliverChildBuilderDelegate((
-                      context,
-                      index,
-                    ) {
-                      final CountriesModel element = data[index];
-                      return GestureDetector(
-                        trackpadScrollToScaleFactor: const Offset(0.0, 0.0),
-                        onTap: () {
-                          if (selectedCountries!.any(
-                            (dest) => dest.country_id == element.id,
-                          )) {
-                            selectedCountries?.removeWhere(
-                              (dest) => dest.country_id == element.id,
-                            );
-                          } else {
-                            if (selectedCountries?.length != 10) {
-                              selectedCountries?.add(
-                                CompatibilityDestinationsModel(
-                                  country_id: element.id,
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    GlobalState.of(
-                                      context,
-                                    ).localizations.onlyChoose10Countries,
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onErrorContainer,
-                                    ),
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.errorContainer,
-                                  duration: const Duration(milliseconds: 750),
-                                ),
-                              );
-                              return;
-                            }
-                          }
-                          setState(() {});
-                        },
-                        child: Material(
-                          color:
-                              (selectedCountries!.any(
-                                (dest) => dest.country_id == element.id,
-                              ))
-                              ? Theme.of(context).colorScheme.inversePrimary
-                              : Theme.of(context).colorScheme.surfaceContainer,
-                          elevation: 5.0,
-                          shadowColor: Theme.of(context).colorScheme.shadow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                            side: BorderSide(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.inversePrimary,
-                              width: 2.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 16.0,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              spacing: 10.0,
-                              children: [
-                                FlexSizedBox(
-                                  width: double.infinity,
-                                  flex: 1,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: SvgPicture(
-                                      SvgNetworkLoader(element.flag_url!),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  element.name!,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }, childCount: data.length),
-                  ),
-                  loadingWidget: const Align(
+                child: Visibility(
+                  visible: visible,
+                  replacement: const Align(
                     alignment: Alignment(0.0, 0.0),
                     child: CircularProgressIndicator(),
                   ),
-                  errorBuilder: (context, error) => Align(
-                    alignment: const Alignment(0.0, 0.0),
-                    child: Text(
-                      error.toString(),
-                      style: const TextStyle(color: Color(0xFFFF0000)),
+                  child: DataBuilder<List<CountriesModel>>(
+                    builder: (context, data) => GridView.custom(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 15.0,
+                            crossAxisSpacing: 15.0,
+                            childAspectRatio: 1.1,
+                          ),
+                      childrenDelegate: SliverChildBuilderDelegate((
+                        context,
+                        index,
+                      ) {
+                        final CountriesModel element = data[index];
+                        return GestureDetector(
+                          trackpadScrollToScaleFactor: const Offset(0.0, 0.0),
+                          onTap: () {
+                            if (selectedCountries!.any(
+                              (dest) => dest.country_id == element.id,
+                            )) {
+                              selectedCountries?.removeWhere(
+                                (dest) => dest.country_id == element.id,
+                              );
+                            } else {
+                              if (selectedCountries?.length != 10) {
+                                selectedCountries?.add(
+                                  CompatibilityDestinationsModel(
+                                    country_id: element.id,
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  builder: (context) => AlertDialog(
+                                    title: Text(
+                                      GlobalState.of(
+                                        context,
+                                      ).localizations.onlyChoose10Countries,
+                                    ),
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.errorContainer,
+                                  ),
+                                  useRootNavigator: false,
+                                  context: context,
+                                  anchorPoint: const Offset(0.0, 0.0),
+                                );
+                                return;
+                              }
+                            }
+                            setState(() {});
+                          },
+                          child: Material(
+                            color:
+                                (selectedCountries!.any(
+                                  (dest) => dest.country_id == element.id,
+                                ))
+                                ? Theme.of(context).colorScheme.inversePrimary
+                                : Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
+                            elevation: 5.0,
+                            shadowColor: Theme.of(context).colorScheme.shadow,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                              side: BorderSide(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inversePrimary,
+                                width: 2.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 16.0,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 10.0,
+                                children: [
+                                  FlexSizedBox(
+                                    width: double.infinity,
+                                    flex: 1,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: SvgPicture(
+                                        SvgNetworkLoader(element.flag_url!),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    element.name!,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }, childCount: data.length),
                     ),
+                    loadingWidget: const Align(
+                      alignment: Alignment(0.0, 0.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorBuilder: (context, error) => Align(
+                      alignment: const Alignment(0.0, 0.0),
+                      child: Text(
+                        error.toString(),
+                        style: const TextStyle(color: Color(0xFFFF0000)),
+                      ),
+                    ),
+                    future: SupabaseService().getAllCountries(),
                   ),
-                  future: SupabaseService().getAllCountries(),
                 ),
               ),
               FlexSizedBox(

@@ -30,14 +30,18 @@ class _CompatibilityEssentialsPageState
 
   RangeValues budget = const RangeValues(400.0, 600.0);
 
+  bool? visible = true;
+
   @override
   void initState() {
+    visible = false;
     super.initState();
     SupabaseService().getUserCompatibility().then((value) {
       days = _fromInt4Range(value!.days!);
       mates = _fromInt4Range(value!.mates!);
       budget = _fromInt4Range(value!.budget!);
       dates = _fromDateRange(value!.dates!);
+      visible = true;
       setState(() {});
     });
   }
@@ -90,7 +94,6 @@ class _CompatibilityEssentialsPageState
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 30.0,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               FlexSizedBox(
@@ -104,227 +107,309 @@ class _CompatibilityEssentialsPageState
                   ),
                 ),
               ),
-              Material(
-                elevation: 10.0,
-                borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 10.0,
-                    children: [
-                      Row(
-                        spacing: 10.0,
-                        children: [
-                          Icon(
-                            Icons.calendar_today,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          Text(
-                            GlobalState.of(
-                              context,
-                            ).localizations.yourAvailability,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
+              FlexSizedBox(
+                width: double.infinity,
+                flex: 1,
+                child: SingleChildScrollView(
+                  child: Visibility(
+                    visible: visible!,
+                    replacement: const Align(
+                      alignment: Alignment(0.0, 0.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 30.0,
+                        horizontal: 0.0,
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50.0,
-                        child: ElevatedButton.icon(
-                          onPressed: () async {
-                            await showDateRangePicker(
-                              context: context,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime.now().add(
-                                const Duration(days: 365),
+                      child: Column(
+                        spacing: 30.0,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          FlexSizedBox(
+                            width: 361.0,
+                            height: 118.0,
+                            child: Material(
+                              elevation: 10.0,
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerLow,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 10.0,
+                                  children: [
+                                    Row(
+                                      spacing: 10.0,
+                                      children: [
+                                        Icon(
+                                          Icons.calendar_today,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                        Text(
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.yourAvailability,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 50.0,
+                                      child: ElevatedButton.icon(
+                                        onPressed: () async {
+                                          await showDateRangePicker(
+                                            context: context,
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime.now().add(
+                                              const Duration(days: 365),
+                                            ),
+                                            anchorPoint: const Offset(0.0, 0.0),
+                                          );
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(Icons.date_range),
+                                        label: Text(
+                                          '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll<Color?>(
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.primaryContainer,
+                                              ),
+                                          foregroundColor:
+                                              WidgetStatePropertyAll<Color?>(
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                              ),
+                                          shadowColor:
+                                              const WidgetStatePropertyAll<
+                                                Color?
+                                              >(null),
+                                          elevation:
+                                              const WidgetStatePropertyAll<
+                                                double?
+                                              >(null),
+                                          side:
+                                              const WidgetStatePropertyAll<
+                                                BorderSide?
+                                              >(null),
+                                          shape:
+                                              const WidgetStatePropertyAll<
+                                                RoundedRectangleBorder?
+                                              >(null),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              anchorPoint: const Offset(0.0, 0.0),
-                            );
-                            setState(() {});
-                          },
-                          icon: const Icon(Icons.date_range),
-                          label: Text(
-                            '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
+                            ),
                           ),
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll<Color?>(
-                              Theme.of(context).colorScheme.primaryContainer,
+                          FlexSizedBox(
+                            width: 361.0,
+                            height: 136.0,
+                            child: Material(
+                              elevation: 10.0,
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerLow,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 5.0,
+                                  children: [
+                                    Row(
+                                      spacing: 10.0,
+                                      children: [
+                                        Icon(
+                                          Icons.access_time,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                        Text(
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.idealTripDuration,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '${days.start.toInt()} - ${days.end.toInt()} jours',
+                                    ),
+                                    RangeSlider(
+                                      values: days,
+                                      min: 7.0,
+                                      max: 28.0,
+                                      divisions: 3,
+                                      labels: RangeLabels(
+                                        days.start.toInt().toString(),
+                                        days.end.toInt().toString(),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          days = value;
+                                        });
+                                      },
+                                      activeColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            foregroundColor: WidgetStatePropertyAll<Color?>(
-                              Theme.of(context).colorScheme.onSurface,
-                            ),
-                            shadowColor: const WidgetStatePropertyAll<Color?>(
-                              null,
-                            ),
-                            elevation: const WidgetStatePropertyAll<double?>(
-                              null,
-                            ),
-                            side: const WidgetStatePropertyAll<BorderSide?>(
-                              null,
-                            ),
-                            shape:
-                                const WidgetStatePropertyAll<
-                                  RoundedRectangleBorder?
-                                >(null),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Material(
-                elevation: 10.0,
-                borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 5.0,
-                    children: [
-                      Row(
-                        spacing: 10.0,
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            color: Theme.of(context).colorScheme.primary,
+                          FlexSizedBox(
+                            width: 361.0,
+                            height: 136.0,
+                            child: Material(
+                              elevation: 10.0,
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerLow,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 5.0,
+                                  children: [
+                                    Row(
+                                      spacing: 10.0,
+                                      children: [
+                                        Icon(
+                                          Icons.people,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                        Text(
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.numberOfMates,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '${mates.start.toInt()} - ${mates.end.toInt()} personnes',
+                                    ),
+                                    RangeSlider(
+                                      values: mates,
+                                      min: 2.0,
+                                      max: 6.0,
+                                      divisions: 4,
+                                      labels: RangeLabels(
+                                        mates.start.toInt().toString(),
+                                        mates.end.toInt().toString(),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          mates = value;
+                                        });
+                                      },
+                                      activeColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          Text(
-                            GlobalState.of(
-                              context,
-                            ).localizations.idealTripDuration,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
+                          FlexSizedBox(
+                            width: 361.0,
+                            height: 136.0,
+                            child: Material(
+                              elevation: 10.0,
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerLow,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 5.0,
+                                  children: [
+                                    Row(
+                                      spacing: 10.0,
+                                      children: [
+                                        Icon(
+                                          Icons.euro,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                        Text(
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.budget,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '${budget.start.toInt()}€ - ${budget.end.toInt()}€',
+                                    ),
+                                    RangeSlider(
+                                      values: budget,
+                                      min: 200.0,
+                                      max: 800.0,
+                                      divisions: 12,
+                                      labels: RangeLabels(
+                                        budget.start.toInt().toString(),
+                                        budget.end.toInt().toString(),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          budget = value;
+                                        });
+                                      },
+                                      activeColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      Text('${days.start.toInt()} - ${days.end.toInt()} jours'),
-                      RangeSlider(
-                        values: days,
-                        min: 7.0,
-                        max: 28.0,
-                        divisions: 3,
-                        labels: RangeLabels(
-                          days.start.toInt().toString(),
-                          days.end.toInt().toString(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            days = value;
-                          });
-                        },
-                        activeColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Material(
-                elevation: 10.0,
-                borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 5.0,
-                    children: [
-                      Row(
-                        spacing: 10.0,
-                        children: [
-                          Icon(
-                            Icons.people,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          Text(
-                            GlobalState.of(context).localizations.numberOfMates,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${mates.start.toInt()} - ${mates.end.toInt()} personnes',
-                      ),
-                      RangeSlider(
-                        values: mates,
-                        min: 2.0,
-                        max: 6.0,
-                        divisions: 4,
-                        labels: RangeLabels(
-                          mates.start.toInt().toString(),
-                          mates.end.toInt().toString(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            mates = value;
-                          });
-                        },
-                        activeColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Material(
-                elevation: 10.0,
-                borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 5.0,
-                    children: [
-                      Row(
-                        spacing: 10.0,
-                        children: [
-                          Icon(
-                            Icons.euro,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          Text(
-                            GlobalState.of(context).localizations.budget,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text('${budget.start.toInt()}€ - ${budget.end.toInt()}€'),
-                      RangeSlider(
-                        values: budget,
-                        min: 200.0,
-                        max: 800.0,
-                        divisions: 12,
-                        labels: RangeLabels(
-                          budget.start.toInt().toString(),
-                          budget.end.toInt().toString(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            budget = value;
-                          });
-                        },
-                        activeColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
               FlexSizedBox(
-                child: ElevatedButton.icon(
+                child: ElevatedButton(
                   onPressed: () {
                     SupabaseService()
                         .createCompatibility(
@@ -364,10 +449,7 @@ class _CompatibilityEssentialsPageState
                           },
                         );
                   },
-                  label: Text(
-                    GlobalState.of(context).localizations.continueButton,
-                  ),
-                  icon: const Icon(Icons.arrow_forward),
+                  child: Text(GlobalState.of(context).localizations.confirm),
                 ),
               ),
             ],

@@ -280,96 +280,64 @@ class _CompatibilityQuestionsPageState
               FlexSizedBox(
                 width: null,
                 height: null,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 8.0,
-                  ),
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    children: [
-                      FlexSizedBox(
-                        width: null,
-                        height: null,
-                        child: ElevatedButton(
-                          onPressed: _selectedOptionIds.isNotEmpty
-                              ? () async {
-                                  final CompatibilityQuestionsModel? question =
-                                      await SupabaseService()
-                                          .getByPosCompatibility_question(
-                                            widget.questionPos!,
-                                          );
-                                  await SupabaseService()
-                                      .deleteCompatibility_answers(
-                                        question!.id!,
-                                      );
-                                  await SupabaseService()
-                                      .createCompatibility_answers(
-                                        _selectedOptionIds.toList(),
-                                      );
-                                  if (widget.questionPos ==
-                                      widget.questionsCount) {
-                                    SupabaseService().updateCompatibility(
-                                      const CompatibilityModel(ready: true),
-                                    );
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CompatibilityGroupPage(),
-                                      ),
-                                    );
-                                  } else {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            CompatibilityQuestionsPage(
-                                              questionPos:
-                                                  widget.questionPos! + 1,
-                                            ),
-                                      ),
-                                    );
-                                  }
-                                }
-                              : null,
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color?>((
-                                  states,
-                                ) {
-                                  if (states.contains(WidgetState.disabled)) {
-                                    return null;
-                                  }
-                                  if (states.contains(WidgetState.hovered)) {
-                                    return null;
-                                  }
-                                  return Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer;
-                                }),
-                            foregroundColor:
-                                const WidgetStatePropertyAll<Color?>(null),
-                            shadowColor: const WidgetStatePropertyAll<Color?>(
-                              null,
-                            ),
-                            elevation: const WidgetStatePropertyAll<double?>(
-                              null,
-                            ),
-                            side: const WidgetStatePropertyAll<BorderSide?>(
-                              null,
-                            ),
-                            shape:
-                                const WidgetStatePropertyAll<
-                                  RoundedRectangleBorder?
-                                >(null),
-                          ),
-                          child: Text(
-                            GlobalState.of(context).localizations.confirm,
-                            style: const TextStyle(fontSize: 28.0),
-                          ),
+                child: ElevatedButton(
+                  onPressed: _selectedOptionIds.isNotEmpty
+                      ? () async {
+                          final CompatibilityQuestionsModel? question =
+                              await SupabaseService()
+                                  .getByPosCompatibility_question(
+                                    widget.questionPos!,
+                                  );
+                          await SupabaseService().deleteCompatibility_answers(
+                            question!.id!,
+                          );
+                          await SupabaseService().createCompatibility_answers(
+                            _selectedOptionIds.toList(),
+                          );
+                          if (widget.questionPos == widget.questionsCount) {
+                            SupabaseService().updateCompatibility(
+                              const CompatibilityModel(ready: true),
+                            );
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompatibilityGroupPage(),
+                              ),
+                            );
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CompatibilityQuestionsPage(
+                                      questionPos: widget.questionPos! + 1,
+                                    ),
+                              ),
+                            );
+                          }
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.resolveWith<Color?>((
+                      states,
+                    ) {
+                      if (states.contains(WidgetState.disabled)) {
+                        return null;
+                      }
+                      if (states.contains(WidgetState.hovered)) {
+                        return null;
+                      }
+                      return Theme.of(context).colorScheme.primaryContainer;
+                    }),
+                    foregroundColor: const WidgetStatePropertyAll<Color?>(null),
+                    shadowColor: const WidgetStatePropertyAll<Color?>(null),
+                    elevation: const WidgetStatePropertyAll<double?>(null),
+                    side: const WidgetStatePropertyAll<BorderSide?>(null),
+                    shape:
+                        const WidgetStatePropertyAll<RoundedRectangleBorder?>(
+                          null,
                         ),
-                      ),
-                    ],
                   ),
+                  child: Text(GlobalState.of(context).localizations.confirm),
                 ),
               ),
             ],
