@@ -112,16 +112,16 @@ class _CompatibilityDestinationsPageState
                           trackpadScrollToScaleFactor: const Offset(0.0, 0.0),
                           onTap: () {
                             if (selectedCountries!.any(
-                              (dest) => dest.country_id == element.id,
+                              (dest) => dest.country_id?.id == element.id,
                             )) {
                               selectedCountries?.removeWhere(
-                                (dest) => dest.country_id == element.id,
+                                (dest) => dest.country_id?.id == element.id,
                               );
                             } else {
                               if (selectedCountries?.length != 10) {
                                 selectedCountries?.add(
                                   CompatibilityDestinationsModel(
-                                    country_id: element.id,
+                                    country_id: element,
                                   ),
                                 );
                               } else {
@@ -148,7 +148,7 @@ class _CompatibilityDestinationsPageState
                           child: Material(
                             color:
                                 (selectedCountries!.any(
-                                  (dest) => dest.country_id == element.id,
+                                  (dest) => dest.country_id?.id == element.id,
                                 ))
                                 ? Theme.of(context).colorScheme.inversePrimary
                                 : Theme.of(

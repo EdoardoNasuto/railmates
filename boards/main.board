@@ -1,0 +1,23 @@
+{
+    "canvases": [
+        {
+            "x": 704.0,
+            "y": 260.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const HomePage()",
+            "deps": [
+                "lib/pages/home_page.dart"
+            ]
+        },
+        {
+            "x": 336.0,
+            "y": 396.0,
+            "w": 300.0,
+            "widget": "const NavBar()",
+            "deps": [
+                "lib/components/nav_bar.dart"
+            ]
+        }
+    ]
+}

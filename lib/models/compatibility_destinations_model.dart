@@ -1,3 +1,4 @@
+import 'package:railmates/models/countries_model.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated()
@@ -9,16 +10,16 @@ class CompatibilityDestinationsModel {
   factory CompatibilityDestinationsModel.fromJson(Map<String, dynamic> json) {
     return CompatibilityDestinationsModel(
       profile_id: json['profile_id'],
-      country_id: json['country_id'],
+      country_id: CountriesModel.fromJson(json['country_id'] ?? {}),
     );
   }
 
   final String? profile_id;
 
-  final int? country_id;
+  final CountriesModel? country_id;
 
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
-    return {'profile_id': profile_id, 'country_id': country_id};
+    return {'profile_id': profile_id, 'country_id': country_id?.id};
   }
 }

@@ -216,7 +216,7 @@ class SupabaseService {
       getAllCompatibility_destinations() async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
-        .select('*');
+        .select('*, country_id(*)');
     return response
         .map((json) => CompatibilityDestinationsModel.fromJson(json))
         .toList();
