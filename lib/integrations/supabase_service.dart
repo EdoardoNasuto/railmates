@@ -269,4 +269,15 @@ class SupabaseService {
         .maybeSingle();
     return response != null ? CompatibilityModel.fromJson(response!) : null;
   }
+
+  Future<List<CompatibilityAnswersModel>> getBySectionCompatibility_answers(
+      int section) async {
+    final response = await Supabase.instance.client
+        .from('compatibility_answers')
+        .select('*, question_id!inner(*), option_id(*)')
+        .eq('question_id.section_id', section);
+    return response
+        .map((json) => CompatibilityAnswersModel.fromJson(json))
+        .toList();
+  }
 }

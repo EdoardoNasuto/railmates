@@ -23,6 +23,7 @@ class NavBar extends StatelessWidget {
       ],
       currentIndex: index,
       onTap: (value) {},
+      elevation: 25.0,
     );
   }
 }
