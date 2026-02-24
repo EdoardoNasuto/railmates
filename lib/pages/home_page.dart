@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/pages/compatibility_essentials_page.dart';
 import 'package:railmates/models/compatibility_model.dart';
+import 'package:railmates/pages/compatibility_essentials_page.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/compatibility_destinations_page.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
+import 'package:railmates/pages/compatibility_destinations_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
 import 'package:railmates/pages/compatibility_questions_page.dart';
@@ -51,27 +51,27 @@ class _HomePageState extends State<HomePage> {
             children: [
               FlexSizedBox(
                 width: double.infinity,
-                child: Material(
-                  elevation: 10.0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2.0,
+                child: DataBuilder<CompatibilityModel?>(
+                  builder: (context, data) => Material(
+                    elevation: 10.0,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const CompatibilityEssentialsPage(),
-                        ),
-                      );
-                    },
-                    child: DataBuilder<CompatibilityModel?>(
-                      builder: (context, data) => Padding(
+                    color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const CompatibilityEssentialsPage(),
+                          ),
+                        );
+                      },
+                      child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,44 +202,44 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      loadingWidget: const Align(
-                        alignment: Alignment(0.0, 0.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorBuilder: (context, error) => Align(
-                        alignment: const Alignment(0.0, 0.0),
-                        child: Text(
-                          error.toString(),
-                          style: const TextStyle(color: Color(0xFFFF0000)),
-                        ),
-                      ),
-                      future: SupabaseService().getUserCompatibility(),
                     ),
                   ),
+                  loadingWidget: const Align(
+                    alignment: Alignment(0.0, 0.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorBuilder: (context, error) => Align(
+                    alignment: const Alignment(0.0, 0.0),
+                    child: Text(
+                      error.toString(),
+                      style: const TextStyle(color: Color(0xFFFF0000)),
+                    ),
+                  ),
+                  future: SupabaseService().getUserCompatibility(),
                 ),
               ),
               FlexSizedBox(
                 width: double.infinity,
-                child: Material(
-                  elevation: 10.0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2.0,
+                child: DataBuilder<List<CompatibilityDestinationsModel>>(
+                  builder: (context, data) => Material(
+                    elevation: 10.0,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const CompatibilityDestinationsPage(),
-                        ),
-                      );
-                    },
-                    child: DataBuilder<List<CompatibilityDestinationsModel>>(
-                      builder: (context, data) => GridView.custom(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const CompatibilityDestinationsPage(),
+                          ),
+                        );
+                      },
+                      child: GridView.custom(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 5,
@@ -276,21 +276,20 @@ class _HomePageState extends State<HomePage> {
                         ),
                         shrinkWrap: true,
                       ),
-                      loadingWidget: const Align(
-                        alignment: Alignment(0.0, 0.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorBuilder: (context, error) => Align(
-                        alignment: const Alignment(0.0, 0.0),
-                        child: Text(
-                          error.toString(),
-                          style: const TextStyle(color: Color(0xFFFF0000)),
-                        ),
-                      ),
-                      future: SupabaseService()
-                          .getAllCompatibility_destinations(),
                     ),
                   ),
+                  loadingWidget: const Align(
+                    alignment: Alignment(0.0, 0.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorBuilder: (context, error) => Align(
+                    alignment: const Alignment(0.0, 0.0),
+                    child: Text(
+                      error.toString(),
+                      style: const TextStyle(color: Color(0xFFFF0000)),
+                    ),
+                  ),
+                  future: SupabaseService().getAllCompatibility_destinations(),
                 ),
               ),
               FlexSizedBox(
@@ -380,116 +379,120 @@ class _HomePageState extends State<HomePage> {
                       FlexSizedBox(
                         width: double.infinity,
                         flex: 1,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25.0),
-                          child: DataBuilder<List<CompatibilityAnswersModel>>(
-                            builder: (context, data) => ListView.separated(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                final CompatibilityAnswersModel element =
-                                    data[index];
-                                return Material(
-                                  elevation: 5.0,
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                      width: 1.0,
+                        child: DataBuilder<List<CompatibilityAnswersModel>>(
+                          builder: (context, data) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 5.0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25.0),
+                              child: ListView.separated(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  final CompatibilityAnswersModel element =
+                                      data[index];
+                                  return Material(
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(25.0),
                                     ),
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  ),
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CompatibilityQuestionsPage(
-                                                questionPos:
-                                                    element.question_id?.pos,
-                                              ),
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompatibilityQuestionsPage(
+                                                  questionPos:
+                                                      element.question_id?.pos,
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0,
+                                          horizontal: 15.0,
                                         ),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0,
-                                        horizontal: 15.0,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            element
-                                                    .question_id
-                                                    ?.label[GlobalState.of(
-                                                  context,
-                                                  listen: false,
-                                                ).locale!.languageCode] ??
-                                                GlobalState.of(
-                                                  context,
-                                                ).localizations.question,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              element
+                                                      .question_id
+                                                      ?.label[GlobalState.of(
                                                     context,
-                                                  ).colorScheme.primary,
-                                                ),
-                                          ),
-                                          Text(
-                                            element
-                                                    .option_id
-                                                    ?.label[GlobalState.of(
-                                                  context,
-                                                  listen: false,
-                                                ).locale!.languageCode] ??
-                                                GlobalState.of(
-                                                  context,
-                                                ).localizations.option,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurface
-                                                      .withOpacity(0.85),
-                                                ),
-                                          ),
-                                        ],
+                                                    listen: false,
+                                                  ).locale!.languageCode] ??
+                                                  GlobalState.of(
+                                                    context,
+                                                  ).localizations.question,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).colorScheme.primary,
+                                                  ),
+                                            ),
+                                            Text(
+                                              element
+                                                      .option_id
+                                                      ?.label[GlobalState.of(
+                                                    context,
+                                                    listen: false,
+                                                  ).locale!.languageCode] ??
+                                                  GlobalState.of(
+                                                    context,
+                                                  ).localizations.option,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface
+                                                        .withOpacity(0.85),
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 10.0, width: 20.0),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 10.0,
-                              ),
-                            ),
-                            loadingWidget: const Align(
-                              alignment: Alignment(0.0, 0.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorBuilder: (context, error) => Align(
-                              alignment: const Alignment(0.0, 0.0),
-                              child: Text(
-                                error.toString(),
-                                style: const TextStyle(
-                                  color: Color(0xFFFF0000),
+                                  );
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10.0, width: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0,
+                                  horizontal: 5.0,
                                 ),
                               ),
                             ),
-                            future: SupabaseService()
-                                .getBySectionCompatibility_answers(section),
                           ),
+                          loadingWidget: const Align(
+                            alignment: Alignment(0.0, 0.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorBuilder: (context, error) => Align(
+                            alignment: const Alignment(0.0, 0.0),
+                            child: Text(
+                              error.toString(),
+                              style: const TextStyle(color: Color(0xFFFF0000)),
+                            ),
+                          ),
+                          future: SupabaseService()
+                              .getBySectionCompatibility_answers(section),
                         ),
                       ),
                     ],
