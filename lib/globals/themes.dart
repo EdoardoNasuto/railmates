@@ -4,8 +4,9 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 @NowaGenerated()
 final ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xff1976d2),
+    seedColor: const Color(0xFF0139AD),
     brightness: Brightness.light,
+    dynamicSchemeVariant: DynamicSchemeVariant.tonalSpot,
   ),
   textTheme: const TextTheme(),
 );
@@ -13,8 +14,9 @@ final ThemeData lightTheme = ThemeData(
 @NowaGenerated()
 final ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xff0d47a1),
+    seedColor: const Color(0xFF0D47A1),
     brightness: Brightness.dark,
+    dynamicSchemeVariant: DynamicSchemeVariant.tonalSpot,
   ),
   textTheme: const TextTheme(),
 );

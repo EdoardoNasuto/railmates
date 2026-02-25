@@ -25,7 +25,7 @@ class _CountrySearchPageState extends State<CountrySearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceDim,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
         child: Column(
@@ -80,9 +80,9 @@ class _CountrySearchPageState extends State<CountrySearchPage> {
                   child: Text(
                     error.toString(),
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: Theme.of(context).colorScheme.error,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 future: SupabaseService().getByPrefixCountries(

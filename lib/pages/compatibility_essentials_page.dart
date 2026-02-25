@@ -132,7 +132,7 @@ class _CompatibilityEssentialsPageState
                             width: 361.0,
                             height: 118.0,
                             child: Material(
-                              elevation: 10.0,
+                              elevation: 6.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -223,7 +223,7 @@ class _CompatibilityEssentialsPageState
                             width: 361.0,
                             height: 136.0,
                             child: Material(
-                              elevation: 10.0,
+                              elevation: 6.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -284,7 +284,7 @@ class _CompatibilityEssentialsPageState
                             width: 361.0,
                             height: 136.0,
                             child: Material(
-                              elevation: 10.0,
+                              elevation: 6.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -345,7 +345,7 @@ class _CompatibilityEssentialsPageState
                             width: 361.0,
                             height: 136.0,
                             child: Material(
-                              elevation: 10.0,
+                              elevation: 6.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,

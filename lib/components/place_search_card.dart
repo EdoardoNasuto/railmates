@@ -23,38 +23,26 @@ class PlaceSearchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(18.0),
-      onTap: onTap,
-      child: Card(
-        elevation: 6.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        color: Theme.of(context).colorScheme.surfaceContainer,
-        shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+    return Material(
+      elevation: 3.0,
+      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18.0),
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 24.0),
           child: Row(
             children: [
               FlexSizedBox(
-                width: 48.0,
                 height: 48.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
+                width: 60.0,
+                child: Material(
+                  color: Theme.of(context).colorScheme.primary,
+                  elevation: 3.0,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.shadow.withOpacity(0.1),
-                        blurRadius: 8.0,
-                        offset: const Offset(0.0, 4.0),
-                      ),
-                    ],
                   ),
-                  clipBehavior: Clip.hardEdge,
                   child: SvgPicture(SvgNetworkLoader(flag), fit: BoxFit.cover),
                 ),
               ),

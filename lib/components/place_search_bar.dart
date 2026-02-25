@@ -10,6 +10,7 @@ class PlaceSearchBar extends StatefulWidget {
   final TextEditingController? controller;
 
   final void Function(String value)? onChange;
+
   final String? hint;
 
   @override
@@ -24,18 +25,10 @@ class _PlaceSearchBarState extends State<PlaceSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withOpacity(0.07),
-            blurRadius: 12.0,
-            offset: const Offset(0.0, 4.0),
-          ),
-        ],
-      ),
+    return Material(
+      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      elevation: 6.0,
       child: TextFormField(
         controller: widget.controller,
         onChanged: (value) {
@@ -45,6 +38,7 @@ class _PlaceSearchBarState extends State<PlaceSearchBar> {
             });
           }
         },
+        autofocus: true,
         decoration: InputDecoration(
           prefixIcon: IconButton(
             icon: Icon(
@@ -60,7 +54,6 @@ class _PlaceSearchBarState extends State<PlaceSearchBar> {
           hintText: widget.hint ?? '',
           border: InputBorder.none,
         ),
-        autofocus: true,
       ),
     );
   }

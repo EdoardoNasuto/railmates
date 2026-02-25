@@ -12,18 +12,25 @@ class NavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: [
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.view_list, color: Color(0xFF000000)),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.view_list,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           label: 'Summary',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.person, color: Color(0xFF000000)),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           label: 'Profile',
         ),
       ],
       currentIndex: index,
       onTap: (value) {},
-      elevation: 25.0,
+      elevation: 3.0,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
     );
   }
 }
