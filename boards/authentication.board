@@ -26,9 +26,9 @@
             "y": 0.0,
             "w": 393.0,
             "h": 808.0,
-            "widget": "const ProfilePage()",
+            "widget": "const ProfileCreationPage()",
             "deps": [
-                "lib/pages/profile_page.dart"
+                "lib/pages/profile_creation_page.dart"
             ]
         },
         {

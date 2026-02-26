@@ -4,10 +4,9 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:railmates/pages/profile_page.dart';
+import 'package:railmates/pages/profile_creation_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-// (duplicate import removed)
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class OtpPage extends StatefulWidget {
@@ -58,61 +57,62 @@ class _OtpPageState extends State<OtpPage> {
                     submitForm: () {
                       SupabaseService()
                           .verifyOTP(
-                        emailController!.text,
-                        tokenController!.text,
-                        widget.otpType!,
-                      )
+                            emailController!.text,
+                            tokenController!.text,
+                            widget.otpType!,
+                          )
                           .then(
-                        (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                GlobalState.of(context)
-                                    .localizations
-                                    .accountVerified,
-                              ),
-                            ),
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    GlobalState.of(
+                                      context,
+                                    ).localizations.accountVerified,
+                                  ),
+                                ),
+                              );
+                              if (widget.otpType == OtpType.signup) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ProfileCreationPage(),
+                                  ),
+                                );
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordPage(),
+                                  ),
+                                );
+                              }
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    RegExp('message:s*([^,]+)')
+                                            .firstMatch(error.toString())
+                                            ?.group(1) ??
+                                        GlobalState.of(
+                                          context,
+                                        ).localizations.errorRaised,
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
+                              );
+                            },
                           );
-                          if (widget.otpType == OtpType.signup) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const ProfilePage(),
-                              ),
-                            );
-                          } else {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordPage(),
-                              ),
-                            );
-                          }
-                        },
-                        onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                RegExp('message:\s*([^,]+)')
-                                        .firstMatch(error.toString())
-                                        ?.group(1) ??
-                                    GlobalState.of(context)
-                                        .localizations
-                                        .errorRaised,
-                              ),
-                              backgroundColor: Theme.of(
-                                context,
-                              ).colorScheme.error,
-                            ),
-                          );
-                        },
-                      );
                     },
                     textFields: [
                       PinCodeTextField(
                         appContext: context,
                         length: 6,
                         pinTheme: PinTheme(
-                          inactiveColor: const Color(0xff000000),
+                          inactiveColor: const Color(0xFF000000),
                         ),
                         controller: tokenController,
                         onChanged: (value) {},
@@ -126,14 +126,16 @@ class _OtpPageState extends State<OtpPage> {
                               useRootNavigator: false,
                               anchorPoint: const Offset(0.0, 0.0),
                               builder: (context) => AlertDialog(
-                                title: Text(GlobalState.of(context)
-                                    .localizations
-                                    .resendEmail),
+                                title: Text(
+                                  GlobalState.of(
+                                    context,
+                                  ).localizations.resendEmail,
+                                ),
                                 content: TextField(
                                   decoration: InputDecoration(
-                                    labelText: GlobalState.of(context)
-                                        .localizations
-                                        .email,
+                                    labelText: GlobalState.of(
+                                      context,
+                                    ).localizations.email,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
@@ -144,93 +146,107 @@ class _OtpPageState extends State<OtpPage> {
                                       if (widget.otpType == OtpType.recovery) {
                                         SupabaseService()
                                             .resetPasswordForEmail(
-                                          emailController?.text,
-                                        )
+                                              emailController?.text,
+                                            )
                                             .then(
-                                          (value) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                    GlobalState.of(context)
-                                                        .localizations
-                                                        .emailSent),
-                                              ),
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
-                                          onError: (error) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  RegExp('message:\s*([^,]+)')
-                                                          .firstMatch(
-                                                            error.toString(),
-                                                          )
-                                                          ?.group(1) ??
-                                                      GlobalState.of(context)
-                                                          .localizations
-                                                          .errorRaised,
-                                                ),
-                                                backgroundColor: Theme.of(
+                                              (value) {
+                                                ScaffoldMessenger.of(
                                                   context,
-                                                ).colorScheme.error,
-                                              ),
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      GlobalState.of(
+                                                        context,
+                                                      ).localizations.emailSent,
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                              onError: (error) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      RegExp(
+                                                                'message:s*([^,]+)',
+                                                              )
+                                                              .firstMatch(
+                                                                error
+                                                                    .toString(),
+                                                              )
+                                                              ?.group(1) ??
+                                                          GlobalState.of(
+                                                                context,
+                                                              )
+                                                              .localizations
+                                                              .errorRaised,
+                                                    ),
+                                                    backgroundColor: Theme.of(
+                                                      context,
+                                                    ).colorScheme.error,
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
                                             );
-                                            Navigator.of(context).pop();
-                                          },
-                                        );
                                       } else {
                                         SupabaseService()
                                             .resend(
-                                          emailController!.text,
-                                          widget.otpType!,
-                                        )
+                                              emailController!.text,
+                                              widget.otpType!,
+                                            )
                                             .then(
-                                          (value) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                    GlobalState.of(context)
-                                                        .localizations
-                                                        .emailSent),
-                                              ),
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
-                                          onError: (error) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  RegExp('message:\s*([^,]+)')
-                                                          .firstMatch(
-                                                            error.toString(),
-                                                          )
-                                                          ?.group(1) ??
-                                                      GlobalState.of(context)
-                                                          .localizations
-                                                          .errorRaised,
-                                                ),
-                                                backgroundColor: Theme.of(
+                                              (value) {
+                                                ScaffoldMessenger.of(
                                                   context,
-                                                ).colorScheme.error,
-                                              ),
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      GlobalState.of(
+                                                        context,
+                                                      ).localizations.emailSent,
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
+                                              onError: (error) {
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      RegExp(
+                                                                'message:s*([^,]+)',
+                                                              )
+                                                              .firstMatch(
+                                                                error
+                                                                    .toString(),
+                                                              )
+                                                              ?.group(1) ??
+                                                          GlobalState.of(
+                                                                context,
+                                                              )
+                                                              .localizations
+                                                              .errorRaised,
+                                                    ),
+                                                    backgroundColor: Theme.of(
+                                                      context,
+                                                    ).colorScheme.error,
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop();
+                                              },
                                             );
-                                            Navigator.of(context).pop();
-                                          },
-                                        );
                                       }
                                     },
-                                    child: Text(GlobalState.of(context)
-                                        .localizations
-                                        .confirm),
+                                    child: Text(
+                                      GlobalState.of(
+                                        context,
+                                      ).localizations.confirm,
+                                    ),
                                   ),
                                 ],
                                 backgroundColor: Theme.of(
@@ -243,9 +259,9 @@ class _OtpPageState extends State<OtpPage> {
                             );
                           },
                           child: Text(
-                            GlobalState.of(context)
-                                .localizations
-                                .resendEmailQuestion,
+                            GlobalState.of(
+                              context,
+                            ).localizations.resendEmailQuestion,
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,

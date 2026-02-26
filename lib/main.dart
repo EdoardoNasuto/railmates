@@ -11,7 +11,7 @@ import 'package:railmates/pages/country_search_page.dart';
 import 'package:railmates/pages/forgot_password_page.dart';
 import 'package:railmates/pages/login_page.dart';
 import 'package:railmates/pages/otp_page.dart';
-import 'package:railmates/pages/profile_page.dart';
+import 'package:railmates/pages/profile_creation_page.dart';
 import 'package:railmates/pages/register_page.dart';
 
 @NowaGenerated()
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
               'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
               'LoginPage': (context) => const LoginPage(),
               'OtpPage': (context) => const OtpPage(),
-              'ProfilePage': (context) => const ProfilePage(),
+              'ProfileCreationPage': (context) => const ProfileCreationPage(),
               'RegisterPage': (context) => const RegisterPage(),
             },
             initialRoute: 'LoginPage',

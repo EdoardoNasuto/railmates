@@ -9,18 +9,18 @@ import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/pages/city_search_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
-class ProfilePage extends StatefulWidget {
+class ProfileCreationPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const ProfilePage({super.key});
+  const ProfileCreationPage({super.key});
 
   @override
-  State<ProfilePage> createState() {
-    return _ProfilePageState();
+  State<ProfileCreationPage> createState() {
+    return _ProfileCreationPageState();
   }
 }
 
 @NowaGenerated()
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileCreationPageState extends State<ProfileCreationPage> {
   int? cityId;
 
   TextEditingController? firstNameController = TextEditingController();
