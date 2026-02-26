@@ -18,6 +18,16 @@
             "deps": [
                 "lib/components/nav_bar.dart"
             ]
+        },
+        {
+            "x": 1132.0,
+            "y": 260.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const ProfilePage()",
+            "deps": [
+                "lib/pages/profile_page.dart"
+            ]
         }
     ]
 }

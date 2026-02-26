@@ -271,7 +271,8 @@ class SupabaseService {
   }
 
   Future<List<CompatibilityAnswersModel>> getBySectionCompatibility_answers(
-      int section) async {
+    int section,
+  ) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
         .select('*, question_id!inner(*), option_id(*)')
@@ -279,5 +280,14 @@ class SupabaseService {
     return response
         .map((json) => CompatibilityAnswersModel.fromJson(json))
         .toList();
+  }
+
+  Future<ProfilesModel?> getUserProfile() async {
+    final response = await Supabase.instance.client
+        .from('profiles')
+        .select('*')
+        .eq('id', Supabase.instance.client.auth.currentUser!.id)
+        .maybeSingle();
+    return response != null ? ProfilesModel.fromJson(response!) : null;
   }
 }
