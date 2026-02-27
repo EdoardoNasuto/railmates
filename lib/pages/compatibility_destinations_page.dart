@@ -72,6 +72,9 @@ class _CompatibilityDestinationsPageState
                   ),
                   child: Text(
                     GlobalState.of(context).localizations.onlyChoose10Countries,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ),
@@ -224,36 +227,53 @@ class _CompatibilityDestinationsPageState
           },
           icon: const Icon(Icons.keyboard_return),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
       ),
-      bottomNavigationBar: ElevatedButton(
-        onPressed: (selectedCountries?.length == 10)
-            ? () async {
-                await SupabaseService().deleteCompatibility_destinations();
-                selectedCountries?.forEach((element) {
-                  SupabaseService().createCompatibility_destinations(
-                    CompatibilityDestinationsModel(
-                      country_id: element.country_id,
-                    ),
-                  );
-                });
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CompatibilityQuestionsPage(),
-                  ),
-                );
-              }
-            : null,
-        style: const ButtonStyle(
-          shape: WidgetStatePropertyAll<RoundedRectangleBorder?>(
-            RoundedRectangleBorder(),
-          ),
-        ),
-        child: Text(
-          GlobalState.of(context).localizations.confirm,
-          style: const TextStyle(fontSize: 28.0, height: 2.0),
-        ),
+      bottomNavigationBar: Builder(
+        builder: (context) {
+          final bool enabled = (selectedCountries?.length == 10);
+          return ElevatedButton(
+            onPressed: (enabled)
+                ? () async {
+                    await SupabaseService().deleteCompatibility_destinations();
+                    selectedCountries?.forEach((element) {
+                      SupabaseService().createCompatibility_destinations(
+                        CompatibilityDestinationsModel(
+                          country_id: element.country_id,
+                        ),
+                      );
+                    });
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const CompatibilityQuestionsPage(),
+                      ),
+                    );
+                  }
+                : null,
+            style: ButtonStyle(
+              shape: const WidgetStatePropertyAll<RoundedRectangleBorder?>(
+                RoundedRectangleBorder(),
+              ),
+              backgroundColor: WidgetStatePropertyAll<Color?>(
+                enabled
+                    ? Theme.of(context).colorScheme.primaryContainer
+                    : Theme.of(context).colorScheme.surfaceContainer,
+              ),
+              foregroundColor: WidgetStatePropertyAll<Color?>(
+                enabled
+                    ? Theme.of(context).colorScheme.onPrimaryContainer
+                    : Colors.grey,
+              ),
+            ),
+            child: Text(
+              GlobalState.of(context).localizations.confirm,
+              style: const TextStyle(fontSize: 28.0, height: 2.0),
+            ),
+          );
+        },
       ),
     );
   }
