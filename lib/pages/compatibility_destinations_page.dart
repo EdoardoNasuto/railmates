@@ -221,12 +221,6 @@ class _CompatibilityDestinationsPageState
           style: const TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.keyboard_return),
-        ),
         scrolledUnderElevation: 0.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
@@ -265,7 +259,7 @@ class _CompatibilityDestinationsPageState
               foregroundColor: WidgetStatePropertyAll<Color?>(
                 enabled
                     ? Theme.of(context).colorScheme.onPrimaryContainer
-                    : Colors.grey,
+                    : Theme.of(context).colorScheme.surfaceDim,
               ),
             ),
             child: Text(

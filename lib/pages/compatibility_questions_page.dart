@@ -46,12 +46,7 @@ class _CompatibilityQuestionsPageState
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.only(
-            top: 40.0,
-            bottom: 40.0,
-            left: 16.0,
-            right: 16.0,
-          ),
+          minimum: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -63,35 +58,6 @@ class _CompatibilityQuestionsPageState
                     direction: Axis.horizontal,
                     alignment: WrapAlignment.center,
                     children: [
-                      FlexSizedBox(
-                        width: null,
-                        height: null,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 0.0,
-                            bottom: 15.0,
-                            left: 0.0,
-                            right: 0.0,
-                          ),
-                          child: Material(
-                            elevation: 5.0,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: LinearProgressIndicator(
-                              value:
-                                  widget.questionPos! / widget.questionsCount!,
-                              minHeight: 10.0,
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
                       FlexSizedBox(
                         width: null,
                         height: null,
@@ -277,74 +243,85 @@ class _CompatibilityQuestionsPageState
                   ),
                 ),
               ),
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: ElevatedButton(
-                  onPressed: _selectedOptionIds.isNotEmpty
-                      ? () async {
-                          final CompatibilityQuestionsModel? question =
-                              await SupabaseService()
-                                  .getByPosCompatibility_question(
-                                    widget.questionPos!,
-                                  );
-                          await SupabaseService().deleteCompatibility_answers(
-                            question!.id!,
-                          );
-                          await SupabaseService().createCompatibility_answers(
-                            _selectedOptionIds.toList(),
-                          );
-                          if (widget.questionPos == widget.questionsCount) {
-                            SupabaseService().updateCompatibility(
-                              const CompatibilityModel(ready: true),
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CompatibilityGroupPage(),
-                              ),
-                            );
-                          } else {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    CompatibilityQuestionsPage(
-                                      questionPos: widget.questionPos! + 1,
-                                    ),
-                              ),
-                            );
-                          }
-                        }
-                      : null,
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color?>((
-                      states,
-                    ) {
-                      if (states.contains(WidgetState.disabled)) {
-                        return null;
-                      }
-                      if (states.contains(WidgetState.hovered)) {
-                        return null;
-                      }
-                      return Theme.of(context).colorScheme.primaryContainer;
-                    }),
-                    foregroundColor: const WidgetStatePropertyAll<Color?>(null),
-                    shadowColor: const WidgetStatePropertyAll<Color?>(null),
-                    elevation: const WidgetStatePropertyAll<double?>(null),
-                    side: const WidgetStatePropertyAll<BorderSide?>(null),
-                    shape:
-                        const WidgetStatePropertyAll<RoundedRectangleBorder?>(
-                          null,
-                        ),
-                  ),
-                  child: Text(GlobalState.of(context).localizations.confirm),
-                ),
-              ),
             ],
           ),
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
+      bottomNavigationBar: ElevatedButton(
+        onPressed: _selectedOptionIds.isNotEmpty
+            ? () async {
+                final CompatibilityQuestionsModel? question =
+                    await SupabaseService().getByPosCompatibility_question(
+                      widget.questionPos!,
+                    );
+                await SupabaseService().deleteCompatibility_answers(
+                  question!.id!,
+                );
+                await SupabaseService().createCompatibility_answers(
+                  _selectedOptionIds.toList(),
+                );
+                if (widget.questionPos == widget.questionsCount) {
+                  SupabaseService().updateCompatibility(
+                    const CompatibilityModel(ready: true),
+                  );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CompatibilityGroupPage(),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CompatibilityQuestionsPage(
+                        questionPos: widget.questionPos! + 1,
+                      ),
+                    ),
+                  );
+                }
+              }
+            : null,
+        style: ButtonStyle(
+          shape: const WidgetStatePropertyAll<RoundedRectangleBorder?>(
+            RoundedRectangleBorder(),
+          ),
+          backgroundColor: WidgetStatePropertyAll<Color?>(
+            _selectedOptionIds.isNotEmpty
+                ? Theme.of(context).colorScheme.primaryContainer
+                : Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          foregroundColor: WidgetStatePropertyAll<Color?>(
+            _selectedOptionIds.isNotEmpty
+                ? Theme.of(context).colorScheme.onPrimaryContainer
+                : Theme.of(context).colorScheme.surfaceDim,
+          ),
+        ),
+        onLongPress: null,
+        child: Text(
+          GlobalState.of(context).localizations.confirm,
+          style: const TextStyle(fontSize: 28.0, height: 2.0),
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Material(
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+              width: 1.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: LinearProgressIndicator(
+            value: widget.questionPos! / widget.questionsCount!,
+            minHeight: 10.0,
+            borderRadius: BorderRadius.circular(10.0),
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        actions: [],
+      ),
     );
   }
 

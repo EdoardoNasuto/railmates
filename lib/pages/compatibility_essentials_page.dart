@@ -53,7 +53,7 @@ class _CompatibilityEssentialsPageState
   }
 
   String _toInt4Range(RangeValues range) {
-    return '[${range.start.toInt()},${range.end.toInt()}]';
+    return '[${range.start.round().toInt()},${range.end.round().toInt() - 1}]';
   }
 
   DateTimeRange _fromDateRange(String rangeStr) {
@@ -85,28 +85,12 @@ class _CompatibilityEssentialsPageState
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.only(
-            top: 40.0,
-            bottom: 40.0,
-            left: 16.0,
-            right: 16.0,
-          ),
+          minimum: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FlexSizedBox(
-                width: null,
-                height: null,
-                child: Text(
-                  GlobalState.of(context).localizations.essentialInformation,
-                  style: const TextStyle(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
               FlexSizedBox(
                 width: double.infinity,
                 flex: 1,
@@ -377,7 +361,7 @@ class _CompatibilityEssentialsPageState
                                       ],
                                     ),
                                     Text(
-                                      '${budget.start.toInt()}€ - ${budget.end.toInt()}€',
+                                      '${budget.start.round().toInt()}€ - ${budget.end.round().toInt()}€',
                                     ),
                                     RangeSlider(
                                       values: budget,
@@ -385,8 +369,8 @@ class _CompatibilityEssentialsPageState
                                       max: 800.0,
                                       divisions: 12,
                                       labels: RangeLabels(
-                                        budget.start.toInt().toString(),
-                                        budget.end.toInt().toString(),
+                                        budget.start.round().toInt().toString(),
+                                        budget.end.round().toInt().toString(),
                                       ),
                                       onChanged: (value) {
                                         setState(() {
@@ -408,52 +392,70 @@ class _CompatibilityEssentialsPageState
                   ),
                 ),
               ),
-              FlexSizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    SupabaseService()
-                        .createCompatibility(
-                          CompatibilityModel(
-                            dates: _toDateRange(dates),
-                            days: _toInt4Range(days),
-                            mates: _toInt4Range(mates),
-                            budget: _toInt4Range(budget),
-                          ),
-                        )
-                        .then(
-                          (value) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CompatibilityDestinationsPage(),
-                              ),
-                            );
-                          },
-                          onError: (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  error.toString(),
-                                  style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onErrorContainer,
-                                  ),
-                                ),
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.errorContainer,
-                              ),
-                            );
-                            return null;
-                          },
-                        );
-                  },
-                  child: Text(GlobalState.of(context).localizations.confirm),
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+      appBar: AppBar(
+        title: Text(
+          GlobalState.of(context).localizations.essentialInformation,
+          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 26.0),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        centerTitle: true,
+      ),
+      bottomNavigationBar: ElevatedButton(
+        onPressed: () {
+          SupabaseService()
+              .createCompatibility(
+                CompatibilityModel(
+                  dates: _toDateRange(dates),
+                  days: _toInt4Range(days),
+                  mates: _toInt4Range(mates),
+                  budget: _toInt4Range(budget),
+                ),
+              )
+              .then(
+                (value) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const CompatibilityDestinationsPage(),
+                    ),
+                  );
+                },
+                onError: (error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        error.toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.errorContainer,
+                    ),
+                  );
+                  return null;
+                },
+              );
+        },
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll<Color?>(
+            Theme.of(context).colorScheme.primaryContainer,
+          ),
+          foregroundColor: WidgetStatePropertyAll<Color?>(
+            Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+          shape: const WidgetStatePropertyAll<RoundedRectangleBorder?>(
+            RoundedRectangleBorder(),
+          ),
+        ),
+        child: Text(
+          GlobalState.of(context).localizations.confirm,
+          style: const TextStyle(fontSize: 28.0, height: 2.0),
         ),
       ),
     );
