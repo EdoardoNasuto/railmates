@@ -4,7 +4,6 @@ import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
-import 'package:railmates/models/compatibility_model.dart';
 import 'package:railmates/pages/compatibility_group_page.dart';
 
 @NowaGenerated()
@@ -262,9 +261,6 @@ class _CompatibilityQuestionsPageState
                   _selectedOptionIds.toList(),
                 );
                 if (widget.questionPos == widget.questionsCount) {
-                  SupabaseService().updateCompatibility(
-                    const CompatibilityModel(ready: true),
-                  );
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const CompatibilityGroupPage(),

@@ -52,8 +52,8 @@ BEGIN
   FROM public.compatibility c
   WHERE c.user_id = seed_user_id
     AND c.ready = true
-    AND c.personality IS NOT NULL
-    AND c.destination IS NOT NULL
+    AND vector_dims(c.personality) = 20
+    AND cardinality(c.destination) = 10
     AND c.dates IS NOT NULL
     AND c.days IS NOT NULL
     AND c.mates IS NOT NULL
@@ -72,8 +72,8 @@ BEGIN
     WHERE 
       -- A. Vérification de l'intégrité
       c.ready = true
-      AND c.personality IS NOT NULL
-      AND c.destination IS NOT NULL
+      AND vector_dims(c.personality) = 20
+      AND cardinality(c.destination) = 10
       AND c.dates IS NOT NULL
       AND c.days IS NOT NULL
       AND c.mates IS NOT NULL
@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS "public"."compatibility" (
     "days" "int4range",
     "mates" "int4range",
     "budget" "int4range",
-    "ready" boolean DEFAULT false
+    "ready" boolean DEFAULT true
 );
 
 
