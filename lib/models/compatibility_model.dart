@@ -12,6 +12,7 @@ class CompatibilityModel {
     this.mates,
     this.budget,
     this.ready = false,
+    this.complete = false,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -25,6 +26,7 @@ class CompatibilityModel {
       mates: json['mates'],
       budget: json['budget'],
       ready: json['ready'] ?? false,
+      complete: json['complete'] ?? false,
     );
   }
 
@@ -44,6 +46,8 @@ class CompatibilityModel {
 
   final bool? ready;
 
+  final bool? complete;
+
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
     return {
@@ -55,6 +59,7 @@ class CompatibilityModel {
       'mates': mates,
       'budget': budget,
       'ready': ready,
+      'complete': complete,
     };
   }
 }

@@ -51,13 +51,8 @@ BEGIN
     current_personality, current_destinations, current_dates, current_days, current_mates, current_budget
   FROM public.compatibility c
   WHERE c.user_id = seed_user_id
-    AND c.ready = true
-    AND vector_dims(c.personality) = 20
-    AND cardinality(c.destination) = 10
-    AND c.dates IS NOT NULL
-    AND c.days IS NOT NULL
-    AND c.mates IS NOT NULL
-    AND c.budget IS NOT NULL;
+      AND c.ready = true
+      AND c.complete = true;
 
   IF current_personality IS NULL THEN RETURN; END IF;
 
@@ -72,12 +67,7 @@ BEGIN
     WHERE 
       -- A. Vérification de l'intégrité
       c.ready = true
-      AND vector_dims(c.personality) = 20
-      AND cardinality(c.destination) = 10
-      AND c.dates IS NOT NULL
-      AND c.days IS NOT NULL
-      AND c.mates IS NOT NULL
-      AND c.budget IS NOT NULL
+      AND c.complete = true
 
       -- B. On exclut ceux déjà dans CE groupe
       AND c.user_id <> ALL(current_group_ids)
@@ -220,6 +210,32 @@ $$;
 
 
 ALTER FUNCTION "public"."compatibility_answer_check"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."compatibility_check_complete"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+    -- On vérifie que tous les champs requis sont remplis selon tes critères
+    IF (
+        NEW.personality IS NOT NULL AND vector_dims(NEW.personality) = 20
+        AND NEW.destination IS NOT NULL AND cardinality(NEW.destination) = 10
+        AND NEW.dates IS NOT NULL
+        AND NEW.days IS NOT NULL
+        AND NEW.mates IS NOT NULL
+        AND NEW.budget IS NOT NULL
+    ) THEN
+        NEW.complete := true;
+    ELSE
+        NEW.complete := false;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."compatibility_check_complete"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."compatibility_destinations_update_vector"() RETURNS "trigger"
@@ -422,7 +438,8 @@ CREATE TABLE IF NOT EXISTS "public"."compatibility" (
     "days" "int4range",
     "mates" "int4range",
     "budget" "int4range",
-    "ready" boolean DEFAULT true
+    "ready" boolean DEFAULT true,
+    "complete" boolean DEFAULT false
 );
 
 
@@ -715,6 +732,10 @@ CREATE OR REPLACE TRIGGER "compatibility_on_change" AFTER INSERT OR UPDATE ON "p
 
 
 
+CREATE OR REPLACE TRIGGER "compatibility_set_complete" BEFORE INSERT OR UPDATE ON "public"."compatibility" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_check_complete"();
+
+
+
 CREATE OR REPLACE TRIGGER "on_profile_delete" AFTER DELETE ON "public"."profiles" FOR EACH ROW EXECUTE FUNCTION "public"."handle_profile_deletion"();
 
 
@@ -932,6 +953,12 @@ GRANT ALL ON FUNCTION "public"."compatibility_answer_add_question_id"() TO "serv
 GRANT ALL ON FUNCTION "public"."compatibility_answer_check"() TO "anon";
 GRANT ALL ON FUNCTION "public"."compatibility_answer_check"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."compatibility_answer_check"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."compatibility_check_complete"() TO "anon";
+GRANT ALL ON FUNCTION "public"."compatibility_check_complete"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."compatibility_check_complete"() TO "service_role";
 
 
 
