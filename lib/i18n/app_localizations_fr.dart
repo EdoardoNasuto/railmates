@@ -177,4 +177,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get searchCity => 'Rechercher une ville';
+
+  @override
+  String get readyToFindMateTitle => 'Es-tu prêt à trouver tes compagnons ?';
+
+  @override
+  String get readyToFindMateSubtitle =>
+      'Trouve les compagnons idéaux pour partager ton voyage !';
+
+  @override
+  String get readyButtonLabel => 'Je suis prêt !';
+
+  @override
+  String get notYet => 'Pas encore';
 }

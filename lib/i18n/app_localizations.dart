@@ -78,6 +78,10 @@ abstract class AppLocalizations {
   String get chooseUpTo10Countries;
   String get onlyChoose10Countries;
   String get searchCity;
+  String get readyToFindMateTitle;
+  String get readyToFindMateSubtitle;
+  String get readyButtonLabel;
+  String get notYet;
 
   static AppLocalizations of(BuildContext context) {
     return GlobalState.of(context).localizations;

@@ -4,7 +4,7 @@ import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
-import 'package:railmates/pages/compatibility_group_page.dart';
+import 'package:railmates/pages/compatibility_ready_page.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
@@ -263,7 +263,7 @@ class _CompatibilityQuestionsPageState
                 if (widget.questionPos == widget.questionsCount) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const CompatibilityGroupPage(),
+                      builder: (context) => const CompatibilityReadyPage(),
                     ),
                   );
                 } else {

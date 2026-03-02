@@ -176,4 +176,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchCity => 'Search a city';
+
+  @override
+  String get readyToFindMateTitle => 'Ready to find your mates?';
+
+  @override
+  String get readyToFindMateSubtitle =>
+      'Find the perfect mates to share your trip!';
+
+  @override
+  String get readyButtonLabel => 'I\'m ready!';
+
+  @override
+  String get notYet => 'Not yet';
 }
