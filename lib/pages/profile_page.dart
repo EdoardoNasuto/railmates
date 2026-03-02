@@ -251,7 +251,11 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       bottomNavigationBar: const NavBar(index: 1),
-      appBar: AppBar(title: const Text('Profile'), elevation: 1.0),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        elevation: 1.0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {

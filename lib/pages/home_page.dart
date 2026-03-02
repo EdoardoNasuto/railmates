@@ -488,11 +488,61 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            FlexSizedBox(
+              width: double.infinity,
+              child: Row(
+                spacing: 10.0,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FlexSizedBox(
+                    width: 60.0,
+                    height: 40.0,
+                    child: DataBuilder<CompatibilityModel?>(
+                      builder: (context, data) => Switch(
+                        value: data!.ready!,
+                        onChanged: (value) {
+                          SupabaseService()
+                              .updateCompatibility(
+                                CompatibilityModel(ready: value),
+                              )
+                              .then((value) {
+                                setState(() {});
+                              });
+                        },
+                      ),
+                      loadingWidget: const Align(
+                        alignment: Alignment(0.0, 0.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorBuilder: (context, error) => Align(
+                        alignment: const Alignment(0.0, 0.0),
+                        child: Text(
+                          error.toString(),
+                          style: const TextStyle(color: Color(0xFFFF0000)),
+                        ),
+                      ),
+                      future: SupabaseService().getUserCompatibility(),
+                    ),
+                  ),
+                  const FlexSizedBox(
+                    width: null,
+                    height: null,
+                    child: Text('Je suis en recherche de compagnons'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
       bottomNavigationBar: const NavBar(index: 0),
-      appBar: AppBar(title: const Text('Summary'), elevation: 1.0),
+      appBar: AppBar(
+        title: const Text('Summary'),
+        elevation: 1.0,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
