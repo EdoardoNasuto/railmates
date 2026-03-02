@@ -111,30 +111,11 @@ class _CompatibilityDestinationsPageState
                                 (dest) => dest.country_id?.id == element.id,
                               );
                             } else {
-                              if (selectedCountries?.length != 10) {
-                                selectedCountries?.add(
-                                  CompatibilityDestinationsModel(
-                                    country_id: element,
-                                  ),
-                                );
-                              } else {
-                                showDialog(
-                                  builder: (context) => AlertDialog(
-                                    title: Text(
-                                      GlobalState.of(
-                                        context,
-                                      ).localizations.onlyChoose10Countries,
-                                    ),
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.errorContainer,
-                                  ),
-                                  useRootNavigator: false,
-                                  context: context,
-                                  anchorPoint: const Offset(0.0, 0.0),
-                                );
-                                return;
-                              }
+                              selectedCountries?.add(
+                                CompatibilityDestinationsModel(
+                                  country_id: element,
+                                ),
+                              );
                             }
                             setState(() {});
                           },
