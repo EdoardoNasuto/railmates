@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               child: DataBuilder<CompatibilityModel?>(
                 builder: (context, data) => Material(
-                  elevation: 6.0,
+                  elevation: 3.0,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               child: DataBuilder<List<CompatibilityDestinationsModel>>(
                 builder: (context, data) => Material(
-                  elevation: 6.0,
+                  elevation: 3.0,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     borderRadius: BorderRadius.circular(25.0),
                   ),
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(
@@ -286,12 +286,12 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, data) => Material(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.inversePrimary,
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(25.0),
                   ),
-                  elevation: 6.0,
+                  elevation: 3.0,
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

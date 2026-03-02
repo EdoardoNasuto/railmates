@@ -104,7 +104,7 @@ class _CompatibilityEssentialsPageState
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 30.0,
-                        horizontal: 0.0,
+                        horizontal: 24.0,
                       ),
                       child: Column(
                         spacing: 30.0,
@@ -113,10 +113,8 @@ class _CompatibilityEssentialsPageState
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           FlexSizedBox(
-                            width: 361.0,
-                            height: 118.0,
                             child: Material(
-                              elevation: 6.0,
+                              elevation: 3.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -204,10 +202,8 @@ class _CompatibilityEssentialsPageState
                             ),
                           ),
                           FlexSizedBox(
-                            width: 361.0,
-                            height: 136.0,
                             child: Material(
-                              elevation: 6.0,
+                              elevation: 3.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -265,10 +261,8 @@ class _CompatibilityEssentialsPageState
                             ),
                           ),
                           FlexSizedBox(
-                            width: 361.0,
-                            height: 136.0,
                             child: Material(
-                              elevation: 6.0,
+                              elevation: 3.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,
@@ -326,10 +320,8 @@ class _CompatibilityEssentialsPageState
                             ),
                           ),
                           FlexSizedBox(
-                            width: 361.0,
-                            height: 136.0,
                             child: Material(
-                              elevation: 6.0,
+                              elevation: 3.0,
                               borderRadius: BorderRadius.circular(8.0),
                               color: Theme.of(
                                 context,

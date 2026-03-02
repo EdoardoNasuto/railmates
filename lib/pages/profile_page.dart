@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        minimum: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
         child: Column(
           spacing: 0.0,
           mainAxisSize: MainAxisSize.min,
@@ -69,176 +69,194 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         FlexSizedBox(
                           width: double.infinity,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.firstName,
+                          child: Material(
+                            elevation: 1.0,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.firstName,
+                              ),
+                              controller: firstName,
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
                             ),
-                            controller: firstName,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         FlexSizedBox(
                           width: double.infinity,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.lastName,
+                          child: Material(
+                            elevation: 1.0,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.lastName,
+                              ),
+                              controller: lastName,
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
                             ),
-                            controller: lastName,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         FlexSizedBox(
                           width: null,
                           height: null,
-                          child: DropdownButtonFormField<String>(
-                            items: [
-                              DropdownMenuItem<String>(
-                                value: 'M',
-                                child: Text(
-                                  GlobalState.of(
-                                    context,
-                                    listen: false,
-                                  ).localizations.man,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              DropdownMenuItem<String>(
-                                value: 'W',
-                                child: Text(
-                                  GlobalState.of(
-                                    context,
-                                    listen: false,
-                                  ).localizations.women,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            ],
-                            initialValue: gender,
-                            onChanged: (value) {
-                              gender = value;
-                            },
-                            decoration: InputDecoration(
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.gender,
-                              border: const OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        FlexSizedBox(
-                          width: double.infinity,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.birthDate,
-                            ),
-                            controller: birthDate,
-                            onTap: () {
-                              showDatePicker(
-                                initialDate: DateTime.parse(birthDate!.text),
-                                firstDate: DateTime(
-                                  DateTime.now().year - 100,
-                                  DateTime.now().month,
-                                  DateTime.now().day,
-                                ),
-                                lastDate: DateTime(
-                                  DateTime.now().year - 16,
-                                  DateTime.now().month,
-                                  DateTime.now().day,
-                                ),
-                                useRootNavigator: false,
-                                context: context,
-                                anchorPoint: const Offset(0.0, 0.0),
-                                initialEntryMode: DatePickerEntryMode.input,
-                              );
-                            },
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        FlexSizedBox(
-                          width: double.infinity,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.city,
-                            ),
-                            controller: city,
-                            onTap: () async {
-                              final CitiesModel? result =
-                                  await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CitySearchPage(),
+                          child: Material(
+                            elevation: 1.0,
+                            child: DropdownButtonFormField<String>(
+                              items: [
+                                DropdownMenuItem<String>(
+                                  value: 'M',
+                                  child: Text(
+                                    GlobalState.of(
+                                      context,
+                                      listen: false,
+                                    ).localizations.man,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                  );
-                              city.text = result!.name!;
-                              cityId = result?.id;
-                            },
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
+                                  ),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'W',
+                                  child: Text(
+                                    GlobalState.of(
+                                      context,
+                                      listen: false,
+                                    ).localizations.women,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              initialValue: gender,
+                              onChanged: (value) {
+                                gender = value;
+                              },
+                              decoration: InputDecoration(
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.gender,
+                                border: const OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                         ),
                         FlexSizedBox(
                           width: double.infinity,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: GlobalState.of(
-                                context,
-                                listen: false,
-                              ).localizations.phone,
+                          child: Material(
+                            elevation: 1.0,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.birthDate,
+                              ),
+                              controller: birthDate,
+                              onTap: () {
+                                showDatePicker(
+                                  initialDate: DateTime.parse(birthDate!.text),
+                                  firstDate: DateTime(
+                                    DateTime.now().year - 100,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                  ),
+                                  lastDate: DateTime(
+                                    DateTime.now().year - 16,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                  ),
+                                  useRootNavigator: false,
+                                  context: context,
+                                  anchorPoint: const Offset(0.0, 0.0),
+                                  initialEntryMode: DatePickerEntryMode.input,
+                                );
+                              },
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
                             ),
-                            controller: phone,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
+                          ),
+                        ),
+                        FlexSizedBox(
+                          width: double.infinity,
+                          child: Material(
+                            elevation: 1.0,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.city,
+                              ),
+                              controller: city,
+                              onTap: () async {
+                                final CitiesModel? result =
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CitySearchPage(),
+                                      ),
+                                    );
+                                city.text = result!.name!;
+                                cityId = result?.id;
+                              },
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        FlexSizedBox(
+                          width: double.infinity,
+                          child: Material(
+                            elevation: 1.0,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: GlobalState.of(
+                                  context,
+                                  listen: false,
+                                ).localizations.phone,
+                              ),
+                              controller: phone,
+                              validator: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return 'Field is required';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                         ),
                       ],
