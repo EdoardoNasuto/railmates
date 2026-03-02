@@ -243,6 +243,7 @@ CREATE OR REPLACE FUNCTION "public"."compatibility_destinations_update_vector"()
     AS $$DECLARE
     _user_id uuid;
     _country_ids bigint[];
+    _entry_count integer;
 BEGIN
     -- 1. Determine User ID based on the operation
     IF (TG_OP = 'DELETE') THEN
@@ -253,18 +254,20 @@ BEGIN
 
     -- 2. Aggregate country IDs into an array
     -- We use COALESCE to ensure we get an empty array '{}' instead of NULL if no countries exist
-    SELECT COALESCE(array_agg(country_id ORDER BY country_id ASC), '{}')
-    INTO _country_ids
+    SELECT COALESCE(array_agg(country_id ORDER BY country_id ASC), '{}'), COUNT(*)
+    INTO _country_ids, _entry_count
     FROM public.compatibility_destinations
     WHERE profile_id = _user_id;
 
     -- 3. Upsert (Insert or Update) into compatibility table
     -- If the user_id exists, update the destination. If not, insert a new row.
-    INSERT INTO public.compatibility (user_id, destination)
-    VALUES (_user_id, _country_ids)
-    ON CONFLICT (user_id) 
-    DO UPDATE SET
-        destination = EXCLUDED.destination;
+    IF _entry_count = 10 THEN
+        INSERT INTO public.compatibility (user_id, destination)
+        VALUES (_user_id, _country_ids)
+        ON CONFLICT (user_id) 
+        DO UPDATE SET
+            destination = EXCLUDED.destination;
+    END IF;
 
     RETURN NULL;
 END;$$;
