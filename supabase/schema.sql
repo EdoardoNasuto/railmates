@@ -214,11 +214,10 @@ ALTER FUNCTION "public"."compatibility_answer_check"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."compatibility_check_complete"() RETURNS "trigger"
     LANGUAGE "plpgsql"
-    AS $$
-BEGIN
-    -- On vérifie que tous les champs requis sont remplis selon tes critères
+    AS $$BEGIN
+    -- On vérifie que tous les champs requis sont remplis
     IF (
-        NEW.personality IS NOT NULL AND vector_dims(NEW.personality) = 20
+        NEW.personality IS NOT NULL AND NOT (10::real = ANY(NEW.personality::real[]))
         AND NEW.destination IS NOT NULL AND cardinality(NEW.destination) = 10
         AND NEW.dates IS NOT NULL
         AND NEW.days IS NOT NULL
@@ -231,8 +230,7 @@ BEGIN
     END IF;
 
     RETURN NEW;
-END;
-$$;
+END;$$;
 
 
 ALTER FUNCTION "public"."compatibility_check_complete"() OWNER TO "postgres";
@@ -339,7 +337,7 @@ BEGIN
 
     -- 1. Calcul du vecteur PERSONALITY
     SELECT ARRAY_AGG(
-        COALESCE(user_vals.avg_val, 0)
+        COALESCE(user_vals.avg_val, 10)
         ORDER BY q.section_id ASC, q.pos ASC
     )
     INTO personality_vector
