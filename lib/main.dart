@@ -5,19 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/globals/app_state.dart';
-import 'package:railmates/pages/city_search_page.dart';
-import 'package:railmates/pages/compatibility_destinations_page.dart';
-import 'package:railmates/pages/compatibility_essentials_page.dart';
-import 'package:railmates/pages/compatibility_group_page.dart';
-import 'package:railmates/pages/compatibility_questions_page.dart';
-import 'package:railmates/pages/country_search_page.dart';
-import 'package:railmates/pages/forgot_password_page.dart';
-import 'package:railmates/pages/home_page.dart';
-import 'package:railmates/pages/login_page.dart';
-import 'package:railmates/pages/otp_page.dart';
-import 'package:railmates/pages/profile_creation_page.dart';
-import 'package:railmates/pages/profile_page.dart';
-import 'package:railmates/pages/register_page.dart';
+import 'package:railmates/globals/router.dart';
 
 @NowaGenerated()
 late final SharedPreferences sharedPrefs;
@@ -41,29 +29,10 @@ class MyApp extends StatelessWidget {
       create: (context) => GlobalState(),
       child: ChangeNotifierProvider<AppState>(
         create: (context) => AppState(),
-        builder: (context, child) => MaterialApp(
+        builder: (context, child) => MaterialApp.router(
           title: GlobalState.of(context).localizations.appTitle,
           theme: AppState.of(context).theme,
-          routes: {
-            'CitySearchPage': (context) => const CitySearchPage(),
-            'CompatibilityDestinationsPage': (context) =>
-                const CompatibilityDestinationsPage(),
-            'CompatibilityEssentialsPage': (context) =>
-                const CompatibilityEssentialsPage(),
-            'CompatibilityGroupPage': (context) =>
-                const CompatibilityGroupPage(),
-            'CompatibilityQuestionsPage': (context) =>
-                const CompatibilityQuestionsPage(),
-            'CountrySearchPage': (context) => const CountrySearchPage(),
-            'ForgotPasswordPage': (context) => const ForgotPasswordPage(),
-            'HomePage': (context) => const HomePage(),
-            'LoginPage': (context) => const LoginPage(),
-            'OtpPage': (context) => const OtpPage(),
-            'ProfileCreationPage': (context) => const ProfileCreationPage(),
-            'ProfilePage': (context) => const ProfilePage(),
-            'RegisterPage': (context) => const RegisterPage(),
-          },
-          initialRoute: 'LoginPage',
+          routerConfig: appRouter,
         ),
       ),
     );

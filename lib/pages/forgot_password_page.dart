@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
+import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/global_state.dart';
 
 @NowaGenerated()
 class ForgotPasswordPage extends StatefulWidget {
@@ -61,34 +61,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       icon: Icons.lock_reset,
                       textFields: [
                         AuthTextFormField(
-                          label:
-                              GlobalState.of(context).localizations.newPassword,
+                          label: GlobalState.of(
+                            context,
+                          ).localizations.newPassword,
                           controller: newPasswordController,
                           obscure: true,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           icon: Icons.lock_outlined,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .passwordRequirements,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context)
-                              .localizations
-                              .confirmPassword,
+                          label: GlobalState.of(
+                            context,
+                          ).localizations.confirmPassword,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           obscure: true,
                           icon: Icons.lock,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .passwordRequirements,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.passwordRequirements,
                           controller: confirmNewPasswordController,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
@@ -99,46 +100,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             confirmNewPasswordController?.text) {
                           SupabaseService()
                               .updateUser(
-                            widget.email,
-                            newPasswordController?.text,
-                          )
+                                widget.email,
+                                newPasswordController?.text,
+                              )
                               .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    GlobalState.of(context)
-                                        .localizations
-                                        .passwordSuccessfullyChanged,
-                                  ),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    RegExp('message:\\s*([^,]+)')
-                                            .firstMatch(error.toString())
-                                            ?.group(1) ??
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
                                         GlobalState.of(context)
                                             .localizations
-                                            .errorRaised,
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.error,
-                                ),
+                                            .passwordSuccessfullyChanged,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        RegExp('message:\\s*([^,]+)')
+                                                .firstMatch(error.toString())
+                                                ?.group(1) ??
+                                            GlobalState.of(
+                                              context,
+                                            ).localizations.errorRaised,
+                                      ),
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
+                                  );
+                                },
                               );
-                            },
-                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                GlobalState.of(context)
-                                    .localizations
-                                    .passwordConfirmationMismatch,
+                                GlobalState.of(
+                                  context,
+                                ).localizations.passwordConfirmationMismatch,
                               ),
                               backgroundColor: Theme.of(
                                 context,
@@ -147,8 +148,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           );
                         }
                       },
-                      buttonName:
-                          GlobalState.of(context).localizations.resetPassword,
+                      buttonName: GlobalState.of(
+                        context,
+                      ).localizations.resetPassword,
                     ),
                   ),
                 ],

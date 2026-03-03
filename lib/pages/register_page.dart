@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
-import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
+import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/pages/otp_page.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/pages/login_page.dart';
@@ -67,52 +67,52 @@ class _RegisterPageState extends State<RegisterPage> {
                             confirmPasswordController?.text) {
                           SupabaseService()
                               .signUp(
-                            emailController!.text,
-                            passwordController!.text,
-                          )
+                                emailController!.text,
+                                passwordController!.text,
+                              )
                               .then(
-                            (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    GlobalState.of(context)
-                                        .localizations
-                                        .checkEmailVerification,
-                                  ),
-                                ),
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        GlobalState.of(
+                                          context,
+                                        ).localizations.checkEmailVerification,
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          OtpPage(email: emailController?.text),
+                                    ),
+                                  );
+                                },
+                                onError: (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        RegExp('message:\\s*([^,]+)')
+                                                .firstMatch(error.toString())
+                                                ?.group(1) ??
+                                            GlobalState.of(
+                                              context,
+                                            ).localizations.errorRaised,
+                                      ),
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
+                                  );
+                                },
                               );
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      OtpPage(email: emailController?.text),
-                                ),
-                              );
-                            },
-                            onError: (error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    RegExp('message:\\s*([^,]+)')
-                                            .firstMatch(error.toString())
-                                            ?.group(1) ??
-                                        GlobalState.of(context)
-                                            .localizations
-                                            .errorRaised,
-                                  ),
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.error,
-                                ),
-                              );
-                            },
-                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                GlobalState.of(context)
-                                    .localizations
-                                    .passwordConfirmationMismatch,
+                                GlobalState.of(
+                                  context,
+                                ).localizations.passwordConfirmationMismatch,
                               ),
                               backgroundColor: Theme.of(
                                 context,
@@ -125,46 +125,46 @@ class _RegisterPageState extends State<RegisterPage> {
                         AuthTextFormField(
                           label: GlobalState.of(context).localizations.email,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: emailController,
                           icon: Icons.email_outlined,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .invalidFormat,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.invalidFormat,
                           regexValidator:
                               '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                         ),
                         AuthTextFormField(
                           label: GlobalState.of(context).localizations.password,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           obscure: true,
                           controller: passwordController,
                           icon: Icons.lock_outlined,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .passwordRequirements,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context)
-                              .localizations
-                              .confirmPassword,
+                          label: GlobalState.of(
+                            context,
+                          ).localizations.confirmPassword,
                           obscure: true,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(context)
-                              .localizations
-                              .fieldRequired,
+                          requiredErrorMessage: GlobalState.of(
+                            context,
+                          ).localizations.fieldRequired,
                           controller: confirmPasswordController,
                           icon: Icons.lock,
-                          errorMessage: GlobalState.of(context)
-                              .localizations
-                              .passwordRequirements,
+                          errorMessage: GlobalState.of(
+                            context,
+                          ).localizations.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
@@ -183,9 +183,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          GlobalState.of(context)
-                              .localizations
-                              .alreadyHaveAccount,
+                          GlobalState.of(
+                            context,
+                          ).localizations.alreadyHaveAccount,
                         ),
                         TextButton(
                           onPressed: () {

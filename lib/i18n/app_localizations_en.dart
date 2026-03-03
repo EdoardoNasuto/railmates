@@ -1,192 +1,310 @@
-import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/i18n/app_localizations.dart';
+import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated()
 class AppLocalizationsEn extends AppLocalizations {
   @override
-  String get appTitle => 'Railmates';
+  String get appTitle {
+    return 'Railmates';
+  }
 
   @override
-  String welcome(String name) => 'Welcome, $name!';
+  String get login {
+    return 'Log in';
+  }
 
   @override
-  String get login => 'Log in';
+  String get signUp {
+    return 'Sign up';
+  }
 
   @override
-  String get signUp => 'Sign up';
+  String get createAccount {
+    return 'Create account';
+  }
 
   @override
-  String get createAccount => 'Create account';
+  String get checkEmailVerification {
+    return 'Please check your email inbox for the verification code and enter it in app';
+  }
 
   @override
-  String get checkEmailVerification =>
-      'Please check your email inbox for the verification code and enter it in app';
+  String get createProfile {
+    return 'Create your profile';
+  }
 
   @override
-  String get createProfile => 'Create your profile';
+  String get save {
+    return 'Save';
+  }
 
   @override
-  String get save => 'Save';
+  String get registrationSuccessful {
+    return 'Registration successful!';
+  }
 
   @override
-  String get registrationSuccessful => 'Registration successful!';
+  String get passwordConfirmationMismatch {
+    return 'Password confirmation does not match';
+  }
 
   @override
-  String get passwordConfirmationMismatch =>
-      'Password confirmation does not match';
+  String get alreadyHaveAccount {
+    return 'Already have an account?';
+  }
 
   @override
-  String get alreadyHaveAccount => 'Already have an account?';
+  String get email {
+    return 'Email';
+  }
 
   @override
-  String get email => 'Email';
+  String get password {
+    return 'Password';
+  }
 
   @override
-  String get password => 'Password';
+  String get confirmPassword {
+    return 'Confirm password';
+  }
 
   @override
-  String get confirmPassword => 'Confirm password';
+  String get invalidFormat {
+    return 'Invalid format';
+  }
 
   @override
-  String get invalidFormat => 'Invalid format';
+  String get passwordRequirements {
+    return 'Required: 8+ chars, lowercase, uppercase, digit, symbol';
+  }
 
   @override
-  String get passwordRequirements =>
-      'Required: 8+ chars, lowercase, uppercase, digit, symbol';
+  String get loginSuccessful {
+    return 'Login successful!';
+  }
 
   @override
-  String get loginSuccessful => 'Login successful!';
+  String get emailSent {
+    return 'Email sent';
+  }
 
   @override
-  String get emailSent => 'Email sent';
+  String get forgotPassword {
+    return 'Forgot password?';
+  }
 
   @override
-  String get forgotPassword => 'Forgot password?';
+  String get notRegisteredYet {
+    return 'Not registered yet?';
+  }
 
   @override
-  String get notRegisteredYet => 'Not registered yet?';
+  String get firstName {
+    return 'First Name';
+  }
 
   @override
-  String get firstName => 'First Name';
+  String get lastName {
+    return 'Last Name';
+  }
 
   @override
-  String get lastName => 'Last Name';
+  String get women {
+    return 'Women';
+  }
 
   @override
-  String get women => 'Women';
+  String get man {
+    return 'Man';
+  }
 
   @override
-  String get man => 'Man';
+  String get gender {
+    return 'Gender';
+  }
 
   @override
-  String get gender => 'Gender';
+  String get fieldRequired {
+    return 'Field is required';
+  }
 
   @override
-  String get fieldRequired => 'Field is required';
+  String get birthDate {
+    return 'Birth Date';
+  }
 
   @override
-  String get birthDate => 'Birth Date';
+  String get city {
+    return 'City';
+  }
 
   @override
-  String get city => 'City';
+  String get phone {
+    return 'Phone';
+  }
 
   @override
-  String get phone => 'Phone';
+  String get errorRaised {
+    return 'Error raised';
+  }
 
   @override
-  String get errorRaised => 'Error raised';
+  String get accountVerified {
+    return 'Account verified';
+  }
 
   @override
-  String get accountVerified => 'Account verified';
+  String get resendEmail {
+    return 'Resend email';
+  }
 
   @override
-  String get resendEmail => 'Resend email';
+  String get confirm {
+    return 'Confirm';
+  }
 
   @override
-  String get confirm => 'Confirm';
+  String get resendEmailQuestion {
+    return 'Resend email?';
+  }
 
   @override
-  String get resendEmailQuestion => 'Resend email?';
+  String get verify {
+    return 'Verify';
+  }
 
   @override
-  String get verify => 'Verify';
+  String get otpLabel {
+    return 'OTP';
+  }
 
   @override
-  String get otpLabel => 'OTP';
+  String get resetPassword {
+    return 'Reset password';
+  }
 
   @override
-  String get resetPassword => 'Reset password';
+  String get passwordSuccessfullyChanged {
+    return 'Password successfully changed';
+  }
 
   @override
-  String get passwordSuccessfullyChanged => 'Password successfully changed';
+  String get newPassword {
+    return 'New password';
+  }
 
   @override
-  String get newPassword => 'New password';
+  String get section {
+    return 'Section';
+  }
 
   @override
-  String get section => 'Section';
+  String get question {
+    return 'Question';
+  }
 
   @override
-  String get question => 'Question';
+  String get multipleAnswersPossible {
+    return 'Multiple answers possible';
+  }
 
   @override
-  String get multipleAnswersPossible => 'Multiple answers possible';
+  String get option {
+    return 'Option';
+  }
 
   @override
-  String get option => 'Option';
+  String get description {
+    return 'Description';
+  }
 
   @override
-  String get description => 'Description';
+  String get dates {
+    return 'Dates';
+  }
 
   @override
-  String get dates => 'Dates';
+  String get resultNameTemplate {
+    return '{FirstName} {LastName}';
+  }
 
   @override
-  String get resultNameTemplate => '{FirstName} {LastName}';
+  String get resultDetailTemplate {
+    return '{Age} {Region} {Country}';
+  }
 
   @override
-  String get resultDetailTemplate => '{Age} {Region} {Country}';
+  String get essentialInformation {
+    return 'Essential information';
+  }
 
   @override
-  String get essentialInformation => 'Essential information';
+  String get yourAvailability {
+    return 'Your availability';
+  }
 
   @override
-  String get yourAvailability => 'Your availability';
+  String get idealTripDuration {
+    return 'Ideal trip duration';
+  }
 
   @override
-  String get idealTripDuration => 'Ideal trip duration';
+  String get numberOfMates {
+    return 'Number of mates';
+  }
 
   @override
-  String get numberOfMates => 'Number of mates';
+  String get budget {
+    return 'Budget';
+  }
 
   @override
-  String get budget => 'Budget';
+  String get incompleteInformation {
+    return 'Incomplete information';
+  }
 
   @override
-  String get incompleteInformation => 'Incomplete information';
+  String get favoriteCountries {
+    return 'Favorite countries';
+  }
 
   @override
-  String get favoriteCountries => 'Favorite countries';
+  String get chooseUpTo10Countries {
+    return 'Choose up to 10 countries';
+  }
 
   @override
-  String get chooseUpTo10Countries => 'Choose up to 10 countries';
+  String get onlyChoose10Countries {
+    return 'You can only choose 10 countries';
+  }
 
   @override
-  String get onlyChoose10Countries => 'You can only choose 10 countries';
+  String get searchCity {
+    return 'Search a city';
+  }
 
   @override
-  String get searchCity => 'Search a city';
+  String get readyToFindMateTitle {
+    return 'Ready to find your mates?';
+  }
 
   @override
-  String get readyToFindMateTitle => 'Ready to find your mates?';
+  String get readyToFindMateSubtitle {
+    return 'Find the perfect mates to share your trip!';
+  }
 
   @override
-  String get readyToFindMateSubtitle =>
-      'Find the perfect mates to share your trip!';
+  String get readyButtonLabel {
+    return 'I\'m ready!';
+  }
 
   @override
-  String get readyButtonLabel => 'I\'m ready!';
+  String get notYet {
+    return 'Not yet';
+  }
 
   @override
-  String get notYet => 'Not yet';
+  String welcome(String name) {
+    return 'Welcome, ${name}!';
+  }
 }
