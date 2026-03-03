@@ -4,8 +4,7 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:railmates/pages/profile_creation_page.dart';
-import 'package:railmates/pages/forgot_password_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
@@ -73,19 +72,13 @@ class _OtpPageState extends State<OtpPage> {
                                 ),
                               );
                               if (widget.otpType == OtpType.signup) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfileCreationPage(),
-                                  ),
-                                );
+                                GoRouter.of(
+                                  context,
+                                ).pushNamed('profile_create');
                               } else {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPasswordPage(),
-                                  ),
-                                );
+                                GoRouter.of(
+                                  context,
+                                ).pushNamed('forgot_password');
                               }
                             },
                             onError: (error) {
@@ -161,7 +154,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     ),
                                                   ),
                                                 );
-                                                Navigator.of(context).pop();
+                                                GoRouter.of(context).pop();
                                               },
                                               onError: (error) {
                                                 ScaffoldMessenger.of(
@@ -188,7 +181,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     ).colorScheme.error,
                                                   ),
                                                 );
-                                                Navigator.of(context).pop();
+                                                GoRouter.of(context).pop();
                                               },
                                             );
                                       } else {
@@ -210,7 +203,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     ),
                                                   ),
                                                 );
-                                                Navigator.of(context).pop();
+                                                GoRouter.of(context).pop();
                                               },
                                               onError: (error) {
                                                 ScaffoldMessenger.of(
@@ -237,7 +230,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     ).colorScheme.error,
                                                   ),
                                                 );
-                                                Navigator.of(context).pop();
+                                                GoRouter.of(context).pop();
                                               },
                                             );
                                       }

@@ -6,7 +6,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:railmates/pages/city_search_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class ProfileCreationPage extends StatefulWidget {
@@ -247,13 +247,8 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                           controller: cityController,
                           icon: Icons.location_city,
                           onTap: () async {
-                            final CitiesModel? result =
-                                await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CitySearchPage(),
-                                  ),
-                                );
+                            final CitiesModel? result = await context
+                                .pushNamed<CitiesModel?>('city_search');
                             cityController?.text = result!.name!;
                             cityId = result?.id;
                           },

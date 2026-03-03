@@ -3,9 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/pages/otp_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
-import 'package:railmates/pages/login_page.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class RegisterPage extends StatefulWidget {
@@ -81,11 +80,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                     ),
                                   );
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          OtpPage(email: emailController?.text),
-                                    ),
+                                  GoRouter.of(context).pushNamed(
+                                    'otp',
+                                    queryParameters: {
+                                      'email': emailController?.text ?? '',
+                                      'otpType': 'signup',
+                                    },
                                   );
                                 },
                                 onError: (error) {
@@ -189,11 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
+                            GoRouter.of(context).pushNamed('login');
                           },
                           child: Text(
                             GlobalState.of(context).localizations.login,

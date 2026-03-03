@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_model.dart';
-import 'package:railmates/pages/compatibility_essentials_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
-import 'package:railmates/pages/compatibility_destinations_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
-import 'package:railmates/pages/compatibility_questions_page.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/components/nav_bar.dart';
 
@@ -52,12 +50,9 @@ class _HomePageState extends State<HomePage> {
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const CompatibilityEssentialsPage(),
-                        ),
-                      );
+                      GoRouter.of(
+                        context,
+                      ).pushNamed('compatibility_essentials');
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -218,12 +213,9 @@ class _HomePageState extends State<HomePage> {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const CompatibilityDestinationsPage(),
-                        ),
-                      );
+                      GoRouter.of(
+                        context,
+                      ).pushNamed('compatibility_destinations');
                     },
                     child: GridView.custom(
                       gridDelegate:
@@ -395,14 +387,14 @@ class _HomePageState extends State<HomePage> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(18.0),
                                     onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CompatibilityQuestionsPage(
-                                                questionPos:
-                                                    element.question_id?.pos,
-                                              ),
-                                        ),
+                                      GoRouter.of(context).pushNamed(
+                                        'compatibility_questions',
+                                        queryParameters: {
+                                          'questionPos':
+                                              element.question_id?.pos
+                                                  ?.toString() ??
+                                              '1',
+                                        },
                                       );
                                     },
                                     child: Padding(

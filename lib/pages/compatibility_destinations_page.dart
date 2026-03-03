@@ -5,7 +5,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:railmates/pages/compatibility_questions_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class CompatibilityDestinationsPage extends StatefulWidget {
@@ -220,11 +220,9 @@ class _CompatibilityDestinationsPageState
                         ),
                       );
                     });
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const CompatibilityQuestionsPage(),
-                      ),
+                    GoRouter.of(context).pushNamed(
+                      'compatibility_questions',
+                      queryParameters: {'questionPos': '1'},
                     );
                   }
                 : null,

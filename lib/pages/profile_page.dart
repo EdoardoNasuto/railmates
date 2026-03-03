@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:railmates/pages/city_search_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/components/nav_bar.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
@@ -218,13 +218,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               controller: city,
                               onTap: () async {
-                                final CitiesModel? result =
-                                    await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CitySearchPage(),
-                                      ),
-                                    );
+                                final CitiesModel? result = await context
+                                    .pushNamed<CitiesModel?>('city_search');
                                 city.text = result!.name!;
                                 cityId = result?.id;
                               },
@@ -330,6 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         child: const Icon(Icons.save_as),
       ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 

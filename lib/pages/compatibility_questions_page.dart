@@ -4,7 +4,7 @@ import 'package:railmates/models/compatibility_questions_model.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
-import 'package:railmates/pages/compatibility_ready_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class CompatibilityQuestionsPage extends StatefulWidget {
@@ -246,7 +246,6 @@ class _CompatibilityQuestionsPageState
           ),
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
       bottomNavigationBar: ElevatedButton(
         onPressed: _selectedOptionIds.isNotEmpty
             ? () async {
@@ -261,18 +260,15 @@ class _CompatibilityQuestionsPageState
                   _selectedOptionIds.toList(),
                 );
                 if (widget.questionPos == widget.questionsCount) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CompatibilityReadyPage(),
-                    ),
-                  );
+                  GoRouter.of(context).pushNamed('compatibility_ready');
                 } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CompatibilityQuestionsPage(
-                        questionPos: widget.questionPos! + 1,
-                      ),
-                    ),
+                  GoRouter.of(context).pushNamed(
+                    'compatibility_questions',
+                    queryParameters: {
+                      'questionPos': (widget.questionPos! + 1).toString(),
+                      'questionsCount':
+                          widget.questionsCount?.toString() ?? '20',
+                    },
                   );
                 }
               }

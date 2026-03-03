@@ -4,7 +4,7 @@ import 'package:railmates/global_state.dart';
 import 'package:railmates/i18n/app_localizations.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_model.dart';
-import 'package:railmates/pages/compatibility_group_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class CompatibilityReadyPage extends StatelessWidget {
@@ -118,11 +118,7 @@ class CompatibilityReadyPage extends StatelessWidget {
                       SupabaseService().updateCompatibility(
                         const CompatibilityModel(ready: true),
                       );
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const CompatibilityGroupPage(),
-                        ),
-                      );
+                      GoRouter.of(context).pushNamed('compatibility_group');
                     },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll<Color?>(
@@ -159,7 +155,7 @@ class CompatibilityReadyPage extends StatelessWidget {
               FlexSizedBox(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    GoRouter.of(context).pop();
                   },
                   child: Text(
                     AppLocalizations.of(context).notYet,
@@ -175,7 +171,6 @@ class CompatibilityReadyPage extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 }

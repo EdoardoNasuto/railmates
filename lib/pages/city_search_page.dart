@@ -4,6 +4,7 @@ import 'package:railmates/components/place_search_bar.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/components/place_search_card.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-height': 808.0, 'auto-width': 393.0})
@@ -24,7 +25,6 @@ class _CitySearchPageState extends State<CitySearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
         child: Column(
@@ -56,7 +56,7 @@ class _CitySearchPageState extends State<CitySearchPage> {
                       title: element.name!,
                       subtitle: element.state_name!,
                       onTap: () {
-                        Navigator.of(context).pop<CitiesModel?>(
+                        GoRouter.of(context).pop<CitiesModel?>(
                           CitiesModel(id: element.id, name: element.name),
                         );
                       },
@@ -93,6 +93,7 @@ class _CitySearchPageState extends State<CitySearchPage> {
           ],
         ),
       ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 }

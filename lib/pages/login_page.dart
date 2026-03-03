@@ -4,9 +4,7 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
-import 'package:railmates/pages/otp_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:railmates/pages/register_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class LoginPage extends StatefulWidget {
@@ -53,39 +51,39 @@ class _LoginPageState extends State<LoginPage> {
                     submitForm: () {
                       SupabaseService()
                           .signIn(
-                        emailController.text,
-                        passwordController!.text,
-                      )
+                            emailController.text,
+                            passwordController!.text,
+                          )
                           .then(
-                        (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                GlobalState.of(
-                                  context,
-                                ).localizations.loginSuccessful,
-                              ),
-                            ),
-                          );
-                        },
-                        onError: (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                RegExp('message:s*([^,]+)')
-                                        .firstMatch(error.toString())
-                                        ?.group(1) ??
+                            (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
                                     GlobalState.of(
                                       context,
-                                    ).localizations.errorRaised,
-                              ),
-                              backgroundColor: Theme.of(
-                                context,
-                              ).colorScheme.error,
-                            ),
+                                    ).localizations.loginSuccessful,
+                                  ),
+                                ),
+                              );
+                            },
+                            onError: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    RegExp('message:s*([^,]+)')
+                                            .firstMatch(error.toString())
+                                            ?.group(1) ??
+                                        GlobalState.of(
+                                          context,
+                                        ).localizations.errorRaised,
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
+                              );
+                            },
                           );
-                        },
-                      );
                     },
                     textFields: [
                       AuthTextFormField(
@@ -125,41 +123,40 @@ class _LoginPageState extends State<LoginPage> {
                             SupabaseService()
                                 .resetPasswordForEmail(emailController.text)
                                 .then(
-                              (value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      GlobalState.of(
-                                        context,
-                                      ).localizations.emailSent,
-                                    ),
-                                  ),
+                                  (value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          GlobalState.of(
+                                            context,
+                                          ).localizations.emailSent,
+                                        ),
+                                      ),
+                                    );
+                                    GoRouter.of(context).pushNamed(
+                                      'otp',
+                                      queryParameters: {
+                                        'email': emailController.text,
+                                        'otpType': 'recovery',
+                                      },
+                                    );
+                                  },
+                                  onError: (error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          RegExp('message:\\s*([^,]+)')
+                                                  .firstMatch(error.toString())
+                                                  ?.group(1) ??
+                                              'Error raised',
+                                        ),
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.error,
+                                      ),
+                                    );
+                                  },
                                 );
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => OtpPage(
-                                      email: emailController.text,
-                                      otpType: OtpType.recovery,
-                                    ),
-                                  ),
-                                );
-                              },
-                              onError: (error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      RegExp('message:\\s*([^,]+)')
-                                              .firstMatch(error.toString())
-                                              ?.group(1) ??
-                                          'Error raised',
-                                    ),
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.error,
-                                  ),
-                                );
-                              },
-                            );
                           },
                           child: Text(
                             GlobalState.of(
@@ -197,11 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const RegisterPage(),
-                                ),
-                              );
+                              GoRouter.of(context).pushNamed('register');
                             },
                             child: Text(
                               GlobalState.of(

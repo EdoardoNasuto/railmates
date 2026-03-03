@@ -15,6 +15,10 @@ import 'package:railmates/models/group_destinations_model.dart';
 class SupabaseService {
   SupabaseService._();
 
+  bool isConnected() {
+    return Supabase.instance.client.auth.currentUser != null;
+  }
+
   factory SupabaseService() {
     return _instance;
   }

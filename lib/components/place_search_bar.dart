@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'auto-height': 53.0})
 class PlaceSearchBar extends StatefulWidget {
@@ -45,7 +46,7 @@ class _PlaceSearchBarState extends State<PlaceSearchBar> {
               Icons.arrow_back,
               color: Theme.of(context).colorScheme.primary,
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => GoRouter.of(context).pop(),
           ),
           contentPadding: const EdgeInsets.symmetric(
             vertical: 18.0,

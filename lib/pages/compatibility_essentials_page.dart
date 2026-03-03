@@ -3,7 +3,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/compatibility_model.dart';
-import 'package:railmates/pages/compatibility_destinations_page.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class CompatibilityEssentialsPage extends StatefulWidget {
@@ -409,12 +409,7 @@ class _CompatibilityEssentialsPageState
               )
               .then(
                 (value) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const CompatibilityDestinationsPage(),
-                    ),
-                  );
+                  GoRouter.of(context).pushNamed('compatibility_destinations');
                 },
                 onError: (error) {
                   ScaffoldMessenger.of(context).showSnackBar(
