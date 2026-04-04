@@ -45,11 +45,6 @@
     <true/>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Photo Library permission is required to access photos and videos.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>Camera permission is required to take photos and videos.</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Microphone permission is required to record audio.</string>
+    
 </dict>
 </plist>
