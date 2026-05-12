@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated({'auto-width': 300.0, 'auto-height': 58.0})
 class NavBar extends StatelessWidget {
@@ -37,7 +38,16 @@ class NavBar extends StatelessWidget {
               ),
             ],
             currentIndex: index,
-            onTap: (value) {},
+            onTap: (value) {
+              if (value == index) {
+                return;
+              }
+              if (value == 1) {
+                GoRouter.of(context).go('/profile');
+              } else {
+                GoRouter.of(context).go('/');
+              }
+            },
             elevation: 3.0,
             backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           ),
