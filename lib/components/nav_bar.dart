@@ -10,27 +10,39 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.view_list,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          label: 'Summary',
+    return SafeArea(
+      minimum: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Material(
+        elevation: 3.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
-            color: Theme.of(context).colorScheme.onSurface,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(25.0),
+          child: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.view_list,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                label: 'Summary',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: index,
+            onTap: (value) {},
+            elevation: 3.0,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           ),
-          label: 'Profile',
         ),
-      ],
-      currentIndex: index,
-      onTap: (value) {},
-      elevation: 3.0,
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      ),
     );
   }
 }

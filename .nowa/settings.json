@@ -1,5 +1,5 @@
 {
-    "version": "3.6.5",
+    "version": "3.7.3",
     "app": {
         "name": "railmates",
         "package_name": "com.example.railmates"
@@ -13,5 +13,8 @@
             ]
         }
     ],
-    "permissions": []
+    "permissions": [],
+    "experimental": {
+        "new_ux": true
+    }
 }
