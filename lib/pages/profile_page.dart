@@ -3,6 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:railmates/globals/app_state.dart';
+import 'package:railmates/globals/themes.dart';
 import 'package:railmates/components/nav_bar.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
@@ -53,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
+          minimum: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
           child: Column(
             spacing: 0.0,
             mainAxisSize: MainAxisSize.min,
@@ -270,6 +272,29 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: Switch(
+                  value: AppState.of(context).theme == darkTheme,
+                  onChanged: (value) {
+                    if (value) {
+                      AppState.of(
+                        context,
+                        listen: false,
+                      ).changeTheme(darkTheme);
+                    } else {
+                      AppState.of(
+                        context,
+                        listen: false,
+                      ).changeTheme(lightTheme);
+                    }
+                  },
+                  thumbIcon: const WidgetStatePropertyAll<Icon?>(
+                    Icon(Icons.dark_mode),
                   ),
                 ),
               ),

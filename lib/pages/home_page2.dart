@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/components/nav_bar.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class HomePage2 extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomePage2State extends State<HomePage2> {
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          minimum: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Column(
             spacing: 10.0,
             mainAxisSize: MainAxisSize.max,
@@ -51,7 +52,7 @@ class _HomePage2State extends State<HomePage2> {
                 height: null,
                 width: double.infinity,
                 child: Material(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.surfaceContainer,
                   elevation: 5.0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
@@ -117,8 +118,8 @@ class _HomePage2State extends State<HomePage2> {
                       side: const WidgetStatePropertyAll<BorderSide?>(null),
                       shape:
                           const WidgetStatePropertyAll<RoundedRectangleBorder?>(
-                        null,
-                      ),
+                            null,
+                          ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -146,6 +147,20 @@ class _HomePage2State extends State<HomePage2> {
         title: const Text('Summary'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         elevation: 1.0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 16.0,
+            ),
+            child: IconButton(
+              onPressed: () {
+                GoRouter.of(context).push('/profile');
+              },
+              icon: const Icon(Icons.settings),
+            ),
+          ),
+        ],
       ),
     );
   }

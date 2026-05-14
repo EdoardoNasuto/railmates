@@ -550,7 +550,20 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Summary'),
         elevation: 1.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        actions: [],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 16.0,
+            ),
+            child: IconButton(
+              onPressed: () {
+                GoRouter.of(context).push('/profile');
+              },
+              icon: const Icon(Icons.settings),
+            ),
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
