@@ -101,10 +101,17 @@ class SplashPage extends StatelessWidget {
                           ),
                           child: ElevatedButton(
                             onPressed: () async {
+                              final isConnected = SupabaseService()
+                                  .isConnected();
+                              if (isConnected) {
+                              } else {
+                                GoRouter.of(context).push('/login');
+                                return;
+                              }
                               final complete = await SupabaseService()
                                   .getUserCompatibilityComplete();
                               if (complete) {
-                                GoRouter.of(context).go('/');
+                                GoRouter.of(context).go('/home-page');
                               } else {
                                 GoRouter.of(context).go('/home-page2');
                               }
