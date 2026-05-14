@@ -15,6 +15,8 @@ import 'package:railmates/pages/compatibility_essentials_page.dart';
 import 'package:railmates/pages/compatibility_group_page.dart';
 import 'package:railmates/pages/compatibility_questions_page.dart';
 import 'package:railmates/pages/compatibility_ready_page.dart';
+import 'package:railmates/pages/home_page2.dart';
+import 'package:railmates/pages/splash_page.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated()
@@ -22,6 +24,7 @@ final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   redirect: (context, state) {
     const unauthAllowed = const <String>{
+      '/',
       '/otp',
       '/register',
       '/forgot-password',
@@ -38,7 +41,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       name: 'home',
-      path: '/',
+      path: '/home-page',
       builder: (context, state) => const HomePage(),
     ),
     GoRoute(
@@ -123,5 +126,10 @@ final GoRouter appRouter = GoRouter(
       path: '/compatibility/ready',
       builder: (context, state) => const CompatibilityReadyPage(),
     ),
+    GoRoute(
+      path: '/home-page2',
+      builder: (context, state) => const HomePage2(),
+    ),
+    GoRoute(path: '/', builder: (context, state) => const SplashPage()),
   ],
 );

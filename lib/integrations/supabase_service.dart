@@ -294,4 +294,12 @@ class SupabaseService {
         .maybeSingle();
     return response != null ? ProfilesModel.fromJson(response!) : null;
   }
+
+  Future<bool> getUserCompatibilityComplete() async {
+    final response = await Supabase.instance.client
+        .from('compatibility')
+        .select('complete')
+        .maybeSingle();
+    return response != null && response['complete'] == true;
+  }
 }

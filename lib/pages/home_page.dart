@@ -550,6 +550,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Summary'),
         elevation: 1.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        actions: [],
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
     );

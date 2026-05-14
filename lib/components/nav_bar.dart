@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:go_router/go_router.dart';
+import 'package:railmates/integrations/supabase_service.dart';
 
 @NowaGenerated({'auto-width': 300.0, 'auto-height': 58.0})
 class NavBar extends StatelessWidget {
@@ -38,14 +39,20 @@ class NavBar extends StatelessWidget {
               ),
             ],
             currentIndex: index,
-            onTap: (value) {
+            onTap: (value) async {
               if (value == index) {
                 return;
               }
               if (value == 1) {
                 GoRouter.of(context).go('/profile');
               } else {
-                GoRouter.of(context).go('/');
+                final complete = await SupabaseService()
+                    .getUserCompatibilityComplete();
+                if (complete) {
+                  GoRouter.of(context).go('/');
+                } else {
+                  GoRouter.of(context).go('/home-page2');
+                }
               }
             },
             elevation: 3.0,

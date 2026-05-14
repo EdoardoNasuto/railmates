@@ -11,8 +11,8 @@
             ]
         },
         {
-            "x": 336.0,
-            "y": 396.0,
+            "x": 218.0,
+            "y": 114.0,
             "w": 300.0,
             "widget": "const NavBar()",
             "deps": [
@@ -27,6 +27,26 @@
             "widget": "const ProfilePage()",
             "deps": [
                 "lib/pages/profile_page.dart"
+            ]
+        },
+        {
+            "x": 261.0,
+            "y": 260.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const HomePage2()",
+            "deps": [
+                "lib/pages/home_page2.dart"
+            ]
+        },
+        {
+            "x": -165.0,
+            "y": 260.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const SplashPage()",
+            "deps": [
+                "lib/pages/splash_page.dart"
             ]
         }
     ]
