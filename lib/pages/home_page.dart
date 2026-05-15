@@ -52,13 +52,9 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, data) => Material(
                     elevation: 3.0,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
-                      ),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
-                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    color: Theme.of(context).colorScheme.surface,
                     child: InkWell(
                       onTap: () {
                         GoRouter.of(
@@ -215,11 +211,10 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, data) => Material(
                     elevation: 3.0,
                     shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
                       side: BorderSide(
                         color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
                       ),
-                      borderRadius: BorderRadius.circular(25.0),
                     ),
                     color: Theme.of(context).colorScheme.primaryContainer,
                     child: InkWell(
@@ -290,14 +285,13 @@ class _HomePageState extends State<HomePage> {
                 child: DataBuilder<List<CompatibilityAnswersModel>>(
                   builder: (context, data) => Material(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                        width: 2.0,
-                      ),
                       borderRadius: BorderRadius.circular(25.0),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                     elevation: 3.0,
-                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    color: Theme.of(context).colorScheme.surface,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,

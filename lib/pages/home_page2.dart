@@ -52,7 +52,7 @@ class _HomePage2State extends State<HomePage2> {
                 height: null,
                 width: double.infinity,
                 child: Material(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  color: Theme.of(context).colorScheme.surface,
                   elevation: 5.0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
