@@ -17,6 +17,7 @@ import 'package:railmates/pages/compatibility_questions_page.dart';
 import 'package:railmates/pages/compatibility_ready_page.dart';
 import 'package:railmates/pages/home_page2.dart';
 import 'package:railmates/pages/splash_page.dart';
+import 'package:railmates/pages/itinerary_page.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 
 @NowaGenerated()
@@ -131,5 +132,9 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const HomePage2(),
     ),
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
+    GoRoute(
+      path: '/itinerary',
+      builder: (context, state) => const ItineraryPage(),
+    ),
   ],
 );

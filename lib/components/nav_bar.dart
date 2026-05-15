@@ -25,17 +25,17 @@ class NavBar extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.view_list,
+                  Icons.groups,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 label: 'Summary',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.person,
+                  Icons.route,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
-                label: 'Profile',
+                label: 'Itinerary',
               ),
             ],
             currentIndex: index,
@@ -44,7 +44,7 @@ class NavBar extends StatelessWidget {
                 return;
               }
               if (value == 1) {
-                GoRouter.of(context).go('/profile');
+                GoRouter.of(context).go('/itinerary');
               } else {
                 final complete = await SupabaseService()
                     .getUserCompatibilityComplete();

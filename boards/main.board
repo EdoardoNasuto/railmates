@@ -40,13 +40,23 @@
             ]
         },
         {
-            "x": -165.0,
+            "x": -617.0,
             "y": 260.0,
             "w": 393.0,
             "h": 808.0,
             "widget": "const SplashPage()",
             "deps": [
                 "lib/pages/splash_page.dart"
+            ]
+        },
+        {
+            "x": -175.0,
+            "y": 260.0,
+            "w": 393.0,
+            "h": 808.0,
+            "widget": "const ItineraryPage()",
+            "deps": [
+                "lib/pages/itinerary_page.dart"
             ]
         }
     ]
