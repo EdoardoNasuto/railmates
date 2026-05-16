@@ -11,10 +11,36 @@
             "imports": [
                 "package:railmates/integrations/supabase_service.dart"
             ]
+        },
+        {
+            "key": "firebase",
+            "statement": "await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);",
+            "imports": [
+                "package:firebase_core/firebase_core.dart",
+                "package:railmates/firebase_options.dart"
+            ]
+        },
+        {
+            "key": "push_notifications",
+            "statement": "await NotificationService.instance.initialize();",
+            "imports": [
+                "package:railmates/firebase/notification_service.dart"
+            ]
         }
     ],
-    "permissions": [],
+    "permissions": [
+        {
+            "key": "android.permission.RECEIVE_BOOT_COMPLETED"
+        }
+    ],
     "experimental": {
         "new_ux": true
+    },
+    "firebase": {
+        "projectId": "railmates",
+        "androidAppId": "1:1002034523365:android:9c330bf0addf651717380c",
+        "iosAppId": "1:1002034523365:ios:9ca1da038bad4a2a17380c",
+        "webAppId": "1:1002034523365:web:a53f281809447c3f17380c",
+        "connectedPackageName": "com.example.railmates"
     }
 }
