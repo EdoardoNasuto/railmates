@@ -4,9 +4,9 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/models/cities_model.dart';
-import 'package:go_router/go_router.dart';
 
 @NowaGenerated({'x': 420, 'y': 0, 'auto-width': 393.0, 'auto-height': 808.0})
 class ProfileCreationPage extends StatefulWidget {
@@ -88,6 +88,7 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                                     ),
                                   ),
                                 );
+                                GoRouter.of(context).go('/');
                               },
                               onError: (error) {
                                 ScaffoldMessenger.of(context).showSnackBar(

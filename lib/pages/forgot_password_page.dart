@@ -4,6 +4,7 @@ import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/integrations/supabase_service.dart';
+import 'package:go_router/go_router.dart';
 
 @NowaGenerated()
 class ForgotPasswordPage extends StatefulWidget {
@@ -114,6 +115,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       ),
                                     ),
                                   );
+                                  GoRouter.of(context).push('/');
                                 },
                                 onError: (error) {
                                   ScaffoldMessenger.of(context).showSnackBar(

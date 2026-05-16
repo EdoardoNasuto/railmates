@@ -69,7 +69,6 @@ class _AuthFormState extends State<AuthForm> {
           ),
           FlexSizedBox(
             width: double.infinity,
-            flex: 1,
             child: ListView(
               reverse: false,
               shrinkWrap: true,

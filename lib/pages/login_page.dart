@@ -3,8 +3,8 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/global_state.dart';
-import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:go_router/go_router.dart';
+import 'package:railmates/components/auth_text_form_field.dart';
 
 @NowaGenerated({'auto-width': 393.0, 'x': 0, 'y': 0, 'auto-height': 808.5})
 class LoginPage extends StatefulWidget {
@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               );
+                              GoRouter.of(context).go('/');
                             },
                             onError: (error) {
                               ScaffoldMessenger.of(context).showSnackBar(

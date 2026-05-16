@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool visible = true;
 
-  String? gender = '';
+  String? gender;
 
   TextEditingController city = TextEditingController();
 
