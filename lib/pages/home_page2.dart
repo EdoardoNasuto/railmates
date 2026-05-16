@@ -161,6 +161,7 @@ class _HomePage2State extends State<HomePage2> {
             ),
           ),
         ],
+        shadowColor: Theme.of(context).colorScheme.shadow,
       ),
     );
   }

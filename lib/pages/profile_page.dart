@@ -307,6 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: const Text('Profile'),
         elevation: 1.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        shadowColor: Theme.of(context).colorScheme.shadow,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

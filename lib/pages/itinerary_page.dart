@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:go_router/go_router.dart';
 import 'package:railmates/components/nav_bar.dart';
 
 @NowaGenerated()
@@ -39,6 +39,7 @@ class _ItineraryPageState extends State<ItineraryPage> {
             ),
           ),
         ],
+        shadowColor: Theme.of(context).colorScheme.shadow,
       ),
       body: Container(
         decoration: BoxDecoration(

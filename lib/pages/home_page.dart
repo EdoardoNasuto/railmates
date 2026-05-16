@@ -50,12 +50,13 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: DataBuilder<CompatibilityModel?>(
                   builder: (context, data) => Material(
-                    elevation: 3.0,
+                    elevation: 2.0,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                    color: Theme.of(context).colorScheme.surface,
                     child: InkWell(
+                      borderRadius: BorderRadius.circular(25.0),
                       onTap: () {
                         GoRouter.of(
                           context,
@@ -73,9 +74,7 @@ class _HomePageState extends State<HomePage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.surfaceContainer,
+                              color: const Color(0xEFEDF4),
                               child: Icon(
                                 Icons.emoji_people,
                                 size: 40.0,
@@ -86,8 +85,10 @@ class _HomePageState extends State<HomePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                spacing: 5.0,
                                 children: [
                                   Row(
+                                    spacing: 0.0,
                                     children: [
                                       Icon(
                                         Icons.calendar_today,
@@ -111,77 +112,86 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8.0),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.today,
-                                        size: 18.0,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSurface,
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        data?.days ?? '-',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.group,
-                                        size: 18.0,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSurface,
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        data?.mates ?? '-',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.euro,
-                                        size: 18.0,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSurface,
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Text(
-                                        data?.budget ?? '-',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                            ),
-                                      ),
-                                    ],
+                                  FlexSizedBox(
+                                    width: null,
+                                    height: null,
+                                    child: Row(
+                                      spacing: 5.0,
+                                      children: [
+                                        FlexSizedBox(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.today,
+                                                size: 18.0,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                              ),
+                                              Text(
+                                                data?.days ?? '-',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).colorScheme.onSurface,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        FlexSizedBox(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.group,
+                                                size: 18.0,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                              ),
+                                              Text(
+                                                data?.mates ?? '-',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).colorScheme.onSurface,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        FlexSizedBox(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.euro,
+                                                size: 18.0,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                              ),
+                                              Text(
+                                                data?.budget ?? '-',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).colorScheme.onSurface,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -209,15 +219,13 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: DataBuilder<List<CompatibilityDestinationsModel>>(
                   builder: (context, data) => Material(
-                    elevation: 3.0,
+                    elevation: 2.0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     child: InkWell(
+                      borderRadius: BorderRadius.circular(25.0),
                       onTap: () {
                         GoRouter.of(
                           context,
@@ -237,14 +245,10 @@ class _HomePageState extends State<HomePage> {
                           final CompatibilityDestinationsModel element =
                               data[index];
                           return Material(
+                            elevation: 3.0,
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1.0,
-                              ),
                               borderRadius: BorderRadius.circular(25.0),
                             ),
-                            elevation: 3.0,
                             color: Theme.of(
                               context,
                             ).colorScheme.surfaceContainer,
@@ -284,13 +288,10 @@ class _HomePageState extends State<HomePage> {
                 flex: 1,
                 child: DataBuilder<List<CompatibilityAnswersModel>>(
                   builder: (context, data) => Material(
+                    elevation: 2.0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                    elevation: 3.0,
                     color: Theme.of(context).colorScheme.surface,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -301,13 +302,8 @@ class _HomePageState extends State<HomePage> {
                           height: 48.0,
                           child: Material(
                             elevation: 1.0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                topRight: Radius.circular(25.0),
-                                bottomLeft: Radius.circular(0.0),
-                                bottomRight: Radius.circular(0.0),
-                              ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
                             color: Theme.of(
                               context,
@@ -367,105 +363,82 @@ class _HomePageState extends State<HomePage> {
                         FlexSizedBox(
                           width: double.infinity,
                           flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5.0,
-                              horizontal: 5.0,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25.0),
-                              child: ListView.separated(
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  final CompatibilityAnswersModel element =
-                                      data[index];
-                                  return Material(
-                                    elevation: 1.0,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
-                                        width: 1.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25.0),
+                            child: ListView.separated(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final CompatibilityAnswersModel element =
+                                    data[index];
+                                return Material(
+                                  elevation: 1.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    onTap: () {
+                                      GoRouter.of(context).pushNamed(
+                                        'compatibility_questions',
+                                        queryParameters: {
+                                          'questionPos':
+                                              element.question_id?.pos
+                                                  ?.toString() ??
+                                              '1',
+                                        },
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 15.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.surfaceContainer,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      onTap: () {
-                                        GoRouter.of(context).pushNamed(
-                                          'compatibility_questions',
-                                          queryParameters: {
-                                            'questionPos':
-                                                element.question_id?.pos
-                                                    ?.toString() ??
-                                                '1',
-                                          },
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0,
-                                          horizontal: 15.0,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              element
-                                                      .question_id
-                                                      ?.label[GlobalState.of(
-                                                    context,
-                                                    listen: false,
-                                                  ).locale!.languageCode] ??
-                                                  GlobalState.of(
-                                                    context,
-                                                  ).localizations.question,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).colorScheme.onSurface,
-                                                  ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            element
+                                                    .question_id
+                                                    ?.label[GlobalState.of(
+                                                  context,
+                                                  listen: false,
+                                                ).locale!.languageCode] ??
+                                                GlobalState.of(
+                                                  context,
+                                                ).localizations.question,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
                                             ),
-                                            Text(
-                                              element
-                                                      .option_id
-                                                      ?.label[GlobalState.of(
-                                                    context,
-                                                    listen: false,
-                                                  ).locale!.languageCode] ??
-                                                  GlobalState.of(
-                                                    context,
-                                                  ).localizations.option,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).colorScheme.onSurface,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                          Text(
+                                            element
+                                                    .option_id
+                                                    ?.label[GlobalState.of(
+                                                  context,
+                                                  listen: false,
+                                                ).locale!.languageCode] ??
+                                                GlobalState.of(
+                                                  context,
+                                                ).localizations.option,
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodySmall,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 10.0, width: 20.0),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0,
-                                  horizontal: 5.0,
-                                ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 10.0, width: 20.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 15.0,
                               ),
                             ),
                           ),
@@ -558,6 +531,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+        shadowColor: Theme.of(context).colorScheme.shadow,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
