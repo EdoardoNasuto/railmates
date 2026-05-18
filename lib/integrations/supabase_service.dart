@@ -80,7 +80,7 @@ class SupabaseService {
   Future<ProfilesModel> updateProfiles(ProfilesModel data) async {
     final response = await Supabase.instance.client
         .from('profiles')
-        .update(data.toJson())
+        .update(data.toJson()..removeWhere((key, value) => value == null))
         .eq('id', Supabase.instance.client.auth.currentUser!.id)
         .select('*')
         .single();
@@ -242,7 +242,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility')
-        .update(data.toJson())
+        .update(data.toJson()..removeWhere((key, value) => value == null))
         .eq('user_id', Supabase.instance.client.auth.currentUser!.id)
         .select('*')
         .single();
