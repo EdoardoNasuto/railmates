@@ -6,13 +6,6 @@
     },
     "main": [
         {
-            "key": "supabase",
-            "statement": "await SupabaseService().initialize();",
-            "imports": [
-                "package:railmates/integrations/supabase_service.dart"
-            ]
-        },
-        {
             "key": "firebase",
             "statement": "await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);",
             "imports": [
@@ -25,6 +18,13 @@
             "statement": "await NotificationService.instance.initialize();",
             "imports": [
                 "package:railmates/firebase/notification_service.dart"
+            ]
+        },
+        {
+            "key": "supabase",
+            "statement": "await SupabaseService().initialize();",
+            "imports": [
+                "package:railmates/integrations/supabase_service.dart"
             ]
         }
     ],

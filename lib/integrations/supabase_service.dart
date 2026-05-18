@@ -1,5 +1,6 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:railmates/globals/app_constants.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/models/countries_model.dart';
@@ -27,9 +28,8 @@ class SupabaseService {
 
   Future initialize() async {
     await Supabase.initialize(
-      url: 'https://ajepgfqpggsjwjvpwruh.supabase.co',
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqZXBnZnFwZ2dzandqdnB3cnVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3Nzc5MzUsImV4cCI6MjA3NTM1MzkzNX0.8JhJ9KTvGaGv4pFXpY_orgnKaMA0eHchFNuAfFR6i1w',
+      url: AppConstants.supabaseUrl,
+      anonKey: AppConstants.supabaseAnonKey,
     );
   }
 
@@ -300,6 +300,6 @@ class SupabaseService {
         .from('compatibility')
         .select('complete')
         .maybeSingle();
-    return response != null && response['complete'] == true;
+    return response != null && response?['complete'] == true;
   }
 }
