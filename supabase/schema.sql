@@ -1,4 +1,4 @@
-
+﻿
 
 
 SET statement_timeout = 0;
@@ -589,6 +589,17 @@ CREATE TABLE IF NOT EXISTS "public"."groups" (
 ALTER TABLE "public"."groups" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."notifications" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "user_id" "uuid" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "body" "text" NOT NULL
+);
+
+
+ALTER TABLE "public"."notifications" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
     "first_name" "text",
@@ -597,6 +608,7 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "city" bigint,
     "phone" "text",
     "gender" "text",
+    "fcm_token" "text",
     CONSTRAINT "profiles_phone_number_check" CHECK (("phone" ~ '^\+[1-9]\d{6,14}$'::"text")),
     CONSTRAINT "username_length" CHECK (("char_length"("first_name") >= 3))
 );
@@ -741,6 +753,10 @@ CREATE OR REPLACE TRIGGER "on_profile_delete" AFTER DELETE ON "public"."profiles
 
 
 
+CREATE OR REPLACE TRIGGER "push" AFTER INSERT ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "supabase_functions"."http_request"('https://ajepgfqpggsjwjvpwruh.supabase.co/functions/v1/push', 'POST', '{"Content-type":"application/json"}', '{}', '1000');
+
+
+
 ALTER TABLE ONLY "public"."cities"
     ADD CONSTRAINT "cities_country_id_fkey" FOREIGN KEY ("country_id") REFERENCES "public"."countries"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
@@ -798,6 +814,11 @@ ALTER TABLE ONLY "public"."group_members"
 
 ALTER TABLE ONLY "public"."group_members"
     ADD CONSTRAINT "group_members_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."profiles"("id");
+
+
+
+ALTER TABLE ONLY "public"."notifications"
+    ADD CONSTRAINT "notifications_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
@@ -927,6 +948,9 @@ ALTER TABLE "public"."group_members" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."groups" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."notifications" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."profiles" ENABLE ROW LEVEL SECURITY;
@@ -1074,6 +1098,12 @@ GRANT ALL ON TABLE "public"."group_members" TO "service_role";
 GRANT ALL ON TABLE "public"."groups" TO "anon";
 GRANT ALL ON TABLE "public"."groups" TO "authenticated";
 GRANT ALL ON TABLE "public"."groups" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."notifications" TO "anon";
+GRANT ALL ON TABLE "public"."notifications" TO "authenticated";
+GRANT ALL ON TABLE "public"."notifications" TO "service_role";
 
 
 

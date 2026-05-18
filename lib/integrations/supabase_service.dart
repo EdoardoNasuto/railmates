@@ -1,5 +1,6 @@
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:railmates/firebase/notification_service.dart';
 import 'package:railmates/globals/app_constants.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:railmates/models/cities_model.dart';
@@ -34,17 +35,31 @@ class SupabaseService {
   }
 
   Future<AuthResponse> signIn(String email, String password) async {
-    return Supabase.instance.client.auth.signInWithPassword(
+    final response = await Supabase.instance.client.auth.signInWithPassword(
       email: email,
       password: password,
     );
+    try {
+      final fcm = NotificationService.instance.fcmToken;
+      await SupabaseService().updateProfiles(
+        ProfilesModel(fcm_token: fcm),
+      );
+    } catch (e) {}
+    return response;
   }
 
   Future<AuthResponse> signUp(String email, String password) async {
-    return Supabase.instance.client.auth.signUp(
+    final response = await Supabase.instance.client.auth.signUp(
       email: email,
       password: password,
     );
+    try {
+      final fcm = NotificationService.instance.fcmToken;
+      await SupabaseService().updateProfiles(
+        ProfilesModel(fcm_token: fcm),
+      );
+    } catch (e) {}
+    return response;
   }
 
   Future<void> signOut() async {
