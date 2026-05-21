@@ -3,10 +3,10 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/global_state.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/globals/themes.dart';
 import 'package:railmates/components/nav_bar.dart';
-import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
 
 @NowaGenerated()
@@ -273,6 +273,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
+                child: ElevatedButton(
+                  onPressed: () {
+                    SupabaseService().signOut().then((value) {
+                      GoRouter.of(context).go('/login');
+                    });
+                  },
+                  child: const Text('Déconnexion'),
                 ),
               ),
               FlexSizedBox(
