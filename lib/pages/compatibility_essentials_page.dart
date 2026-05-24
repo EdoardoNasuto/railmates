@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/models/compatibility_model.dart';
 import 'package:go_router/go_router.dart';
 
@@ -135,9 +135,9 @@ class _CompatibilityEssentialsPageState
                                           ).colorScheme.primary,
                                         ),
                                         Text(
-                                          GlobalState.of(
+                                          LocaleState.of(
                                             context,
-                                          ).localizations.yourAvailability,
+                                          ).l10n.yourAvailability,
                                           style: const TextStyle(
                                             fontSize: 18.0,
                                             fontWeight: FontWeight.w700,
@@ -224,9 +224,9 @@ class _CompatibilityEssentialsPageState
                                           ).colorScheme.primary,
                                         ),
                                         Text(
-                                          GlobalState.of(
+                                          LocaleState.of(
                                             context,
-                                          ).localizations.idealTripDuration,
+                                          ).l10n.idealTripDuration,
                                           style: const TextStyle(
                                             fontSize: 18.0,
                                             fontWeight: FontWeight.w700,
@@ -283,9 +283,9 @@ class _CompatibilityEssentialsPageState
                                           ).colorScheme.primary,
                                         ),
                                         Text(
-                                          GlobalState.of(
+                                          LocaleState.of(
                                             context,
-                                          ).localizations.numberOfMates,
+                                          ).l10n.numberOfMates,
                                           style: const TextStyle(
                                             fontSize: 18.0,
                                             fontWeight: FontWeight.w700,
@@ -342,9 +342,7 @@ class _CompatibilityEssentialsPageState
                                           ).colorScheme.primary,
                                         ),
                                         Text(
-                                          GlobalState.of(
-                                            context,
-                                          ).localizations.budget,
+                                          LocaleState.of(context).l10n.budget,
                                           style: const TextStyle(
                                             fontSize: 18.0,
                                             fontWeight: FontWeight.w700,
@@ -390,7 +388,7 @@ class _CompatibilityEssentialsPageState
       ),
       appBar: AppBar(
         title: Text(
-          GlobalState.of(context).localizations.essentialInformation,
+          LocaleState.of(context).l10n.essentialInformation,
           style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 26.0),
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -441,7 +439,7 @@ class _CompatibilityEssentialsPageState
           ),
         ),
         child: Text(
-          GlobalState.of(context).localizations.confirm,
+          LocaleState.of(context).l10n.confirm,
           style: const TextStyle(fontSize: 28.0, height: 2.0),
         ),
       ),

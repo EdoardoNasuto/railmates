@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:go_router/go_router.dart';
@@ -58,39 +58,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   FlexSizedBox(
                     child: AuthForm(
-                      nom: GlobalState.of(context).localizations.resetPassword,
+                      nom: LocaleState.of(context).l10n.resetPassword,
                       icon: Icons.lock_reset,
                       textFields: [
                         AuthTextFormField(
-                          label: GlobalState.of(
-                            context,
-                          ).localizations.newPassword,
+                          label: LocaleState.of(context).l10n.newPassword,
                           controller: newPasswordController,
                           obscure: true,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           icon: Icons.lock_outlined,
-                          errorMessage: GlobalState.of(
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.passwordRequirements,
+                          ).l10n.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(
-                            context,
-                          ).localizations.confirmPassword,
+                          label: LocaleState.of(context).l10n.confirmPassword,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           obscure: true,
                           icon: Icons.lock,
-                          errorMessage: GlobalState.of(
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.passwordRequirements,
+                          ).l10n.passwordRequirements,
                           controller: confirmNewPasswordController,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
@@ -109,9 +105,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        GlobalState.of(context)
-                                            .localizations
-                                            .passwordSuccessfullyChanged,
+                                        LocaleState.of(
+                                          context,
+                                        ).l10n.passwordSuccessfullyChanged,
                                       ),
                                     ),
                                   );
@@ -124,9 +120,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                         RegExp('message:\\s*([^,]+)')
                                                 .firstMatch(error.toString())
                                                 ?.group(1) ??
-                                            GlobalState.of(
+                                            LocaleState.of(
                                               context,
-                                            ).localizations.errorRaised,
+                                            ).l10n.errorRaised,
                                       ),
                                       backgroundColor: Theme.of(
                                         context,
@@ -139,9 +135,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                GlobalState.of(
+                                LocaleState.of(
                                   context,
-                                ).localizations.passwordConfirmationMismatch,
+                                ).l10n.passwordConfirmationMismatch,
                               ),
                               backgroundColor: Theme.of(
                                 context,
@@ -150,9 +146,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           );
                         }
                       },
-                      buttonName: GlobalState.of(
-                        context,
-                      ).localizations.resetPassword,
+                      buttonName: LocaleState.of(context).l10n.resetPassword,
                     ),
                   ),
                 ],

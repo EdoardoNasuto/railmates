@@ -6,7 +6,7 @@ import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railmates/models/compatibility_answers_model.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/components/nav_bar.dart';
 
 @NowaGenerated()
@@ -403,13 +403,13 @@ class _HomePageState extends State<HomePage> {
                                           Text(
                                             element
                                                     .question_id
-                                                    ?.label[GlobalState.of(
+                                                    ?.label[LocaleState.of(
                                                   context,
                                                   listen: false,
                                                 ).locale!.languageCode] ??
-                                                GlobalState.of(
+                                                LocaleState.of(
                                                   context,
-                                                ).localizations.question,
+                                                ).l10n.question,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -417,13 +417,13 @@ class _HomePageState extends State<HomePage> {
                                           Text(
                                             element
                                                     .option_id
-                                                    ?.label[GlobalState.of(
+                                                    ?.label[LocaleState.of(
                                                   context,
                                                   listen: false,
                                                 ).locale!.languageCode] ??
-                                                GlobalState.of(
+                                                LocaleState.of(
                                                   context,
-                                                ).localizations.option,
+                                                ).l10n.option,
                                             style: Theme.of(
                                               context,
                                             ).textTheme.bodySmall,

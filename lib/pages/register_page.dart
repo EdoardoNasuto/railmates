@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:railmates/components/auth_text_form_field.dart';
@@ -59,8 +59,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   FlexSizedBox(
                     child: AuthForm(
-                      nom: GlobalState.of(context).localizations.createAccount,
-                      buttonName: GlobalState.of(context).localizations.signUp,
+                      nom: LocaleState.of(context).l10n.createAccount,
+                      buttonName: LocaleState.of(context).l10n.signUp,
                       submitForm: () {
                         if (passwordController?.text ==
                             confirmPasswordController?.text) {
@@ -74,9 +74,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        GlobalState.of(
+                                        LocaleState.of(
                                           context,
-                                        ).localizations.checkEmailVerification,
+                                        ).l10n.checkEmailVerification,
                                       ),
                                     ),
                                   );
@@ -95,9 +95,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                         RegExp('message:\\s*([^,]+)')
                                                 .firstMatch(error.toString())
                                                 ?.group(1) ??
-                                            GlobalState.of(
+                                            LocaleState.of(
                                               context,
-                                            ).localizations.errorRaised,
+                                            ).l10n.errorRaised,
                                       ),
                                       backgroundColor: Theme.of(
                                         context,
@@ -110,9 +110,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                GlobalState.of(
+                                LocaleState.of(
                                   context,
-                                ).localizations.passwordConfirmationMismatch,
+                                ).l10n.passwordConfirmationMismatch,
                               ),
                               backgroundColor: Theme.of(
                                 context,
@@ -123,48 +123,46 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       textFields: [
                         AuthTextFormField(
-                          label: GlobalState.of(context).localizations.email,
+                          label: LocaleState.of(context).l10n.email,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: emailController,
                           icon: Icons.email_outlined,
-                          errorMessage: GlobalState.of(
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.invalidFormat,
+                          ).l10n.invalidFormat,
                           regexValidator:
                               '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}\$',
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context).localizations.password,
+                          label: LocaleState.of(context).l10n.password,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           obscure: true,
                           controller: passwordController,
                           icon: Icons.lock_outlined,
-                          errorMessage: GlobalState.of(
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.passwordRequirements,
+                          ).l10n.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(
-                            context,
-                          ).localizations.confirmPassword,
+                          label: LocaleState.of(context).l10n.confirmPassword,
                           obscure: true,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: confirmPasswordController,
                           icon: Icons.lock,
-                          errorMessage: GlobalState.of(
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.passwordRequirements,
+                          ).l10n.passwordRequirements,
                           regexValidator:
                               '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}\$',
                         ),
@@ -182,17 +180,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          GlobalState.of(
-                            context,
-                          ).localizations.alreadyHaveAccount,
-                        ),
+                        Text(LocaleState.of(context).l10n.alreadyHaveAccount),
                         TextButton(
                           onPressed: () {
                             GoRouter.of(context).pushNamed('login');
                           },
                           child: Text(
-                            GlobalState.of(context).localizations.login,
+                            LocaleState.of(context).l10n.login,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).colorScheme.primary,

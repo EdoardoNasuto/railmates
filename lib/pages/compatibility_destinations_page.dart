@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:railmates/models/compatibility_destinations_model.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +71,7 @@ class _CompatibilityDestinationsPageState
                     right: 0.0,
                   ),
                   child: Text(
-                    GlobalState.of(context).localizations.onlyChoose10Countries,
+                    LocaleState.of(context).l10n.onlyChoose10Countries,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -198,7 +198,7 @@ class _CompatibilityDestinationsPageState
       ),
       appBar: AppBar(
         title: Text(
-          GlobalState.of(context).localizations.favoriteCountries,
+          LocaleState.of(context).l10n.favoriteCountries,
           style: const TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
@@ -242,7 +242,7 @@ class _CompatibilityDestinationsPageState
               ),
             ),
             child: Text(
-              GlobalState.of(context).localizations.confirm,
+              LocaleState.of(context).l10n.confirm,
               style: const TextStyle(fontSize: 28.0, height: 2.0),
             ),
           );

@@ -7,6 +7,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/globals/router.dart';
 
@@ -32,12 +33,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GlobalState>(
       create: (context) => GlobalState(),
-      child: ChangeNotifierProvider<AppState>(
-        create: (context) => AppState(),
-        builder: (context, child) => MaterialApp.router(
-          title: GlobalState.of(context).localizations.appTitle,
-          theme: AppState.of(context).theme,
-          routerConfig: appRouter,
+      child: ChangeNotifierProvider<LocaleState>(
+        create: (context) => LocaleState(),
+        child: ChangeNotifierProvider<AppState>(
+          create: (context) => AppState(),
+          builder: (context, child) => MaterialApp.router(
+            title: LocaleState.of(context).l10n.appTitle,
+            theme: AppState.of(context).theme,
+            routerConfig: appRouter,
+          ),
         ),
       ),
     );

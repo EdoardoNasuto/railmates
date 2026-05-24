@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:railmates/integrations/supabase_service.dart';
@@ -87,10 +87,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.firstName,
+                                  ).l10n.firstName,
                                 ),
                                 controller: firstName,
                                 validator: (value) {
@@ -109,10 +109,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.lastName,
+                                  ).l10n.lastName,
                                 ),
                                 controller: lastName,
                                 validator: (value) {
@@ -134,10 +134,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   DropdownMenuItem<String>(
                                     value: 'M',
                                     child: Text(
-                                      GlobalState.of(
+                                      LocaleState.of(
                                         context,
                                         listen: false,
-                                      ).localizations.man,
+                                      ).l10n.man,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -146,10 +146,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   DropdownMenuItem<String>(
                                     value: 'W',
                                     child: Text(
-                                      GlobalState.of(
+                                      LocaleState.of(
                                         context,
                                         listen: false,
-                                      ).localizations.women,
+                                      ).l10n.women,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -161,10 +161,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   gender = value;
                                 },
                                 decoration: InputDecoration(
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.gender,
+                                  ).l10n.gender,
                                   border: const OutlineInputBorder(),
                                 ),
                                 validator: (value) {
@@ -183,10 +183,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.birthDate,
+                                  ).l10n.birthDate,
                                 ),
                                 controller: birthDate,
                                 onTap: () {
@@ -226,10 +226,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.city,
+                                  ).l10n.city,
                                 ),
                                 controller: city,
                                 onTap: () async {
@@ -254,10 +254,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: GlobalState.of(
+                                  labelText: LocaleState.of(
                                     context,
                                     listen: false,
-                                  ).localizations.phone,
+                                  ).l10n.phone,
                                 ),
                                 controller: phone,
                                 validator: (value) {

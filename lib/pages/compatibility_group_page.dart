@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/models/group_members_model.dart';
 import 'package:railmates/models/cities_model.dart';
 import 'package:railmates/integrations/supabase_service.dart';
@@ -52,7 +52,7 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                 height: null,
                 child: ListTile(
                   title: Text(
-                    GlobalState.of(context).localizations.appTitle,
+                    LocaleState.of(context).l10n.appTitle,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w800,
@@ -61,7 +61,7 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                     textAlign: TextAlign.center,
                   ),
                   subtitle: Text(
-                    GlobalState.of(context).localizations.dates,
+                    LocaleState.of(context).l10n.dates,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -114,14 +114,14 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                                           width: null,
                                           height: null,
                                           child: Text(
-                                            '${GlobalState.of(context).localizations.gender} : ${element.user_id?.gender}',
+                                            '${LocaleState.of(context).l10n.gender} : ${element.user_id?.gender}',
                                           ),
                                         ),
                                         FlexSizedBox(
                                           width: null,
                                           height: null,
                                           child: Text(
-                                            '${GlobalState.of(context).localizations.phone} : ${element.user_id?.phone}',
+                                            '${LocaleState.of(context).l10n.phone} : ${element.user_id?.phone}',
                                           ),
                                         ),
                                         FlexSizedBox(
@@ -129,7 +129,7 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                                           height: null,
                                           child: DataBuilder<CitiesModel?>(
                                             builder: (context, data) => Text(
-                                              '${GlobalState.of(context).localizations.city} : ${data?.name}, ${data?.country_id?.name}',
+                                              '${LocaleState.of(context).l10n.city} : ${data?.name}, ${data?.country_id?.name}',
                                             ),
                                             loadingWidget: const Align(
                                               alignment: Alignment(0.0, 0.0),

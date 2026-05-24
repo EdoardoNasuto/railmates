@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/profiles_model.dart';
 import 'package:go_router/go_router.dart';
@@ -63,8 +63,8 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                 children: [
                   FlexSizedBox(
                     child: AuthForm(
-                      nom: GlobalState.of(context).localizations.createProfile,
-                      buttonName: GlobalState.of(context).localizations.save,
+                      nom: LocaleState.of(context).l10n.createProfile,
+                      buttonName: LocaleState.of(context).l10n.save,
                       submitForm: () {
                         SupabaseService()
                             .updateProfiles(
@@ -82,9 +82,9 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      GlobalState.of(
+                                      LocaleState.of(
                                         context,
-                                      ).localizations.registrationSuccessful,
+                                      ).l10n.registrationSuccessful,
                                     ),
                                   ),
                                 );
@@ -97,9 +97,9 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                                       RegExp('message:\\s*([^,]+)')
                                               .firstMatch(error.toString())
                                               ?.group(1) ??
-                                          GlobalState.of(
+                                          LocaleState.of(
                                             context,
-                                          ).localizations.errorRaised,
+                                          ).l10n.errorRaised,
                                     ),
                                     backgroundColor: Theme.of(
                                       context,
@@ -111,22 +111,20 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                       },
                       textFields: [
                         AuthTextFormField(
-                          label: GlobalState.of(
-                            context,
-                          ).localizations.firstName,
+                          label: LocaleState.of(context).l10n.firstName,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: firstNameController,
                           icon: Icons.person_outline,
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context).localizations.lastName,
+                          label: LocaleState.of(context).l10n.lastName,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: lastNameController,
                           icon: Icons.person,
                         ),
@@ -139,15 +137,11 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                             items: [
                               DropdownMenuItem<String>(
                                 value: 'W',
-                                child: Text(
-                                  GlobalState.of(context).localizations.women,
-                                ),
+                                child: Text(LocaleState.of(context).l10n.women),
                               ),
                               DropdownMenuItem<String>(
                                 value: 'M',
-                                child: Text(
-                                  GlobalState.of(context).localizations.man,
-                                ),
+                                child: Text(LocaleState.of(context).l10n.man),
                               ),
                             ],
                             onChanged: (value) {
@@ -159,9 +153,7 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               labelText: '',
-                              hintText: GlobalState.of(
-                                context,
-                              ).localizations.gender,
+                              hintText: LocaleState.of(context).l10n.gender,
                               filled: true,
                               fillColor: Theme.of(
                                 context,
@@ -183,22 +175,20 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                             elevation: 8,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
-                                return GlobalState.of(
+                                return LocaleState.of(
                                   context,
-                                ).localizations.fieldRequired;
+                                ).l10n.fieldRequired;
                               }
                               return null;
                             },
                           ),
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(
-                            context,
-                          ).localizations.birthDate,
+                          label: LocaleState.of(context).l10n.birthDate,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: birthDateController,
                           icon: Icons.cake_outlined,
                           onTap: () async {
@@ -240,11 +230,11 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                           },
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context).localizations.city,
+                          label: LocaleState.of(context).l10n.city,
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
+                          ).l10n.fieldRequired,
                           controller: cityController,
                           icon: Icons.location_city,
                           onTap: () async {
@@ -255,15 +245,15 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                           },
                         ),
                         AuthTextFormField(
-                          label: GlobalState.of(context).localizations.phone,
+                          label: LocaleState.of(context).l10n.phone,
                           regexValidator: '^\\+[1-9]\\d{6,14}\$',
                           required: true,
-                          requiredErrorMessage: GlobalState.of(
+                          requiredErrorMessage: LocaleState.of(
                             context,
-                          ).localizations.fieldRequired,
-                          errorMessage: GlobalState.of(
+                          ).l10n.fieldRequired,
+                          errorMessage: LocaleState.of(
                             context,
-                          ).localizations.invalidFormat,
+                          ).l10n.invalidFormat,
                           controller: phoneController,
                           icon: Icons.phone_paused_sharp,
                         ),

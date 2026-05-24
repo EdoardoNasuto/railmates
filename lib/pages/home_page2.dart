@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/components/nav_bar.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,9 +69,7 @@ class _HomePage2State extends State<HomePage2> {
                       children: [
                         FlexSizedBox(
                           child: Text(
-                            GlobalState.of(
-                              context,
-                            ).localizations.readyToFindMateTitle,
+                            LocaleState.of(context).l10n.readyToFindMateTitle,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
@@ -82,9 +80,9 @@ class _HomePage2State extends State<HomePage2> {
                         ),
                         FlexSizedBox(
                           child: Text(
-                            GlobalState.of(
+                            LocaleState.of(
                               context,
-                            ).localizations.readyToFindMateSubtitle,
+                            ).l10n.readyToFindMateSubtitle,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
@@ -127,7 +125,7 @@ class _HomePage2State extends State<HomePage2> {
                         horizontal: 0.0,
                       ),
                       child: Text(
-                        GlobalState.of(context).localizations.readyButtonLabel,
+                        LocaleState.of(context).l10n.readyButtonLabel,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 20.0,

@@ -2,7 +2,7 @@ import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/i18n/app_localizations_fr.dart';
 import 'package:railmates/i18n/app_localizations_en.dart';
 import 'package:flutter/material.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 
 @NowaGenerated()
 abstract class AppLocalizations {
@@ -142,6 +142,6 @@ abstract class AppLocalizations {
   }
 
   static AppLocalizations of(BuildContext context) {
-    return GlobalState.of(context).localizations;
+    return LocaleState.of(context).l10n;
   }
 }

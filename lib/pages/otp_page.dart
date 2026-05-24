@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/auth_form.dart';
 import 'package:railmates/integrations/supabase_service.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -27,6 +27,8 @@ class _OtpPageState extends State<OtpPage> {
   TextEditingController? tokenController = TextEditingController();
 
   TextEditingController? emailController = TextEditingController();
+
+  TextEditingController pinCode = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +67,9 @@ class _OtpPageState extends State<OtpPage> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    GlobalState.of(
+                                    LocaleState.of(
                                       context,
-                                    ).localizations.accountVerified,
+                                    ).l10n.accountVerified,
                                   ),
                                 ),
                               );
@@ -88,9 +90,9 @@ class _OtpPageState extends State<OtpPage> {
                                     RegExp('message:s*([^,]+)')
                                             .firstMatch(error.toString())
                                             ?.group(1) ??
-                                        GlobalState.of(
+                                        LocaleState.of(
                                           context,
-                                        ).localizations.errorRaised,
+                                        ).l10n.errorRaised,
                                   ),
                                   backgroundColor: Theme.of(
                                     context,
@@ -120,15 +122,13 @@ class _OtpPageState extends State<OtpPage> {
                               anchorPoint: const Offset(0.0, 0.0),
                               builder: (context) => AlertDialog(
                                 title: Text(
-                                  GlobalState.of(
-                                    context,
-                                  ).localizations.resendEmail,
+                                  LocaleState.of(context).l10n.resendEmail,
                                 ),
                                 content: TextField(
                                   decoration: InputDecoration(
-                                    labelText: GlobalState.of(
+                                    labelText: LocaleState.of(
                                       context,
-                                    ).localizations.email,
+                                    ).l10n.email,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
@@ -148,9 +148,9 @@ class _OtpPageState extends State<OtpPage> {
                                                 ).showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      GlobalState.of(
+                                                      LocaleState.of(
                                                         context,
-                                                      ).localizations.emailSent,
+                                                      ).l10n.emailSent,
                                                     ),
                                                   ),
                                                 );
@@ -170,11 +170,9 @@ class _OtpPageState extends State<OtpPage> {
                                                                     .toString(),
                                                               )
                                                               ?.group(1) ??
-                                                          GlobalState.of(
-                                                                context,
-                                                              )
-                                                              .localizations
-                                                              .errorRaised,
+                                                          LocaleState.of(
+                                                            context,
+                                                          ).l10n.errorRaised,
                                                     ),
                                                     backgroundColor: Theme.of(
                                                       context,
@@ -197,9 +195,9 @@ class _OtpPageState extends State<OtpPage> {
                                                 ).showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      GlobalState.of(
+                                                      LocaleState.of(
                                                         context,
-                                                      ).localizations.emailSent,
+                                                      ).l10n.emailSent,
                                                     ),
                                                   ),
                                                 );
@@ -219,11 +217,9 @@ class _OtpPageState extends State<OtpPage> {
                                                                     .toString(),
                                                               )
                                                               ?.group(1) ??
-                                                          GlobalState.of(
-                                                                context,
-                                                              )
-                                                              .localizations
-                                                              .errorRaised,
+                                                          LocaleState.of(
+                                                            context,
+                                                          ).l10n.errorRaised,
                                                     ),
                                                     backgroundColor: Theme.of(
                                                       context,
@@ -236,9 +232,7 @@ class _OtpPageState extends State<OtpPage> {
                                       }
                                     },
                                     child: Text(
-                                      GlobalState.of(
-                                        context,
-                                      ).localizations.confirm,
+                                      LocaleState.of(context).l10n.confirm,
                                     ),
                                   ),
                                 ],
@@ -252,9 +246,7 @@ class _OtpPageState extends State<OtpPage> {
                             );
                           },
                           child: Text(
-                            GlobalState.of(
-                              context,
-                            ).localizations.resendEmailQuestion,
+                            LocaleState.of(context).l10n.resendEmailQuestion,
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
@@ -265,8 +257,8 @@ class _OtpPageState extends State<OtpPage> {
                       ),
                     ],
                     icon: Icons.generating_tokens_outlined,
-                    nom: GlobalState.of(context).localizations.otpLabel,
-                    buttonName: GlobalState.of(context).localizations.verify,
+                    nom: LocaleState.of(context).l10n.otpLabel,
+                    buttonName: LocaleState.of(context).l10n.verify,
                   ),
                 ],
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/models/compatibility_questions_model.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_options_model.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +61,7 @@ class _CompatibilityQuestionsPageState
                         width: null,
                         height: null,
                         child: Text(
-                          data?.section_id?.label[GlobalState.of(
+                          data?.section_id?.label[LocaleState.of(
                                 context,
                                 listen: false,
                               ).locale!.languageCode] ??
@@ -102,13 +102,11 @@ class _CompatibilityQuestionsPageState
                             ).colorScheme.surfaceTint,
                             child: ListTile(
                               title: Text(
-                                data?.label[GlobalState.of(
+                                data?.label[LocaleState.of(
                                       context,
                                       listen: false,
                                     ).locale!.languageCode] ??
-                                    GlobalState.of(
-                                      context,
-                                    ).localizations.question,
+                                    LocaleState.of(context).l10n.question,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -118,9 +116,9 @@ class _CompatibilityQuestionsPageState
                               subtitle: Visibility(
                                 visible: data!.multi_select!,
                                 child: Text(
-                                  GlobalState.of(
+                                  LocaleState.of(
                                     context,
-                                  ).localizations.multipleAnswersPossible,
+                                  ).l10n.multipleAnswersPossible,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Theme.of(
@@ -180,11 +178,11 @@ class _CompatibilityQuestionsPageState
                         ).colorScheme.surfaceTint,
                         child: ListTile(
                           title: Text(
-                            element.label[GlobalState.of(
+                            element.label[LocaleState.of(
                                   context,
                                   listen: false,
                                 ).locale!.languageCode] ??
-                                GlobalState.of(context).localizations.option,
+                                LocaleState.of(context).l10n.option,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
@@ -192,13 +190,11 @@ class _CompatibilityQuestionsPageState
                             ),
                           ),
                           subtitle: Text(
-                            element.description[GlobalState.of(
+                            element.description[LocaleState.of(
                                   context,
                                   listen: false,
                                 ).locale!.languageCode] ??
-                                GlobalState.of(
-                                  context,
-                                ).localizations.description,
+                                LocaleState.of(context).l10n.description,
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.justify,
                           ),
@@ -290,7 +286,7 @@ class _CompatibilityQuestionsPageState
         ),
         onLongPress: null,
         child: Text(
-          GlobalState.of(context).localizations.confirm,
+          LocaleState.of(context).l10n.confirm,
           style: const TextStyle(fontSize: 28.0, height: 2.0),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
-import 'package:railmates/global_state.dart';
 import 'package:railmates/i18n/app_localizations.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/models/compatibility_model.dart';
@@ -72,7 +71,7 @@ class CompatibilityReadyPage extends StatelessWidget {
                     horizontal: 0.0,
                   ),
                   child: Text(
-                    GlobalState.of(context).localizations.readyToFindMateTitle,
+                    AppLocalizations.of(context).readyToFindMateTitle,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/components/place_search_bar.dart';
-import 'package:railmates/global_state.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:railmates/models/countries_model.dart';
 import 'package:railmates/components/place_search_card.dart';
 import 'package:railmates/models/cities_model.dart';
@@ -36,7 +36,7 @@ class _CountrySearchPageState extends State<CountrySearchPage> {
               width: double.infinity,
               child: PlaceSearchBar(
                 controller: searchBarController,
-                hint: GlobalState.of(context).localizations.searchCity,
+                hint: LocaleState.of(context).l10n.searchCity,
                 onChange: (value) {
                   setState(() {});
                 },
