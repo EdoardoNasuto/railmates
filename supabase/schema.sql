@@ -1,4 +1,4 @@
-﻿
+
 
 
 SET statement_timeout = 0;
@@ -382,6 +382,23 @@ $$;
 ALTER FUNCTION "public"."get_my_group_ids"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."group_new_member"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$BEGIN
+    INSERT INTO public.notifications (user_id, title, body)
+    VALUES (
+        NEW.user_id,
+        'We found your mates!',
+        'Great news! We just found the mates you will be traveling with.'
+    );
+    
+    RETURN NEW;
+END;$$;
+
+
+ALTER FUNCTION "public"."group_new_member"() OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO ''
@@ -593,7 +610,8 @@ CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "user_id" "uuid" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "body" "text" NOT NULL
+    "body" "text" NOT NULL,
+    "title" "text" NOT NULL
 );
 
 
@@ -701,6 +719,11 @@ ALTER TABLE ONLY "public"."groups"
 
 
 
+ALTER TABLE ONLY "public"."notifications"
+    ADD CONSTRAINT "notifications_pkey" PRIMARY KEY ("id");
+
+
+
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_pkey" PRIMARY KEY ("id");
 
@@ -746,6 +769,10 @@ CREATE OR REPLACE TRIGGER "compatibility_on_change" AFTER INSERT OR UPDATE ON "p
 
 
 CREATE OR REPLACE TRIGGER "compatibility_set_complete" BEFORE INSERT OR UPDATE ON "public"."compatibility" FOR EACH ROW EXECUTE FUNCTION "public"."compatibility_check_complete"();
+
+
+
+CREATE OR REPLACE TRIGGER "group_on_member_added" AFTER INSERT ON "public"."group_members" FOR EACH ROW EXECUTE FUNCTION "public"."group_new_member"();
 
 
 
@@ -1008,6 +1035,12 @@ GRANT ALL ON FUNCTION "public"."compatibility_vectors_compute"() TO "service_rol
 GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "anon";
 GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_my_group_ids"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."group_new_member"() TO "anon";
+GRANT ALL ON FUNCTION "public"."group_new_member"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."group_new_member"() TO "service_role";
 
 
 
