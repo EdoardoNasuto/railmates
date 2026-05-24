@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 import 'package:railmates/globals/app_state.dart';
 import 'package:railmates/globals/themes.dart';
-import 'package:railmates/components/nav_bar.dart';
 import 'package:railmates/models/profiles_model.dart';
 
 @NowaGenerated()
@@ -274,6 +273,26 @@ class _ProfilePageState extends State<ProfilePage> {
               FlexSizedBox(
                 width: null,
                 height: null,
+                child: DropdownButtonFormField<Locale?>(
+                  items: [
+                    const DropdownMenuItem<Locale?>(
+                      value: Locale('en'),
+                      child: Text('en'),
+                    ),
+                    const DropdownMenuItem<Locale?>(
+                      value: Locale('fr'),
+                      child: Text('fr'),
+                    ),
+                  ],
+                  initialValue: LocaleState.of(context).locale,
+                  onChanged: (value) {
+                    LocaleState.of(context, listen: false).setLocale(value);
+                  },
+                ),
+              ),
+              FlexSizedBox(
+                width: null,
+                height: null,
                 child: Switch(
                   value: AppState.of(context).theme == darkTheme,
                   onChanged: (value) {
@@ -298,7 +317,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: const NavBar(index: 1),
       appBar: AppBar(
         title: const Text('Profile'),
         elevation: 1.0,
