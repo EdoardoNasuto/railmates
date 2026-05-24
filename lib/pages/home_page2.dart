@@ -142,7 +142,7 @@ class _HomePage2State extends State<HomePage2> {
       ),
       bottomNavigationBar: const NavBar(index: 0),
       appBar: AppBar(
-        title: const Text('Summary'),
+        title: Text(LocaleState.of(context).l10n.summary),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         elevation: 1.0,
         actions: [

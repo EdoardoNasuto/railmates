@@ -75,11 +75,17 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const TabBar(
-                        labelColor: Color(0xFF000000),
-                        tabs: const [
-                          Tab(child: Text('Membres')),
-                          Tab(child: Text('Destinations')),
+                      TabBar(
+                        labelColor: const Color(0xFF000000),
+                        tabs: [
+                          Tab(
+                            child: Text(LocaleState.of(context).l10n.members),
+                          ),
+                          Tab(
+                            child: Text(
+                              LocaleState.of(context).l10n.destinations,
+                            ),
+                          ),
                         ],
                       ),
                       FlexSizedBox(
@@ -260,7 +266,7 @@ class _CompatibilityGroupPageState extends State<CompatibilityGroupPage> {
                                               ),
                                             ),
                                             Text(
-                                              'Vote : ${element.counts?.toString()}',
+                                              '${LocaleState.of(context).l10n.votePrefix} : ${element.counts?.toString()}',
                                               textAlign: TextAlign.center,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,

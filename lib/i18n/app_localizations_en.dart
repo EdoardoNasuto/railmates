@@ -304,6 +304,101 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get logout {
+    return 'Log out';
+  }
+
+  @override
+  String get languageEn {
+    return 'en';
+  }
+
+  @override
+  String get languageFr {
+    return 'fr';
+  }
+
+  @override
+  String get profile {
+    return 'Profile';
+  }
+
+  @override
+  String get success {
+    return 'Success';
+  }
+
+  @override
+  String get error {
+    return 'Error';
+  }
+
+  @override
+  String get members {
+    return 'Members';
+  }
+
+  @override
+  String get destinations {
+    return 'Destinations';
+  }
+
+  @override
+  String get votePrefix {
+    return 'Vote';
+  }
+
+  @override
+  String get availableToChat {
+    return 'Available to chat';
+  }
+
+  @override
+  String get traveler {
+    return 'Traveler';
+  }
+
+  @override
+  String get localLabel {
+    return 'Local';
+  }
+
+  @override
+  String get lookingForMates {
+    return 'I am looking for mates';
+  }
+
+  @override
+  String get summary {
+    return 'Summary';
+  }
+
+  @override
+  String get itinerary {
+    return 'Itinerary';
+  }
+
+  @override
+  String get daysUnit {
+    return 'days';
+  }
+
+  @override
+  String get peopleUnit {
+    return 'people';
+  }
+
+  @override
+  String get currencySymbol {
+    return '€';
+  }
+
+  @override
+  String get dateRangeSeparator {
+    return '→';
+  }
+
+  @override
   String welcome(String name) {
     return 'Welcome, ${name}!';
   }

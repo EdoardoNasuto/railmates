@@ -162,7 +162,7 @@ class _CompatibilityEssentialsPageState
                                         },
                                         icon: const Icon(Icons.date_range),
                                         label: Text(
-                                          '${dates.start.toString().split(' ').first} → ${dates.end.toString().split(' ').first}',
+                                          '${dates.start.toString().split(' ').first} ${LocaleState.of(context).l10n.dateRangeSeparator} ${dates.end.toString().split(' ').first}',
                                         ),
                                         style: ButtonStyle(
                                           backgroundColor:
@@ -235,7 +235,7 @@ class _CompatibilityEssentialsPageState
                                       ],
                                     ),
                                     Text(
-                                      '${days.start.toInt()} - ${days.end.toInt()} jours',
+                                      '${days.start.toInt()} - ${days.end.toInt()} ${LocaleState.of(context).l10n.daysUnit}',
                                     ),
                                     RangeSlider(
                                       values: days,
@@ -294,7 +294,7 @@ class _CompatibilityEssentialsPageState
                                       ],
                                     ),
                                     Text(
-                                      '${mates.start.toInt()} - ${mates.end.toInt()} personnes',
+                                      '${mates.start.toInt()} - ${mates.end.toInt()} ${LocaleState.of(context).l10n.peopleUnit}',
                                     ),
                                     RangeSlider(
                                       values: mates,
@@ -351,7 +351,7 @@ class _CompatibilityEssentialsPageState
                                       ],
                                     ),
                                     Text(
-                                      '${budget.start.round().toInt()}€ - ${budget.end.round().toInt()}€',
+                                      '${budget.start.round().toInt()}${LocaleState.of(context).l10n.currencySymbol} - ${budget.end.round().toInt()}${LocaleState.of(context).l10n.currencySymbol}',
                                     ),
                                     RangeSlider(
                                       values: budget,

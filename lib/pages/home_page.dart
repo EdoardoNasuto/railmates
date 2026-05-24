@@ -498,10 +498,10 @@ class _HomePageState extends State<HomePage> {
                         future: SupabaseService().getUserCompatibility(),
                       ),
                     ),
-                    const FlexSizedBox(
+                    FlexSizedBox(
                       width: null,
                       height: null,
-                      child: Text('Je suis en recherche de compagnons'),
+                      child: Text(LocaleState.of(context).l10n.lookingForMates),
                     ),
                   ],
                 ),
@@ -512,7 +512,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: const NavBar(index: 0),
       appBar: AppBar(
-        title: const Text('Summary'),
+        title: Text(LocaleState.of(context).l10n.summary),
         elevation: 1.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         actions: [

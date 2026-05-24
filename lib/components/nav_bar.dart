@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
+import 'package:railmates/globals/locale_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:railmates/integrations/supabase_service.dart';
 
@@ -28,14 +29,14 @@ class NavBar extends StatelessWidget {
                   Icons.groups,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
-                label: 'Summary',
+                label: LocaleState.of(context).l10n.summary,
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.route,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
-                label: 'Itinerary',
+                label: LocaleState.of(context).l10n.itinerary,
               ),
             ],
             currentIndex: index,

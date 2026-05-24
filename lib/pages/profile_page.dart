@@ -93,7 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 controller: firstName,
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
-                                    return 'Field is required';
+                                    return LocaleState.of(
+                                      context,
+                                    ).l10n.fieldRequired;
                                   }
                                   return null;
                                 },
@@ -114,7 +116,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 controller: lastName,
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
-                                    return 'Field is required';
+                                    return LocaleState.of(
+                                      context,
+                                    ).l10n.fieldRequired;
                                   }
                                   return null;
                                 },
@@ -159,7 +163,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
-                                    return 'Field is required';
+                                    return LocaleState.of(
+                                      context,
+                                    ).l10n.fieldRequired;
                                   }
                                   return null;
                                 },
@@ -201,7 +207,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
-                                    return 'Field is required';
+                                    return LocaleState.of(
+                                      context,
+                                    ).l10n.fieldRequired;
                                   }
                                   return null;
                                 },
@@ -267,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       GoRouter.of(context).go('/login');
                     });
                   },
-                  child: const Text('Déconnexion'),
+                  child: Text(LocaleState.of(context).l10n.logout),
                 ),
               ),
               FlexSizedBox(
@@ -275,13 +283,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: null,
                 child: DropdownButtonFormField<Locale?>(
                   items: [
-                    const DropdownMenuItem<Locale?>(
-                      value: Locale('en'),
-                      child: Text('en'),
+                    DropdownMenuItem<Locale?>(
+                      value: const Locale('en'),
+                      child: Text(LocaleState.of(context).l10n.languageEn),
                     ),
-                    const DropdownMenuItem<Locale?>(
-                      value: Locale('fr'),
-                      child: Text('fr'),
+                    DropdownMenuItem<Locale?>(
+                      value: const Locale('fr'),
+                      child: Text(LocaleState.of(context).l10n.languageFr),
                     ),
                   ],
                   initialValue: LocaleState.of(context).locale,
@@ -318,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(LocaleState.of(context).l10n.profile),
         elevation: 1.0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         shadowColor: Theme.of(context).colorScheme.shadow,
@@ -342,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Success',
+                          LocaleState.of(context).l10n.success,
                           style: TextStyle(
                             color: Theme.of(
                               context,
@@ -360,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Error',
+                          LocaleState.of(context).l10n.error,
                           style: TextStyle(
                             color: Theme.of(
                               context,

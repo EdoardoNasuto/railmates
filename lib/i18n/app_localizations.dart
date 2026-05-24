@@ -110,6 +110,14 @@ abstract class AppLocalizations {
 
   String get incompleteInformation;
 
+  String get daysUnit;
+
+  String get peopleUnit;
+
+  String get currencySymbol;
+
+  String get dateRangeSeparator;
+
   String get favoriteCountries;
 
   String get chooseUpTo10Countries;
@@ -125,6 +133,36 @@ abstract class AppLocalizations {
   String get readyButtonLabel;
 
   String get notYet;
+
+  String get logout;
+
+  String get languageEn;
+
+  String get languageFr;
+
+  String get profile;
+
+  String get success;
+
+  String get error;
+
+  String get members;
+
+  String get destinations;
+
+  String get votePrefix;
+
+  String get availableToChat;
+
+  String get traveler;
+
+  String get localLabel;
+
+  String get lookingForMates;
+
+  String get summary;
+
+  String get itinerary;
 
   static final Map<String, AppLocalizations> _registered = {
     'fr': AppLocalizationsFr(),
