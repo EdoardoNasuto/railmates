@@ -107,6 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       content: Text(
                                         LocaleState.of(
                                           context,
+                                          listen: false,
                                         ).l10n.passwordSuccessfullyChanged,
                                       ),
                                     ),

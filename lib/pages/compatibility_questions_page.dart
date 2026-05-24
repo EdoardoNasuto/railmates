@@ -61,10 +61,9 @@ class _CompatibilityQuestionsPageState
                         width: null,
                         height: null,
                         child: Text(
-                          data?.section_id?.label[LocaleState.of(
-                                context,
-                                listen: false,
-                              ).locale!.languageCode] ??
+                          data?.section_id?.label[LocaleState.of(context)
+                                  .locale!
+                                  .languageCode] ??
                               'Section',
                           style: TextStyle(
                             color: Theme.of(
@@ -102,10 +101,9 @@ class _CompatibilityQuestionsPageState
                             ).colorScheme.surfaceTint,
                             child: ListTile(
                               title: Text(
-                                data?.label[LocaleState.of(
-                                      context,
-                                      listen: false,
-                                    ).locale!.languageCode] ??
+                                data?.label[LocaleState.of(context)
+                                        .locale!
+                                        .languageCode] ??
                                     LocaleState.of(context).l10n.question,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
@@ -178,10 +176,9 @@ class _CompatibilityQuestionsPageState
                         ).colorScheme.surfaceTint,
                         child: ListTile(
                           title: Text(
-                            element.label[LocaleState.of(
-                                  context,
-                                  listen: false,
-                                ).locale!.languageCode] ??
+                            element.label[LocaleState.of(context)
+                                    .locale!
+                                    .languageCode] ??
                                 LocaleState.of(context).l10n.option,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
@@ -190,10 +187,9 @@ class _CompatibilityQuestionsPageState
                             ),
                           ),
                           subtitle: Text(
-                            element.description[LocaleState.of(
-                                  context,
-                                  listen: false,
-                                ).locale!.languageCode] ??
+                            element.description[LocaleState.of(context)
+                                    .locale!
+                                    .languageCode] ??
                                 LocaleState.of(context).l10n.description,
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.justify,
@@ -247,8 +243,8 @@ class _CompatibilityQuestionsPageState
             ? () async {
                 final CompatibilityQuestionsModel? question =
                     await SupabaseService().getByPosCompatibility_question(
-                      widget.questionPos!,
-                    );
+                  widget.questionPos!,
+                );
                 await SupabaseService().deleteCompatibility_answers(
                   question!.id!,
                 );

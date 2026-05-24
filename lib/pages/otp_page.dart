@@ -69,6 +69,7 @@ class _OtpPageState extends State<OtpPage> {
                                   content: Text(
                                     LocaleState.of(
                                       context,
+                                      listen: false,
                                     ).l10n.accountVerified,
                                   ),
                                 ),
@@ -150,6 +151,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     content: Text(
                                                       LocaleState.of(
                                                         context,
+                                                        listen: false,
                                                       ).l10n.emailSent,
                                                     ),
                                                   ),
@@ -172,6 +174,7 @@ class _OtpPageState extends State<OtpPage> {
                                                               ?.group(1) ??
                                                           LocaleState.of(
                                                             context,
+                                                            listen: false,
                                                           ).l10n.errorRaised,
                                                     ),
                                                     backgroundColor: Theme.of(
@@ -197,6 +200,7 @@ class _OtpPageState extends State<OtpPage> {
                                                     content: Text(
                                                       LocaleState.of(
                                                         context,
+                                                        listen: false,
                                                       ).l10n.emailSent,
                                                     ),
                                                   ),
@@ -219,6 +223,7 @@ class _OtpPageState extends State<OtpPage> {
                                                               ?.group(1) ??
                                                           LocaleState.of(
                                                             context,
+                                                            listen: false,
                                                           ).l10n.errorRaised,
                                                     ),
                                                     backgroundColor: Theme.of(

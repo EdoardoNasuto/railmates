@@ -89,7 +89,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   border: const OutlineInputBorder(),
                                   labelText: LocaleState.of(
                                     context,
-                                    listen: false,
                                   ).l10n.firstName,
                                 ),
                                 controller: firstName,
@@ -111,7 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   border: const OutlineInputBorder(),
                                   labelText: LocaleState.of(
                                     context,
-                                    listen: false,
                                   ).l10n.lastName,
                                 ),
                                 controller: lastName,
@@ -134,10 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   DropdownMenuItem<String>(
                                     value: 'M',
                                     child: Text(
-                                      LocaleState.of(
-                                        context,
-                                        listen: false,
-                                      ).l10n.man,
+                                      LocaleState.of(context).l10n.man,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -146,10 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   DropdownMenuItem<String>(
                                     value: 'W',
                                     child: Text(
-                                      LocaleState.of(
-                                        context,
-                                        listen: false,
-                                      ).l10n.women,
+                                      LocaleState.of(context).l10n.women,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -163,7 +155,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 decoration: InputDecoration(
                                   labelText: LocaleState.of(
                                     context,
-                                    listen: false,
                                   ).l10n.gender,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -185,7 +176,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   border: const OutlineInputBorder(),
                                   labelText: LocaleState.of(
                                     context,
-                                    listen: false,
                                   ).l10n.birthDate,
                                 ),
                                 controller: birthDate,
@@ -226,10 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: LocaleState.of(
-                                    context,
-                                    listen: false,
-                                  ).l10n.city,
+                                  labelText: LocaleState.of(context).l10n.city,
                                 ),
                                 controller: city,
                                 onTap: () async {
@@ -254,10 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: LocaleState.of(
-                                    context,
-                                    listen: false,
-                                  ).l10n.phone,
+                                  labelText: LocaleState.of(context).l10n.phone,
                                 ),
                                 controller: phone,
                                 validator: (value) {

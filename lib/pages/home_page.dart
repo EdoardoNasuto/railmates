@@ -405,7 +405,6 @@ class _HomePageState extends State<HomePage> {
                                                     .question_id
                                                     ?.label[LocaleState.of(
                                                   context,
-                                                  listen: false,
                                                 ).locale!.languageCode] ??
                                                 LocaleState.of(
                                                   context,
@@ -419,7 +418,6 @@ class _HomePageState extends State<HomePage> {
                                                     .option_id
                                                     ?.label[LocaleState.of(
                                                   context,
-                                                  listen: false,
                                                 ).locale!.languageCode] ??
                                                 LocaleState.of(
                                                   context,

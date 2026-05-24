@@ -76,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       content: Text(
                                         LocaleState.of(
                                           context,
+                                          listen: false,
                                         ).l10n.checkEmailVerification,
                                       ),
                                     ),

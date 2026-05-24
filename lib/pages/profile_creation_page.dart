@@ -84,6 +84,7 @@ class _ProfileCreationPageState extends State<ProfileCreationPage> {
                                     content: Text(
                                       LocaleState.of(
                                         context,
+                                        listen: false,
                                       ).l10n.registrationSuccessful,
                                     ),
                                   ),
