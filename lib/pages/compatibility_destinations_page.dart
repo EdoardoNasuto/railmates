@@ -29,14 +29,14 @@ class _CompatibilityDestinationsPageState
   void initState() {
     visible = false;
     super.initState();
-    _loadSelectedCountries();
-  }
-
-  Future<void> _loadSelectedCountries() async {
-    selectedCountries = await SupabaseService()
-        .getAllCompatibility_destinations();
-    visible = true;
-    setState(() {});
+    SupabaseService().getAllCompatibility_destinations().then((value) {
+      value.forEach((element) {
+        selectedCountries?.add(element);
+      });
+      setState(() {
+        visible = true;
+      });
+    });
   }
 
   @override
@@ -211,19 +211,19 @@ class _CompatibilityDestinationsPageState
           final bool enabled = (selectedCountries?.length == 10);
           return ElevatedButton(
             onPressed: (enabled)
-                ? () async {
-                    await SupabaseService().deleteCompatibility_destinations();
-                    selectedCountries?.forEach((element) {
-                      SupabaseService().createCompatibility_destinations(
-                        CompatibilityDestinationsModel(
-                          country_id: element.country_id,
-                        ),
-                      );
+                ? () {
+                    SupabaseService().deleteCompatibility_destinations().then((
+                      value,
+                    ) {
+                      selectedCountries?.forEach((element) {
+                        SupabaseService().createCompatibility_destinations(
+                          CompatibilityDestinationsModel(
+                            country_id: element.country_id,
+                          ),
+                        );
+                      });
+                      GoRouter.of(context).pushNamed('compatibility_questions');
                     });
-                    GoRouter.of(context).pushNamed(
-                      'compatibility_questions',
-                      queryParameters: {'questionPos': '1'},
-                    );
                   }
                 : null,
             style: ButtonStyle(

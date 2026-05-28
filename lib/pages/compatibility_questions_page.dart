@@ -61,9 +61,9 @@ class _CompatibilityQuestionsPageState
                         width: null,
                         height: null,
                         child: Text(
-                          data?.section_id?.label[LocaleState.of(context)
-                                  .locale!
-                                  .languageCode] ??
+                          data?.section_id?.label[LocaleState.of(
+                                context,
+                              ).locale!.languageCode] ??
                               'Section',
                           style: TextStyle(
                             color: Theme.of(
@@ -101,9 +101,9 @@ class _CompatibilityQuestionsPageState
                             ).colorScheme.surfaceTint,
                             child: ListTile(
                               title: Text(
-                                data?.label[LocaleState.of(context)
-                                        .locale!
-                                        .languageCode] ??
+                                data?.label[LocaleState.of(
+                                      context,
+                                    ).locale!.languageCode] ??
                                     LocaleState.of(context).l10n.question,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
@@ -176,9 +176,9 @@ class _CompatibilityQuestionsPageState
                         ).colorScheme.surfaceTint,
                         child: ListTile(
                           title: Text(
-                            element.label[LocaleState.of(context)
-                                    .locale!
-                                    .languageCode] ??
+                            element.label[LocaleState.of(
+                                  context,
+                                ).locale!.languageCode] ??
                                 LocaleState.of(context).l10n.option,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
@@ -187,9 +187,9 @@ class _CompatibilityQuestionsPageState
                             ),
                           ),
                           subtitle: Text(
-                            element.description[LocaleState.of(context)
-                                    .locale!
-                                    .languageCode] ??
+                            element.description[LocaleState.of(
+                                  context,
+                                ).locale!.languageCode] ??
                                 LocaleState.of(context).l10n.description,
                             style: Theme.of(context).textTheme.bodyMedium,
                             textAlign: TextAlign.justify,
@@ -243,8 +243,8 @@ class _CompatibilityQuestionsPageState
             ? () async {
                 final CompatibilityQuestionsModel? question =
                     await SupabaseService().getByPosCompatibility_question(
-                  widget.questionPos!,
-                );
+                      widget.questionPos!,
+                    );
                 await SupabaseService().deleteCompatibility_answers(
                   question!.id!,
                 );
@@ -258,8 +258,6 @@ class _CompatibilityQuestionsPageState
                     'compatibility_questions',
                     queryParameters: {
                       'questionPos': (widget.questionPos! + 1).toString(),
-                      'questionsCount':
-                          widget.questionsCount?.toString() ?? '20',
                     },
                   );
                 }
@@ -310,13 +308,15 @@ class _CompatibilityQuestionsPageState
   }
 
   @override
-  Future<void> initState() async {
-    final takenOptions = await SupabaseService()
-        .getByQuestionPosCompatibility_answers(widget.questionPos!);
-    takenOptions.forEach((element) {
-      _selectedOptionIds.add(element.option_id!.id!);
-    });
+  void initState() {
     super.initState();
-    setState(() {});
+    SupabaseService()
+        .getByQuestionPosCompatibility_answers(widget.questionPos!)
+        .then((value) {
+          value.forEach((element) {
+            _selectedOptionIds.add(element.option_id!.id!);
+            setState(() {});
+          });
+        });
   }
 }

@@ -39,6 +39,12 @@ class _CompatibilityEssentialsPageState
     visible = false;
     super.initState();
     SupabaseService().getUserCompatibility().then((value) {
+      if (value == null) {
+        setState(() {
+          visible = true;
+        });
+        return;
+      }
       days = _fromInt4Range(value!.days!);
       mates = _fromInt4Range(value!.mates!);
       budget = _fromInt4Range(value!.budget!);
@@ -96,7 +102,6 @@ class _CompatibilityEssentialsPageState
             children: [
               FlexSizedBox(
                 width: double.infinity,
-                flex: 1,
                 child: SingleChildScrollView(
                   child: Visibility(
                     visible: visible!,
@@ -202,7 +207,6 @@ class _CompatibilityEssentialsPageState
                         FlexSizedBox(
                           width: double.infinity,
                           height: null,
-                          flex: 1,
                           child: Row(
                             spacing: 5.0,
                             mainAxisSize: MainAxisSize.min,

@@ -50,7 +50,7 @@ class NavBar extends StatelessWidget {
                 final complete = await SupabaseService()
                     .getUserCompatibilityComplete();
                 if (complete) {
-                  GoRouter.of(context).go('/');
+                  GoRouter.of(context).go('/home-page');
                 } else {
                   GoRouter.of(context).go('/home-page2');
                 }

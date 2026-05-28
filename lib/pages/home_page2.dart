@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
 import 'package:railmates/globals/locale_state.dart';
-import 'package:railmates/components/nav_bar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:railmates/components/nav_bar.dart';
 
 @NowaGenerated()
 class HomePage2 extends StatefulWidget {
@@ -103,7 +103,9 @@ class _HomePage2State extends State<HomePage2> {
                     horizontal: 0.0,
                   ),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      GoRouter.of(context).go('/compatibility/essentials');
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll<Color?>(
                         Theme.of(context).colorScheme.primary,

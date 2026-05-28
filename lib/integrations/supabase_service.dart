@@ -164,7 +164,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_options')
-        .select('*, question_id!inner(*)')
+        .select('*, question_id!inner(*, section_id(*))')
         .eq('question_id.pos', pos)
         .order('value');
     return response
@@ -179,7 +179,8 @@ class SupabaseService {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
         .insert(records)
-        .select('*');
+        .select(
+            '*, option_id(*,question_id(*,section_id(*))), question_id(*,section_id(*)), profile_id(*)');
     final data = response as List<dynamic>;
     return data
         .map((json) => CompatibilityAnswersModel.fromJson(json))
@@ -198,7 +199,8 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
-        .select('*, option_id(*), question_id!inner(pos)')
+        .select(
+            '*, option_id(*,question_id(*,section_id(*))), question_id!inner(pos), profile_id(*)')
         .eq('question_id.pos', pos);
     return response
         .map((json) => CompatibilityAnswersModel.fromJson(json))
@@ -218,7 +220,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_destinations')
-        .insert(data.toJson())
+        .insert(data.toJson()..removeWhere((key, value) => value == null))
         .select('*')
         .single();
     return CompatibilityDestinationsModel.fromJson(response);
@@ -246,7 +248,7 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility')
-        .upsert(data.toJson())
+        .upsert(data.toJson()..removeWhere((key, value) => value == null))
         .select('*')
         .single();
     return CompatibilityModel.fromJson(response);
@@ -294,7 +296,8 @@ class SupabaseService {
   ) async {
     final response = await Supabase.instance.client
         .from('compatibility_answers')
-        .select('*, question_id!inner(*), option_id(*)')
+        .select(
+            '*,  question_id!inner(*, section_id(*)), option_id(*,question_id(*,section_id(*))), profile_id(*)')
         .eq('question_id.section_id', section);
     return response
         .map((json) => CompatibilityAnswersModel.fromJson(json))
