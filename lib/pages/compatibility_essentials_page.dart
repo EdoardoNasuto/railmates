@@ -44,6 +44,7 @@ class _CompatibilityEssentialsPageState
       budget = _fromInt4Range(value!.budget!);
       dates = _fromDateRange(value!.dates!);
       visible = true;
+      unigender = value?.unigender;
       setState(() {});
     });
   }
