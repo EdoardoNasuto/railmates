@@ -399,6 +399,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get mixed_gender {
+    return 'Mixed-gender group';
+  }
+
+  @override
   String welcome(String name) {
     return 'Welcome, ${name}!';
   }

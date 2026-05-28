@@ -32,6 +32,8 @@ class _CompatibilityEssentialsPageState
 
   bool? visible = true;
 
+  bool? unigender = false;
+
   @override
   void initState() {
     visible = false;
@@ -199,6 +201,41 @@ class _CompatibilityEssentialsPageState
                                   ],
                                 ),
                               ),
+                            ),
+                          ),
+                          FlexSizedBox(
+                            width: double.infinity,
+                            height: null,
+                            flex: 1,
+                            child: Row(
+                              spacing: 5.0,
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                FlexSizedBox(
+                                  width: null,
+                                  height: null,
+                                  child: Switch(
+                                    value: !unigender!,
+                                    onChanged: (value) {
+                                      unigender = !value;
+                                      setState(() {});
+                                    },
+                                    thumbIcon:
+                                        const WidgetStatePropertyAll<Icon?>(
+                                          Icon(Icons.wc),
+                                        ),
+                                  ),
+                                ),
+                                FlexSizedBox(
+                                  width: null,
+                                  height: null,
+                                  child: Text(
+                                    LocaleState.of(context).l10n.mixed_gender,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           FlexSizedBox(
@@ -403,6 +440,7 @@ class _CompatibilityEssentialsPageState
                   days: _toInt4Range(days),
                   mates: _toInt4Range(mates),
                   budget: _toInt4Range(budget),
+                  unigender: unigender,
                 ),
               )
               .then(

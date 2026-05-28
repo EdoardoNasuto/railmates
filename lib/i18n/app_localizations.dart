@@ -164,6 +164,8 @@ abstract class AppLocalizations {
 
   String get itinerary;
 
+  String get mixed_gender;
+
   static final Map<String, AppLocalizations> _registered = {
     'fr': AppLocalizationsFr(),
     'en': AppLocalizationsEn(),

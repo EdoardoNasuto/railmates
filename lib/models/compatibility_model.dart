@@ -11,6 +11,7 @@ class CompatibilityModel {
     this.days,
     this.mates,
     this.budget,
+    this.unigender,
     this.ready = false,
     this.complete = false,
   });
@@ -25,6 +26,7 @@ class CompatibilityModel {
       days: json['days'],
       mates: json['mates'],
       budget: json['budget'],
+      unigender: json['unigender'],
       ready: json['ready'] ?? false,
       complete: json['complete'] ?? false,
     );
@@ -43,6 +45,8 @@ class CompatibilityModel {
   final String? mates;
 
   final String? budget;
+  
+  final bool? unigender;
 
   final bool? ready;
 
@@ -58,6 +62,7 @@ class CompatibilityModel {
       'days': days,
       'mates': mates,
       'budget': budget,
+      'unigender': unigender,
       'ready': ready,
       'complete': complete,
     };

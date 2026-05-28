@@ -10,6 +10,7 @@ class GroupsModel {
     this.days,
     this.mates,
     this.budget,
+    this.unigender,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -21,6 +22,7 @@ class GroupsModel {
       days: json['days'],
       mates: json['mates'],
       budget: json['budget'],
+      unigender: json['unigender'],
     );
   }
 
@@ -35,6 +37,8 @@ class GroupsModel {
   final String? mates;
 
   final String? budget;
+  
+  final bool? unigender;
 
   @NowaGenerated({'loader': 'auto-to-json'})
   Map<String, dynamic> toJson() {
@@ -45,6 +49,7 @@ class GroupsModel {
       'days': days,
       'mates': mates,
       'budget': budget,
+      'unigender': unigender,
     };
   }
 }
