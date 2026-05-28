@@ -66,9 +66,12 @@ class _CompatibilityEssentialsPageState
   }
 
   DateTimeRange _fromDateRange(String rangeStr) {
-    final parts = rangeStr.substring(1, rangeStr.length - 1).split(',');
-    final start = DateTime.parse(parts[0]);
-    final end = DateTime.parse(parts[1]);
+    final innerStr = rangeStr.substring(1, rangeStr.length - 1);
+    final parts = innerStr.split(',');
+    final start = DateTime.parse(parts[0].trim());
+    final end = DateTime.parse(
+      parts[1].trim(),
+    ).subtract(const Duration(days: 1));
     return DateTimeRange(start: start, end: end);
   }
 
@@ -153,15 +156,24 @@ class _CompatibilityEssentialsPageState
                                     height: 50.0,
                                     child: ElevatedButton.icon(
                                       onPressed: () async {
-                                        await showDateRangePicker(
-                                          context: context,
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime.now().add(
-                                            const Duration(days: 365),
-                                          ),
-                                          anchorPoint: const Offset(0.0, 0.0),
-                                        );
-                                        setState(() {});
+                                        final DateTimeRange? pickedRange =
+                                            await showDateRangePicker(
+                                              context: context,
+                                              initialDateRange: dates,
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime.now().add(
+                                                const Duration(days: 365),
+                                              ),
+                                              anchorPoint: const Offset(
+                                                0.0,
+                                                0.0,
+                                              ),
+                                            );
+                                        if (pickedRange != null) {
+                                          setState(() {
+                                            dates = pickedRange;
+                                          });
+                                        }
                                       },
                                       icon: const Icon(Icons.date_range),
                                       label: Text(
