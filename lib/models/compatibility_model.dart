@@ -12,8 +12,8 @@ class CompatibilityModel {
     this.mates,
     this.budget,
     this.unigender,
-    this.ready = false,
-    this.complete = false,
+    this.ready,
+    this.complete,
   });
 
   @NowaGenerated({'loader': 'auto-from-json'})
@@ -27,8 +27,8 @@ class CompatibilityModel {
       mates: json['mates'],
       budget: json['budget'],
       unigender: json['unigender'],
-      ready: json['ready'] ?? false,
-      complete: json['complete'] ?? false,
+      ready: json['ready'],
+      complete: json['complete'],
     );
   }
 
@@ -45,7 +45,7 @@ class CompatibilityModel {
   final String? mates;
 
   final String? budget;
-  
+
   final bool? unigender;
 
   final bool? ready;
