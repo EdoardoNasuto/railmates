@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                             ).colorScheme.surfaceContainer,
                             child: DefaultTabController(
-                              length: 2,
+                              length: 4,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
