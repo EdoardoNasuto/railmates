@@ -41,6 +41,28 @@ class MyApp extends StatelessWidget {
             title: LocaleState.of(context).l10n.appTitle,
             theme: AppState.of(context).theme,
             routerConfig: appRouter,
+            builder: (context, routerChild) {
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Theme.of(context).colorScheme.surface,
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: routerChild == null
+                        ? const SizedBox.shrink()
+                        : routerChild,
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
