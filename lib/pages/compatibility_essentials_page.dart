@@ -8,7 +8,9 @@ import 'package:go_router/go_router.dart';
 @NowaGenerated()
 class CompatibilityEssentialsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityEssentialsPage({super.key});
+  const CompatibilityEssentialsPage({this.edit = false, super.key});
+
+  final bool edit;
 
   @override
   State<CompatibilityEssentialsPage> createState() {
@@ -456,7 +458,13 @@ class _CompatibilityEssentialsPageState
               )
               .then(
                 (value) {
-                  GoRouter.of(context).pushNamed('compatibility_destinations');
+                  if (widget.edit) {
+                    GoRouter.of(context).pop();
+                  } else {
+                    GoRouter.of(
+                      context,
+                    ).pushNamed('compatibility_destinations');
+                  }
                 },
                 onError: (error) {
                   ScaffoldMessenger.of(context).showSnackBar(

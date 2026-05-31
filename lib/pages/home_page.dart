@@ -58,9 +58,10 @@ class _HomePageState extends State<HomePage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25.0),
                       onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).pushNamed('compatibility_essentials');
+                        GoRouter.of(context).pushNamed(
+                          'compatibility_essentials',
+                          queryParameters: {'edit': 'true'},
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -227,9 +228,10 @@ class _HomePageState extends State<HomePage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25.0),
                       onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).pushNamed('compatibility_destinations');
+                        GoRouter.of(context).pushNamed(
+                          'compatibility_destinations',
+                          queryParameters: {'edit': 'true'},
+                        );
                       },
                       child: GridView.custom(
                         gridDelegate:
@@ -388,6 +390,7 @@ class _HomePageState extends State<HomePage> {
                                               element.question_id?.pos
                                                   ?.toString() ??
                                               '1',
+                                          'edit': 'true',
                                         },
                                       );
                                     },

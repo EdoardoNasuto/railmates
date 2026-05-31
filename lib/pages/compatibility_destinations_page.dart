@@ -10,7 +10,9 @@ import 'package:go_router/go_router.dart';
 @NowaGenerated()
 class CompatibilityDestinationsPage extends StatefulWidget {
   @NowaGenerated({'loader': 'auto-constructor'})
-  const CompatibilityDestinationsPage({super.key});
+  const CompatibilityDestinationsPage({this.edit = false, super.key});
+
+  final bool edit;
 
   @override
   State<CompatibilityDestinationsPage> createState() {
@@ -222,7 +224,14 @@ class _CompatibilityDestinationsPageState
                           ),
                         );
                       });
-                      GoRouter.of(context).pushNamed('compatibility_questions');
+                      if (widget.edit) {
+                        GoRouter.of(context).pop();
+                      } else {
+                        GoRouter.of(context).pushNamed(
+                          'compatibility_questions',
+                          queryParameters: {'edit': widget.edit.toString()},
+                        );
+                      }
                     });
                   }
                 : null,

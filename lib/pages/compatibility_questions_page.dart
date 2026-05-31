@@ -12,12 +12,15 @@ class CompatibilityQuestionsPage extends StatefulWidget {
   const CompatibilityQuestionsPage({
     this.questionPos = 1,
     this.questionsCount = 20,
+    this.edit = false,
     super.key,
   });
 
   final int? questionPos;
 
   final int? questionsCount;
+
+  final bool edit;
 
   @override
   State<CompatibilityQuestionsPage> createState() {
@@ -251,15 +254,20 @@ class _CompatibilityQuestionsPageState
                 await SupabaseService().createCompatibility_answers(
                   _selectedOptionIds.toList(),
                 );
-                if (widget.questionPos == widget.questionsCount) {
-                  GoRouter.of(context).pushNamed('compatibility_ready');
+                if (widget.edit) {
+                  GoRouter.of(context).pop();
                 } else {
-                  GoRouter.of(context).pushNamed(
-                    'compatibility_questions',
-                    queryParameters: {
-                      'questionPos': (widget.questionPos! + 1).toString(),
-                    },
-                  );
+                  if (widget.questionPos == widget.questionsCount) {
+                    GoRouter.of(context).pushNamed('compatibility_ready');
+                  } else {
+                    GoRouter.of(context).pushNamed(
+                      'compatibility_questions',
+                      queryParameters: {
+                        'questionPos': (widget.questionPos! + 1).toString(),
+                        'edit': widget.edit.toString(),
+                      },
+                    );
+                  }
                 }
               }
             : null,

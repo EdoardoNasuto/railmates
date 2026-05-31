@@ -97,12 +97,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       name: 'compatibility_destinations',
       path: '/compatibility/destinations',
-      builder: (context, state) => const CompatibilityDestinationsPage(),
+      builder: (context, state) {
+        final Map<String, String> qp = state.uri.queryParameters;
+        final bool edit = bool.tryParse(qp['edit'] ?? '') ?? false;
+        return CompatibilityDestinationsPage(edit: edit);
+      },
     ),
     GoRoute(
       name: 'compatibility_essentials',
       path: '/compatibility/essentials',
-      builder: (context, state) => const CompatibilityEssentialsPage(),
+      builder: (context, state) {
+        final Map<String, String> qp = state.uri.queryParameters;
+        final bool edit = bool.tryParse(qp['edit'] ?? '') ?? false;
+        return CompatibilityEssentialsPage(edit: edit);
+      },
     ),
     GoRoute(
       name: 'compatibility_group',
@@ -116,9 +124,11 @@ final GoRouter appRouter = GoRouter(
         final Map<String, String> qp = state.uri.queryParameters;
         int questionPos = int.tryParse(qp['questionPos'] ?? '') ?? 1;
         int questionsCount = int.tryParse(qp['questionsCount'] ?? '') ?? 20;
+        final bool edit = bool.tryParse(qp['edit'] ?? '') ?? false;
         return CompatibilityQuestionsPage(
           questionPos: questionPos,
           questionsCount: questionsCount,
+          edit: edit,
         );
       },
     ),
