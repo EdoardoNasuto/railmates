@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:nowa_runtime/nowa_runtime.dart';
@@ -31,13 +32,18 @@ class NotificationService {
     await setupFlutterNotifications();
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+      alert: true,
+      badge: true,
+      sound: true,
+    );
     await _setupMessageHandlers();
     await _getFCMToken();
-    _messaging.subscribeToTopic('all');
+    if (!kIsWeb) {
+      await _messaging.subscribeToTopic('all');
+    } else {
+      print(
+          "Info: L'abonnement au topic 'all' est ignoré sur le Web (non supporté).");
+    }
   }
 
   /// Get FCM token synchronously during initialization
@@ -73,8 +79,7 @@ class NotificationService {
     );
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
     const initializationSettingsAndroid = const AndroidInitializationSettings(
       '@mipmap/ic_launcher',
@@ -137,9 +142,9 @@ class NotificationService {
       _handleBackgroundMessage(message);
     });
     final initialMessage = await _messaging.getInitialMessage().timeout(
-      const Duration(seconds: 3),
-      onTimeout: () => null,
-    );
+          const Duration(seconds: 3),
+          onTimeout: () => null,
+        );
     if (initialMessage != null) {
       _handleBackgroundMessage(initialMessage);
     }
