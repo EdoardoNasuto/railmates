@@ -28,6 +28,11 @@ class NotificationService {
 
   Future<void> initialize() async {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    if (kIsWeb) {
+      debugPrint(
+          "Info: L'initialisation et l'abonnement au topic 'all' sont ignorés sur le Web.");
+      return;
+    }
     await _requestPermission();
     await setupFlutterNotifications();
     await FirebaseMessaging.instance
@@ -38,12 +43,7 @@ class NotificationService {
     );
     await _setupMessageHandlers();
     await _getFCMToken();
-    if (!kIsWeb) {
-      await _messaging.subscribeToTopic('all');
-    } else {
-      print(
-          "Info: L'abonnement au topic 'all' est ignoré sur le Web (non supporté).");
-    }
+    await _messaging.subscribeToTopic('all');
   }
 
   /// Get FCM token synchronously during initialization

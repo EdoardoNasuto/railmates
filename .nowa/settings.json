@@ -1,5 +1,5 @@
 {
-    "version": "3.7.3",
+    "version": "3.9.0",
     "app": {
         "name": "railmates",
         "package_name": "com.example.railmates"
@@ -42,5 +42,14 @@
         "iosAppId": "1:1002034523365:ios:9ca1da038bad4a2a17380c",
         "webAppId": "1:1002034523365:web:a53f281809447c3f17380c",
         "connectedPackageName": "com.example.railmates"
-    }
+    },
+    "pinned_panels": [
+        "Supabase",
+        "Search",
+        "Assets",
+        "Widgets",
+        "Themes",
+        "Outline",
+        "Debug"
+    ]
 }
